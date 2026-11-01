@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" role="img"
+     aria-labelledby="jc-title jc-desc" font-family="Arial, Helvetica, sans-serif">
+  <title id="jc-title">Cost of judging documents with a heavy LLM, by number of documents</title>
+  <desc id="jc-desc">A line chart on logarithmic axes showing how the cost of
+    judging documents with a heavy LLM rises with the number of documents. Three
+    points lie on one straight line: one million documents cost about 300 euros,
+    fourteen million about 4.200 euros, and five billion (the full surviving
+    corpus) about 1,5 million euros and roughly 500.000 GPU hours. Cost rises in
+    proportion to the number of documents. Cloud prices and throughput are
+    mid-2026 illustrations.</desc>
+
+  <rect x="6" y="6" width="748" height="288" rx="10" fill="#f7f9fb" stroke="#d6dee4"/>
+
+  <!-- gridlines -->
+  <g stroke="#e3e9ee" stroke-width="1">
+    <line x1="120" y1="220" x2="700" y2="220"/>
+    <line x1="120" y1="184" x2="700" y2="184"/>
+    <line x1="120" y1="148" x2="700" y2="148"/>
+    <line x1="120" y1="112" x2="700" y2="112"/>
+    <line x1="120" y1="76"  x2="700" y2="76"/>
+    <line x1="120" y1="40"  x2="700" y2="40"/>
+    <line x1="265" y1="40" x2="265" y2="220"/>
+    <line x1="410" y1="40" x2="410" y2="220"/>
+    <line x1="555" y1="40" x2="555" y2="220"/>
+  </g>
+
+  <!-- axes -->
+  <line x1="120" y1="40" x2="120" y2="220" stroke="#9fb2bf" stroke-width="1.5"/>
+  <line x1="120" y1="220" x2="700" y2="220" stroke="#9fb2bf" stroke-width="1.5"/>
+
+  <!-- y tick labels (cost) -->
+  <g font-size="11.5" fill="#5a6b77" text-anchor="end">
+    <text x="112" y="224">100 &#8364;</text>
+    <text x="112" y="188">1k &#8364;</text>
+    <text x="112" y="152">10k &#8364;</text>
+    <text x="112" y="116">100k &#8364;</text>
+    <text x="112" y="80">1M &#8364;</text>
+    <text x="112" y="44">10M &#8364;</text>
+  </g>
+  <!-- x tick labels (documents) -->
+  <g font-size="11.5" fill="#5a6b77" text-anchor="middle">
+    <text x="120" y="237">1M</text>
+    <text x="265" y="237">10M</text>
+    <text x="410" y="237">100M</text>
+    <text x="555" y="237">1B</text>
+    <text x="700" y="237">10B</text>
+  </g>
+
+  <!-- the cost line through the three points -->
+  <polyline points="120,203 286,162 656,70" fill="none" stroke="#005b7f" stroke-width="2.5"/>
+
+  <!-- points -->
+  <circle cx="120" cy="203" r="4"   fill="#005b7f"/>
+  <circle cx="286" cy="162" r="4.5" fill="#2a7ba6"/>
+  <circle cx="656" cy="70"  r="6"   fill="#f58220"/>
+
+  <!-- point labels (all above the line) -->
+  <g fill="#1c3f52" font-size="12.5" font-weight="700">
+    <text x="125" y="215">1M docs &#183; 300 &#8364;</text>
+    <text x="350" y="140" text-anchor="end">14M docs &#183; 4.200 &#8364;</text>
+    <text x="650" y="62"  text-anchor="end" font-size="13">5B docs &#183; 1,5 million &#8364;</text>
+  </g>
+
+  <!-- axis titles -->
+  <text x="410" y="260" font-size="12.5" fill="#1c3f52" text-anchor="middle">number of documents (log scale)</text>
+  <text x="34" y="130" font-size="12.5" fill="#1c3f52" text-anchor="middle" transform="rotate(-90 34 130)">cost (log scale)</text>
+
+  <text x="410" y="282" font-size="11.5" font-style="italic" fill="#5a6b77" text-anchor="middle">Judging all 5 billion once is about 500.000 GPU-hours, roughly 57 years on a single card.</text>
+</svg>

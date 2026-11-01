@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 348" role="img"
+     aria-labelledby="ws-title ws-desc" font-family="Arial, Helvetica, sans-serif">
+  <title id="ws-title">Reading the raw web would take longer than humans have existed</title>
+  <desc id="ws-desc">A logarithmic deep-time scale: today at the right, the distant
+    past at the left. Two horizontal bars show how far back nonstop reading would
+    reach at a normal pace. Reading all 173 billion raw web documents would take
+    about 1,2 million years, roughly four times longer than the species Homo
+    sapiens has existed (about 300.000 years). Reading the five billion documents
+    that survive filtering would take about 35.000 years, as far back as the oldest
+    cave paintings. For reference, the founding of Rome was about 2.800 years ago, a
+    tiny sliver near today. Illustrative: about 880 words per document, averaged
+    over five OpenGPT-X languages, read at about 240 words per minute. Document
+    counts from OpenGPT-X.</desc>
+
+  <rect x="6" y="6" width="848" height="336" rx="10" fill="#f7f9fb" stroke="#d6dee4"/>
+  <text x="30" y="34" font-size="19" font-weight="700" fill="#005b7f">Reading the raw web would take longer than humans have existed</text>
+  <text x="30" y="56" font-size="13" fill="#1c3f52">At a normal reading pace, without ever stopping. The deep-time axis below is <tspan font-weight="700">logarithmic</tspan>, so distant landmarks stay visible.</text>
+
+  <!-- reference gridlines (deep-time landmarks), behind the bars -->
+  <line x1="224" y1="92" x2="224" y2="232" stroke="#cdd8df" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="431" y1="92" x2="431" y2="232" stroke="#cdd8df" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="677" y1="92" x2="677" y2="232" stroke="#cdd8df" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="815" y1="88" x2="815" y2="238" stroke="#b9c6cf" stroke-width="1.2"/>
+
+  <!-- bar: reading all 173 billion raw documents -->
+  <text x="90" y="98" font-size="13" font-weight="700" fill="#1c3f52">&#8776; 1,2 million years <tspan font-weight="400" font-size="12">(about 4&#215; longer than our species has existed)</tspan></text>
+  <rect x="90" y="104" width="725" height="30" rx="2" fill="#1c3f52"/>
+  <text x="102" y="124" font-size="12.5" font-weight="700" fill="#ffffff">to read all 173 billion raw documents</text>
+
+  <!-- bar: reading the five billion survivors -->
+  <text x="431" y="150" font-size="13" font-weight="700" fill="#005b7f">&#8776; 35.000 years</text>
+  <rect x="431" y="156" width="384" height="30" rx="2" fill="#005b7f"/>
+  <text x="443" y="176" font-size="12.5" font-weight="700" fill="#ffffff">to read the five billion survivors</text>
+
+  <!-- time axis -->
+  <line x1="70" y1="232" x2="824" y2="232" stroke="#9fb1bd" stroke-width="1.4"/>
+  <path d="M70 232 L79 228 M70 232 L79 236" fill="none" stroke="#9fb1bd" stroke-width="1.4"/>
+  <text x="86" y="226" font-size="11" font-style="italic" fill="#5b7585">further back in time</text>
+
+  <!-- landmark: first Homo sapiens (~300,000 yrs) -->
+  <g transform="translate(216,240)" stroke="#1c3f52" stroke-width="1.8" fill="none">
+    <circle cx="8" cy="5" r="3.6" fill="#1c3f52" stroke="none"/>
+    <path d="M8 9 L8 19 M8 12 L3 16 M8 12 L13 16 M8 19 L4 25 M8 19 L12 25" stroke-linecap="round"/>
+  </g>
+  <text x="224" y="284" text-anchor="middle" font-size="11" font-weight="700" fill="#1c3f52">First Homo sapiens</text>
+  <text x="224" y="298" text-anchor="middle" font-size="10.5" fill="#5b7585">~300.000 years ago</text>
+
+  <!-- landmark: oldest cave paintings (~35.000 yrs) = the survivors' depth -->
+  <g transform="translate(420,240)">
+    <rect x="4" y="10" width="14" height="13" rx="5" fill="#005b7f"/>
+    <rect x="4.5" y="2" width="2.6" height="11" rx="1.3" fill="#005b7f"/>
+    <rect x="8" y="1" width="2.6" height="12" rx="1.3" fill="#005b7f"/>
+    <rect x="11.5" y="2" width="2.6" height="11" rx="1.3" fill="#005b7f"/>
+    <rect x="15" y="3" width="2.6" height="10" rx="1.3" fill="#005b7f"/>
+    <rect x="0" y="12" width="2.6" height="8" rx="1.3" fill="#005b7f" transform="rotate(-28 1.3 16)"/>
+  </g>
+  <text x="431" y="284" text-anchor="middle" font-size="11" font-weight="700" fill="#005b7f">Oldest cave paintings</text>
+  <text x="431" y="298" text-anchor="middle" font-size="10.5" fill="#5b7585">~35.000 years ago</text>
+
+  <!-- landmark: founding of Rome (~2,800 yrs) with a small Colosseum -->
+  <g transform="translate(661,240)" stroke="#1c3f52" fill="none">
+    <path d="M2 20 L2 9 Q16 1 30 9 L30 20 Z" stroke-width="1.6"/>
+    <path d="M5 20 L5 15 Q8 12 11 15 L11 20" stroke-width="1.2"/>
+    <path d="M13 20 L13 15 Q16 12 19 15 L19 20" stroke-width="1.2"/>
+    <path d="M21 20 L21 15 Q24 12 27 15 L27 20" stroke-width="1.2"/>
+    <line x1="2" y1="20" x2="30" y2="20" stroke-width="1.6"/>
+  </g>
+  <text x="677" y="284" text-anchor="middle" font-size="11" font-weight="700" fill="#1c3f52">Founding of Rome</text>
+  <text x="677" y="298" text-anchor="middle" font-size="10.5" fill="#5b7585">~2.800 years ago</text>
+
+  <!-- today -->
+  <circle cx="815" cy="232" r="3.5" fill="#1c3f52"/>
+  <text x="815" y="284" text-anchor="middle" font-size="11" font-weight="700" fill="#1c3f52">Today</text>
+
+  <text x="30" y="322" font-size="11" font-style="italic" fill="#5b7585">Illustrative. About 880 words per document (averaged over five OpenGPT-X languages: DE, EN, ES, FR, IT), read nonstop at about 240 words per minute.</text>
+  <text x="30" y="336" font-size="11" font-style="italic" fill="#5b7585">Document counts (173 billion raw, about 5 billion kept) from OpenGPT-X. Each landmark is labeled with its actual age; read the ages, not the bar lengths.</text>
+</svg>

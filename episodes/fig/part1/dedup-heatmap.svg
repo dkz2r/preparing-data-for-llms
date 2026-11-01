@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" role="img"
+     aria-labelledby="dh-title dh-desc" font-family="Arial, Helvetica, sans-serif">
+  <title id="dh-title">Duplicates show up as bright cells off the diagonal</title>
+  <desc id="dh-desc">A four-by-four similarity matrix for four documents: an
+    original, an exact copy, a near-copy with an added date, and an unrelated
+    document. Each cell is shaded by the Jaccard word-set overlap of two documents,
+    darker for more overlap. The diagonal is greyed because a document always
+    matches itself. The lower triangle is left blank because the matrix is symmetric,
+    so only the upper triangle carries information. In the upper triangle the
+    original-versus-exact-copy cell is fully dark at 1.00 and the original-versus
+    near-copy cells are dark at 0.89; both clear the 0.50 threshold and are outlined
+    in orange as duplicates to drop. Every cell involving the unrelated document is
+    white at 0.00.</desc>
+
+  <rect x="6" y="6" width="748" height="458" rx="10" fill="#f7f9fb" stroke="#d6dee4"/>
+  <text x="30" y="40" font-size="18" font-weight="700" fill="#005b7f">Duplicates show up as bright cells off the diagonal</text>
+
+  <!-- grid origin x0=250 y0=108, cell=78; cols centers 289/367/445/523, rows 147/225/303/381 -->
+
+  <!-- column headers -->
+  <g text-anchor="middle">
+    <text x="289" y="84" font-size="13" font-weight="700" fill="#1c3f52">doc 0</text>
+    <text x="289" y="100" font-size="11" fill="#5a6b77">original</text>
+    <text x="367" y="84" font-size="13" font-weight="700" fill="#1c3f52">doc 1</text>
+    <text x="367" y="100" font-size="11" fill="#5a6b77">exact copy</text>
+    <text x="445" y="84" font-size="13" font-weight="700" fill="#1c3f52">doc 2</text>
+    <text x="445" y="100" font-size="11" fill="#5a6b77">+ date</text>
+    <text x="523" y="84" font-size="13" font-weight="700" fill="#1c3f52">doc 3</text>
+    <text x="523" y="100" font-size="11" fill="#5a6b77">unrelated</text>
+  </g>
+
+  <!-- row headers (right-anchored) -->
+  <g text-anchor="end">
+    <text x="240" y="145" font-size="13" font-weight="700" fill="#1c3f52">doc 0</text>
+    <text x="240" y="161" font-size="11" fill="#5a6b77">original</text>
+    <text x="240" y="223" font-size="13" font-weight="700" fill="#1c3f52">doc 1</text>
+    <text x="240" y="239" font-size="11" fill="#5a6b77">exact copy</text>
+    <text x="240" y="301" font-size="13" font-weight="700" fill="#1c3f52">doc 2</text>
+    <text x="240" y="317" font-size="11" fill="#5a6b77">+ date</text>
+    <text x="240" y="379" font-size="13" font-weight="700" fill="#1c3f52">doc 3</text>
+    <text x="240" y="395" font-size="11" fill="#5a6b77">unrelated</text>
+  </g>
+
+  <!-- diagonal cells: a document always matches itself (greyed, de-emphasized) -->
+  <g text-anchor="middle">
+    <rect x="250" y="108" width="78" height="78" fill="#e8edf1" stroke="#ffffff" stroke-width="2"/>
+    <rect x="328" y="186" width="78" height="78" fill="#e8edf1" stroke="#ffffff" stroke-width="2"/>
+    <rect x="406" y="264" width="78" height="78" fill="#e8edf1" stroke="#ffffff" stroke-width="2"/>
+    <rect x="484" y="342" width="78" height="78" fill="#e8edf1" stroke="#ffffff" stroke-width="2"/>
+    <text x="289" y="151" font-size="12" fill="#9fb2bf">self</text>
+    <text x="367" y="229" font-size="12" fill="#9fb2bf">self</text>
+    <text x="445" y="307" font-size="12" fill="#9fb2bf">self</text>
+    <text x="523" y="385" font-size="12" fill="#9fb2bf">self</text>
+  </g>
+
+  <!-- upper triangle: the cells that actually carry information -->
+  <g text-anchor="middle">
+    <!-- (0,1)=1.00 duplicate -->
+    <rect x="328" y="108" width="78" height="78" fill="#005b7f" fill-opacity="1.00" stroke="#ffffff" stroke-width="2"/>
+    <rect x="330" y="110" width="74" height="74" fill="none" stroke="#c2570c" stroke-width="3"/>
+    <text x="367" y="151" font-size="15" font-weight="700" fill="#ffffff">1.00</text>
+    <!-- (0,2)=0.89 duplicate -->
+    <rect x="406" y="108" width="78" height="78" fill="#005b7f" fill-opacity="0.89" stroke="#ffffff" stroke-width="2"/>
+    <rect x="408" y="110" width="74" height="74" fill="none" stroke="#c2570c" stroke-width="3"/>
+    <text x="445" y="151" font-size="15" font-weight="700" fill="#ffffff">0.89</text>
+    <!-- (0,3)=0.00 -->
+    <rect x="484" y="108" width="78" height="78" fill="#005b7f" fill-opacity="0.00" stroke="#dbe3e9" stroke-width="2"/>
+    <text x="523" y="151" font-size="15" font-weight="700" fill="#1c3f52">0.00</text>
+    <!-- (1,2)=0.89 duplicate -->
+    <rect x="406" y="186" width="78" height="78" fill="#005b7f" fill-opacity="0.89" stroke="#ffffff" stroke-width="2"/>
+    <rect x="408" y="188" width="74" height="74" fill="none" stroke="#c2570c" stroke-width="3"/>
+    <text x="445" y="229" font-size="15" font-weight="700" fill="#ffffff">0.89</text>
+    <!-- (1,3)=0.00 -->
+    <rect x="484" y="186" width="78" height="78" fill="#005b7f" fill-opacity="0.00" stroke="#dbe3e9" stroke-width="2"/>
+    <text x="523" y="229" font-size="15" font-weight="700" fill="#1c3f52">0.00</text>
+    <!-- (2,3)=0.00 -->
+    <rect x="484" y="264" width="78" height="78" fill="#005b7f" fill-opacity="0.00" stroke="#dbe3e9" stroke-width="2"/>
+    <text x="523" y="307" font-size="15" font-weight="700" fill="#1c3f52">0.00</text>
+  </g>
+
+  <!-- lower triangle: blank, the matrix is symmetric -->
+  <g text-anchor="middle" fill="#aeb9c2" font-size="11">
+    <rect x="250" y="186" width="78" height="78" fill="#f2f5f7" stroke="#ffffff" stroke-width="2"/>
+    <rect x="250" y="264" width="78" height="78" fill="#f2f5f7" stroke="#ffffff" stroke-width="2"/>
+    <rect x="328" y="264" width="78" height="78" fill="#f2f5f7" stroke="#ffffff" stroke-width="2"/>
+    <rect x="250" y="342" width="78" height="78" fill="#f2f5f7" stroke="#ffffff" stroke-width="2"/>
+    <rect x="328" y="342" width="78" height="78" fill="#f2f5f7" stroke="#ffffff" stroke-width="2"/>
+    <rect x="406" y="342" width="78" height="78" fill="#f2f5f7" stroke="#ffffff" stroke-width="2"/>
+    <text x="308" y="337" transform="rotate(-45 328 307)">mirror of the upper triangle</text>
+  </g>
+
+  <!-- orange-outline legend marker -->
+  <rect x="250" y="436" width="16" height="16" fill="none" stroke="#c2570c" stroke-width="3"/>
+  <text x="274" y="449" font-size="12" fill="#1c3f52">overlap &#8805; 0,50 off the diagonal &#8594; flagged as a duplicate and dropped</text>
+
+  <!-- caveat / source -->
+  <text x="30" y="449" font-size="11" fill="#5a6b77" text-anchor="start">Jaccard word-set overlap</text>
+</svg>

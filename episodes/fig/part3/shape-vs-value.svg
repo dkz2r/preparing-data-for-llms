@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" role="img"
+     aria-labelledby="sv-title sv-desc" font-family="Arial, Helvetica, sans-serif">
+  <title id="sv-title">Heuristics judge form, so they misjudge value in two corners</title>
+  <desc id="sv-desc">A two-by-two grid. The horizontal axis is form, from poorly
+    formed on the left to well-formed on the right. The vertical axis is value,
+    from low at the bottom to high at the top. A vertical dashed line down the
+    middle marks where a surface heuristic cuts: it keeps the well-formed right
+    half and drops the left half, regardless of value. Two corners are shaded as
+    errors. The bottom-right corner, well-formed but worthless documents such as
+    spam, is wrongly kept. The top-left corner, substantive but messy
+    documents such as dense code or terse notes, is wrongly dropped. The
+    top-right holds encyclopedia articles, correctly kept; the bottom-left holds
+    nav menus and log dumps, correctly dropped.</desc>
+
+  <rect x="6" y="6" width="748" height="458" rx="10" fill="#f7f9fb" stroke="#d6dee4"/>
+  <text x="30" y="40" font-size="18" font-weight="700" fill="#005b7f">Heuristics cut on form, missing value in two corners</text>
+
+  <!-- quadrant fills: plot area x 150..630, y 95..395; mid 390 / 245 -->
+  <!-- top-left: high value, poorly formed -> wrongly DROPPED (error) -->
+  <rect x="150" y="95"  width="240" height="150" fill="#f6d9c6"/>
+  <!-- top-right: high value, well-formed -> kept (correct) -->
+  <rect x="390" y="95"  width="240" height="150" fill="#e3f0e6"/>
+  <!-- bottom-left: low value, poorly formed -> dropped (correct) -->
+  <rect x="150" y="245" width="240" height="150" fill="#eef2f5"/>
+  <!-- bottom-right: low value, well-formed -> wrongly KEPT (error) -->
+  <rect x="390" y="245" width="240" height="150" fill="#f6d9c6"/>
+  <rect x="150" y="95" width="480" height="300" fill="none" stroke="#9fb2bf" stroke-width="1"/>
+  <line x1="150" y1="245" x2="630" y2="245" stroke="#cdd8e0" stroke-width="1"/>
+
+  <!-- the heuristic cut: vertical dashed line down the middle -->
+  <line x1="390" y1="78" x2="390" y2="395" stroke="#005b7f" stroke-width="2.5" stroke-dasharray="7 5"/>
+  <text x="390" y="73" font-size="12.5" font-weight="700" fill="#005b7f" text-anchor="middle">surface heuristic cuts here &#8594; keeps the right half</text>
+
+  <!-- quadrant contents -->
+  <g text-anchor="middle">
+    <!-- TL: wrongly dropped -->
+    <text x="270" y="150" font-size="14" font-weight="700" fill="#1c3f52">Dense code, terse notes</text>
+    <text x="270" y="171" font-size="12.5" fill="#1c3f52">substantive but messy</text>
+    <text x="270" y="200" font-size="13" font-weight="700" fill="#b3402a">&#10007; wrongly dropped</text>
+
+    <!-- TR: correctly kept -->
+    <text x="510" y="150" font-size="14" font-weight="700" fill="#1c3f52">Encyclopedia article</text>
+    <text x="510" y="171" font-size="12.5" fill="#1c3f52">well-formed and valuable</text>
+    <text x="510" y="200" font-size="13" font-weight="700" fill="#2e7d32">&#10003; correctly kept</text>
+
+    <!-- BL: correctly dropped -->
+    <text x="270" y="300" font-size="14" font-weight="700" fill="#1c3f52">Nav menu, log dump</text>
+    <text x="270" y="321" font-size="12.5" fill="#1c3f52">poorly formed, low value</text>
+    <text x="270" y="350" font-size="13" font-weight="700" fill="#2e7d32">&#10003; correctly dropped</text>
+
+    <!-- BR: wrongly kept -->
+    <text x="510" y="300" font-size="14" font-weight="700" fill="#1c3f52">spam</text>
+    <text x="510" y="321" font-size="12.5" fill="#1c3f52">well-formed but worthless</text>
+    <text x="510" y="350" font-size="13" font-weight="700" fill="#b3402a">&#10007; wrongly kept</text>
+  </g>
+
+  <!-- x-axis (form) -->
+  <line x1="150" y1="395" x2="642" y2="395" stroke="#1c3f52" stroke-width="1.5"/>
+  <polygon points="642,395 634,391 634,399" fill="#1c3f52"/>
+  <text x="160" y="414" font-size="12" fill="#5a6b77">poorly formed</text>
+  <text x="620" y="414" font-size="12" fill="#5a6b77" text-anchor="end">well-formed</text>
+  <text x="390" y="436" font-size="13.5" font-weight="700" fill="#1c3f52" text-anchor="middle">Form: is the document well-formed?</text>
+
+  <!-- y-axis (value) -->
+  <line x1="150" y1="395" x2="150" y2="86" stroke="#1c3f52" stroke-width="1.5"/>
+  <polygon points="150,86 146,94 154,94" fill="#1c3f52"/>
+  <text x="142" y="110" font-size="12" fill="#5a6b77" text-anchor="end">high</text>
+  <text x="142" y="392" font-size="12" fill="#5a6b77" text-anchor="end">low</text>
+  <text x="34" y="245" font-size="13.5" font-weight="700" fill="#1c3f52" text-anchor="middle" transform="rotate(-90 34 245)">Value: worth learning from?</text>
+</svg>

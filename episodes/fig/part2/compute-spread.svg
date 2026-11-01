@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 270" role="img"
+     aria-labelledby="cs-title cs-desc" font-family="Arial, Helvetica, sans-serif">
+  <title id="cs-title">Deduplication dominates the compute budget, so it runs last</title>
+  <desc id="cs-desc">A proportional bar of total CPU time across the three
+    web-pipeline stages, scaled to about 31 years on a single CPU core.
+    Conversion is about 0,8 years (6.912 CPU hours), filtering about 5,2 years
+    (45.810 CPU hours), and deduplication about 25,3 years (221.230 CPU hours).
+    Deduplication is roughly four-fifths of the budget and runs last. Source:
+    Brandizzi et al. and Teuken et al.; CPU-years derived from reported CPU
+    hours.</desc>
+
+  <rect x="6" y="6" width="848" height="258" rx="10" fill="#f7f9fb" stroke="#d6dee4"/>
+  <text x="30" y="36" font-size="18" font-weight="700" fill="#005b7f">Deduplication dominates the compute budget, so it runs last</text>
+  <text x="30" y="58" font-size="13" fill="#1c3f52">Total &#8776; 31 CPU-years on a single core (273.952 CPU hours)</text>
+
+  <!-- stage labels above the wider segments (direct labelling) -->
+  <g font-size="13" font-weight="700" fill="#1c3f52" text-anchor="middle">
+    <text x="124" y="86">Filtering</text>
+    <text x="505" y="86">Deduplication</text>
+  </g>
+
+  <!-- proportional bar: x 40..820 (width 780), scaled to 31.27 years -->
+  <rect x="40"    y="94" width="19.5"  height="60" fill="#a6bbc8" stroke="#ffffff"/>
+  <rect x="59.5"  y="94" width="130.3" height="60" fill="#f58220" stroke="#ffffff"/>
+  <rect x="189.8" y="94" width="630.2" height="60" fill="#005b7f" stroke="#ffffff"/>
+  <g text-anchor="middle" font-weight="700">
+    <text x="124" y="129" font-size="13" fill="#ffffff">5,2 yr</text>
+    <text x="505" y="129" font-size="16" fill="#ffffff">25,3 years</text>
+  </g>
+
+  <!-- direct callout for the thin conversion segment -->
+  <line x1="49" y1="154" x2="49" y2="176" stroke="#7c8a96" stroke-width="1.5"/>
+  <text x="40" y="192" font-size="12" fill="#1c3f52">Conversion &#183; 0,8 yr (the smallest stage)</text>
+
+  <!-- year axis under the bar -->
+  <g stroke="#9fb2bf" stroke-width="1">
+    <line x1="40"    y1="154" x2="40"    y2="164"/>
+    <line x1="289.4" y1="154" x2="289.4" y2="164"/>
+    <line x1="538.8" y1="154" x2="538.8" y2="164"/>
+    <line x1="788.2" y1="154" x2="788.2" y2="164"/>
+  </g>
+  <g font-size="12" fill="#1c3f52" text-anchor="middle">
+    <text x="289.4" y="180">10 years</text>
+    <text x="538.8" y="180">20 years</text>
+    <text x="788.2" y="180">30 years</text>
+  </g>
+
+  <line x1="30" y1="226" x2="830" y2="226" stroke="#d6dee4"/>
+  <text x="30" y="248" font-size="11" font-style="italic" fill="#5b7585">Source: Brandizzi et al. (OpenGPT-X) and Teuken et al. CPU-years are derived from reported CPU hours (&#247; 8.760).</text>
+</svg>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 292" role="img"
+     aria-labelledby="tp-title tp-desc" font-family="Arial, Helvetica, sans-serif">
+  <title id="tp-title">Two slow stages set the pace, so the run takes months</title>
+  <desc id="tp-desc">A sorted bar chart of pipeline throughput by stage, measured in
+    terabytes of raw web data cleared per day. Upload completion clears about 25 TB
+    per day, deduplication about 20, conversion about 20, computing quality signals
+    about 6,4, and downloading the raw data about 6,2. The last two, quality
+    signals and download, are the slowest stages, three to four times slower than
+    the rest, so they set the pace for the whole pipeline. At about 6 TB a day, the internal
+    processing run of about 725 TB takes roughly 116 days, close to four months of
+    wall-clock time. From the OpenGPT-X processing run of about 725 TB of raw web
+    text, broader than the 60-dump set used for the final corpus.</desc>
+
+  <rect x="6" y="6" width="848" height="280" rx="10" fill="#f7f9fb" stroke="#d6dee4"/>
+  <text x="30" y="34" font-size="19" font-weight="700" fill="#005b7f">Two slow stages set the pace, so the run takes months</text>
+  <text x="30" y="56" font-size="13" fill="#1c3f52">Throughput by stage, in terabytes of raw web data cleared per day. Two stages move three to four times slower than the rest.</text>
+
+  <!-- fast stages (muted) -->
+  <text x="192" y="104" text-anchor="end" font-size="12.5" fill="#1c3f52">Upload completion</text>
+  <rect x="200" y="86" width="520" height="26" rx="2" fill="#a6bbc8"/>
+  <text x="710" y="104" text-anchor="end" font-size="12.5" font-weight="700" fill="#1c3f52">25 TB/day</text>
+
+  <text x="192" y="142" text-anchor="end" font-size="12.5" fill="#1c3f52">Deduplication</text>
+  <rect x="200" y="124" width="424" height="26" rx="2" fill="#a6bbc8"/>
+  <text x="614" y="142" text-anchor="end" font-size="12.5" font-weight="700" fill="#1c3f52">20 TB/day</text>
+
+  <text x="192" y="180" text-anchor="end" font-size="12.5" fill="#1c3f52">Conversion</text>
+  <rect x="200" y="162" width="416" height="26" rx="2" fill="#a6bbc8"/>
+  <text x="606" y="180" text-anchor="end" font-size="12.5" font-weight="700" fill="#1c3f52">20 TB/day</text>
+
+  <!-- bottleneck stages (highlighted) -->
+  <text x="192" y="218" text-anchor="end" font-size="12.5" font-weight="700" fill="#b4540a">Quality signals</text>
+  <rect x="200" y="200" width="133" height="26" rx="2" fill="#b4540a"/>
+  <text x="341" y="218" font-size="12.5" font-weight="700" fill="#1c3f52">6,4 TB/day</text>
+
+  <text x="192" y="256" text-anchor="end" font-size="12.5" font-weight="700" fill="#b4540a">Download</text>
+  <rect x="200" y="238" width="130" height="26" rx="2" fill="#b4540a"/>
+  <text x="338" y="256" font-size="12.5" font-weight="700" fill="#1c3f52">6,2 TB/day</text>
+
+  <!-- consequence callout, beside the short bottleneck bars -->
+  <path d="M452 230 L437 230" stroke="#b4540a" stroke-width="1.4"/>
+  <rect x="452" y="196" width="372" height="72" rx="6" fill="#fdf1e8" stroke="#b4540a" stroke-width="1.1"/>
+  <text x="468" y="220" font-size="13" font-weight="700" fill="#b4540a">The slowest stages set the pace</text>
+  <text x="468" y="240" font-size="12.5" fill="#1c3f52">about 725 TB at ~6 TB a day is roughly</text>
+  <text x="468" y="257" font-size="12.5" fill="#1c3f52">116 days, close to four months of wall-clock.</text>
+
+</svg>

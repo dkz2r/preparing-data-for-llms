@@ -244,7 +244,79 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. </a>
+        <a href="01-introduction.html">1. Introduction</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush3">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading3">
+        <a href="02-concepts.html">2. Basic Concepts</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush4">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading4">
+        <a href="03-pipeline.html">3. The pipeline</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush5">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading5">
+        <a href="04-working-at-scale.html">4. Working at scale</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="05-quality-question.html">5. The quality question</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush7">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading7">
+        <a href="06-cheap-proxies.html">6. Cheap proxies for good text</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush8">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading8">
+        <a href="07-closing.html">7. Closing</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -326,11 +398,11 @@
     <main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>All in One View</h1>
         
-<section id="aio-introduction"><p>Content from <a href="introduction.html"></a></p>
+<section id="aio-01-introduction"><p>Content from <a href="01-introduction.html">Introduction</a></p>
 <hr>
-<p>Last updated on 2026-11-01 |
+<p>Last updated on 2026-11-02 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/01-introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -357,9 +429,84 @@
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="title">TITLE<a class="anchor" aria-label="anchor" href="#title"></a>
+<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <hr class="half-width">
+<p>Generative AI runs on data. A large language model learns everything
+it knows from a vast body of text, so before any training can start that
+text has to be gathered and prepared, and preparing it is one of the
+hardest and least visible parts of building the model. This material is
+a practical, self-paced introduction to how that preparation is done,
+written for practitioners who can already code but are not data
+specialists; plan on about an hour to read it, longer if you stop to
+work the exercises. Specifically we treat data processing: the work of
+turning raw text into something a model can learn from. It is one
+neighbor in a larger family that includes data management and data
+governance. Most of that data is training data, but the same care
+applies to the smaller evaluation and fine-tuning sets a model also
+needs.</p>
+<p>What follows comes from our experience training large language models
+at <a href="https://www.iais.fraunhofer.de/" class="external-link">Fraunhofer IAIS</a>, across
+several projects: <a href="https://opengpt-x.de/" class="external-link">OpenGPT-X</a>, <a href="https://www.openeurollm.eu/" class="external-link">OpenEuroLLM</a>, and <a href="https://www.soofi.info/" class="external-link">SOOFI</a>. OpenGPT-X produced Teuken, a
+family of open models trained on all 24 official languages of the
+European Union. The lessons are drawn from building real training data
+and generalized so they transfer to any large-scale text pipeline.</p>
+<div id="prereq1" class="callout prereq">
+<div class="callout-square">
+<i class="callout-icon" data-feather="check"></i>
+</div>
+<span class="callout-header">Prerequisite</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>You should be comfortable <strong>reading code</strong>: the examples
+are short Python snippets, there to make an idea concrete, never for you
+to write or run. A <strong>general sense of what a language model
+is</strong> (text in, next-token prediction out) is enough on the
+modeling side. No prior experience with data pipelines, web crawling, or
+natural-language processing is assumed; building that understanding is
+the point of this material.</p>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="learning-objectives">Learning Objectives<a class="anchor" aria-label="anchor" href="#learning-objectives"></a>
+</h2>
+<hr class="half-width">
+<p>By the end of this material you will be able to:</p>
+<ul>
+<li>Explain why data processing matters for what a model can do.</li>
+<li>Define the basic concepts of data processing, starting with data
+quality and filtering (Part 0).</li>
+<li>Trace how raw text, whether curated or scraped from the open web,
+becomes clean, uniform training data (Part 1).</li>
+<li>Reason about why scale makes compute the binding constraint rather
+than logic alone (Part 2).</li>
+<li>Distinguish the two things a pipeline produces at once, the data and
+the traceable record of how it was made, and say why the record matters
+as much as the data (Parts 1–2).</li>
+<li>Explain why quality signals are proxies for judgments too expensive
+to run directly, and why good text is approximated rather than measured
+(Parts 3–4).</li>
+</ul>
+<p>Each part opens with its own, more specific objectives.</p>
+</section><section><h2 class="section-heading" id="why-this-matters">Why This Matters<a class="anchor" aria-label="anchor" href="#why-this-matters"></a>
+</h2>
+<hr class="half-width">
+<p>A language model is a product of its training data. It has no
+knowledge of the world beyond the text it was shown, so the size, the
+languages, and the quality of that text set the ceiling on what the
+model can do. Get the data wrong and no amount of clever training
+recovers it. This is also where transparency is thinnest: how a model’s
+data was processed is rarely reported in any detail, which is part of
+why the work is worth teaching.</p>
+<p>None of that text arrives ready to use. It has to be found at the
+scale of hundreds of terabytes, cleaned, labeled, scored for quality,
+and deduplicated. You may never run a pipeline this size yourself, but
+the lesson still applies: the datasets you download and train on were
+shaped by exactly these steps, and knowing how they were made tells you
+what you can trust them for.</p>
+<p>Two questions run underneath all of it and shape the rest of the
+material: where does the enormous amount of suitable text a model needs
+come from, and what does <em>suitable</em> even mean?</p>
 <div id="challenge1" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -378,6 +525,1889 @@
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+
+</div>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</section></section><section id="aio-02-concepts"><p>Content from <a href="02-concepts.html">Basic Concepts</a></p>
+<hr>
+<p>Last updated on 2026-11-02 |
+
+        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/02-concepts.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section><h2 class="section-heading" id="where-data-processing-sits">Where Data Processing Sits<a class="anchor" aria-label="anchor" href="#where-data-processing-sits"></a>
+</h2>
+<hr class="half-width">
+<p>Three terms sit close together and are easy to confuse. They name
+different jobs over the same data. Definitions vary between frameworks,
+but a useful working split is:</p>
+<ul>
+<li>
+<strong>Data governance</strong> sets the rules: who may use which
+data, for what, under which policies, and who is accountable. It is
+about decisions and oversight1.</li>
+<li>
+<strong>Data management</strong> carries those rules out across the
+data’s life: storing, cataloging, securing, and keeping it available and
+correct.</li>
+<li>
+<strong>Data processing</strong> is one step inside management:
+transforming raw data into a usable form. For us, that means turning
+messy raw text into clean training data.</li>
+</ul>
+<p>Put simply, governance decides <em>what is allowed and required</em>,
+management <em>keeps the data</em>, and processing <em>transforms
+it</em>. This material lives in the last of the three. It touches the
+other two only where they constrain the processing, for example when a
+record must stay traceable so a fault can be assigned later.</p>
+</section><section><h2 class="section-heading" id="kinds-of-data">Kinds of Data<a class="anchor" aria-label="anchor" href="#kinds-of-data"></a>
+</h2>
+<hr class="half-width">
+<p>Not all data plays the same role. The bulk is <strong>training
+data</strong>, the text a model learns from and the subject of this
+material. Smaller sets serve other purposes: <strong>evaluation
+data</strong> measures how well a trained model performs, and
+<strong>fine-tuning data</strong> adapts it to a particular task or
+style. Evaluation and fine-tuning sets are far smaller in volume than
+the training corpus, though the same quality concerns apply to all
+three.</p>
+</section><section><h2 class="section-heading" id="data-quality">Data Quality<a class="anchor" aria-label="anchor" href="#data-quality"></a>
+</h2>
+<hr class="half-width">
+<p>There is no single number that captures whether text is “good.” The
+closest standard definition comes from ISO/IEC 25012, which describes
+data quality as the degree to which the characteristics of data satisfy
+stated and implied needs under specified conditions (<a href="file:///C:/Users/Jonathan/AppData/Local/Temp/c2eee7ab-b7a5-47db-a2d5-17d6bfdc57d7_draft_train_material.zip.7d7/_output/data-training-doc.html#ref-iso25012">International
+Organization for Standardization 2008</a>). An older and more intuitive
+phrasing calls quality fitness for use2: data is high quality when it
+serves the purpose you have for it.</p>
+<p>That phrasing carries a warning for everything that follows. Quality
+is defined against a use, and the use here is training a capable
+language model, so what counts as “good text” depends on a downstream
+outcome no filter can observe directly. Parts 3 and 4 return to
+this.</p>
+</section><section><h2 class="section-heading" id="filters-and-signals">Filters and Signals<a class="anchor" aria-label="anchor" href="#filters-and-signals"></a>
+</h2>
+<hr class="half-width">
+<p>Two words appear throughout the pipeline and are worth separating
+now.</p>
+<p>A <strong>signal</strong> measures something about a piece of text:
+the share of characters that are symbols, the average number of words
+per line, a language-detection confidence, a model’s quality score. A
+signal is a measurement.</p>
+<p>A <strong>filter</strong> is the decision that acts on a signal. It
+sets a threshold and keeps or drops each document accordingly. A signal
+tells you a document is 60% symbols; a filter is the rule “drop anything
+above 30%.”</p>
+<p>Keeping the two ideas distinct matters later, when we ask what a
+filter can and cannot know. A filter is only ever as good as the signal
+beneath it, and a signal measures the surface of the text; what the
+words actually mean stays out of its reach.</p>
+</section><section><h2 class="section-heading" id="compute-and-time">Compute and Time<a class="anchor" aria-label="anchor" href="#compute-and-time"></a>
+</h2>
+<hr class="half-width">
+<p>A web-scale pipeline runs on shared high-performance computing (HPC)
+clusters, where two different budgets govern what is possible. They are
+easy to conflate, so it is worth separating them now.</p>
+<p><strong>Compute time</strong> is the total machine work a run
+consumes, measured in <strong>CPU hours</strong> and <strong>GPU
+hours</strong>: one processor busy for one hour is one core-hour. It is
+what the cluster bills, and what a project’s <strong>compute
+budget</strong> is fixed in.</p>
+<p><strong>Wall-clock time</strong> is the elapsed calendar time from
+start to finish. It is set by the longest chain of steps that must run
+in order, and by how much of the work can run in parallel. The same ten
+thousand core-hours can finish in an afternoon on enough machines or
+stretch over months on few.</p>
+<p>The two come apart constantly: a stage can be cheap in compute yet
+slow on the clock, or the reverse. A real project is handed both a fixed
+compute budget and a deadline, so the two have to be managed together.
+Part 2 follows a concrete run where this split decides the shape of the
+whole pipeline.</p>
+<p>With the vocabulary in place, Part 1 follows raw text through the
+pipeline that turns it into training data.</p>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+
+</div>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</section></section><section id="aio-03-pipeline"><p>Content from <a href="03-pipeline.html">The pipeline</a></p>
+<hr>
+<p>Last updated on 2026-11-02 |
+
+        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/03-pipeline.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section><h2 class="section-heading" id="the-pipeline">The pipeline<a class="anchor" aria-label="anchor" href="#the-pipeline"></a>
+</h2>
+<hr class="half-width">
+<p>How raw text becomes training data. We follow two paths, curated and
+web, from their very different starting points to a single shared
+output.</p>
+</section><section><h2 class="section-heading" id="not-all-text-is-equal">Not all text is equal<a class="anchor" aria-label="anchor" href="#not-all-text-is-equal"></a>
+</h2>
+<hr class="half-width">
+<p>A model learns from whatever text it is shown, so the composition of
+the data (its sources, its domains, its quality) shapes how the model
+behaves (<a href="#ref-gao2020pile">Gao et al. 2020</a>; <a href="#ref-penedo2024fineweb">Penedo et al. 2024</a>).</p>
+<p>Raw text from the internet is uneven:</p>
+<ul>
+<li>clean prose sits next to navigation menus, cookie banners, and
+boilerplate</li>
+<li>the same page can appear thousands of times</li>
+<li>some text is spam or machine-generated filler</li>
+</ul>
+<figure><img src="fig/part1/uneven-web-text.svg" alt="A mock web page: a cookie banner, a left navigation menu, an advertisement block, and a boilerplate footer all marked as noise to strip, surrounding a central article-body block marked to keep." class="figure mx-auto d-block"><div class="figcaption">A mock web page: a cookie banner, a left
+navigation menu, an advertisement block, and a boilerplate footer all
+marked as noise to strip, surrounding a central article-body block
+marked to keep.</div>
+</figure><p>Figure 1: On a typical web page, the genuinely useful prose (the
+article body) is a small island in a sea of navigation, cookie banners,
+ads, and boilerplate. The pipeline’s job is to keep the island and
+discard the rest.</p>
+<p>More text is not automatically better text. The job of a data
+pipeline is to turn a large, messy pile of raw text into a smaller body
+of training data that is actually worth learning from.</p>
+</section><section><h2 class="section-heading" id="the-fork-curated-vs-web">The fork: curated vs web<a class="anchor" aria-label="anchor" href="#the-fork-curated-vs-web"></a>
+</h2>
+<hr class="half-width">
+<p>That job starts by splitting the raw material by where it came from:
+two kinds of source need two kinds of handling.</p>
+<p><strong>Curated sources</strong> are collections that already passed
+through a human curation process before we ever saw them: a book has an
+editor, an encyclopedia has reviewers, parliamentary proceedings have an
+official transcriber. That editorial care, someone whose job was to make
+the text correct and coherent, is what makes them relatively clean,
+relatively small, and high value per token. They take the <em>light
+path</em>, precisely because most of the quality work was already done
+upstream.</p>
+<p><strong>Web data</strong> comes from large crawls of the open
+internet. It is enormous and cheap to obtain, but mostly low value. It
+takes the <em>heavy path</em>: it needs aggressive cleaning before it is
+usable (<a href="#ref-penedo2024fineweb">Penedo et al. 2024</a>).</p>
+<p>The next two sections follow each path from its raw input to the
+shared JSON record they both produce.</p>
+</section><section><h2 class="section-heading" id="curated-pipeline">Curated pipeline<a class="anchor" aria-label="anchor" href="#curated-pipeline"></a>
+</h2>
+<hr class="half-width">
+<figure><img src="fig/part1/curated-pipeline.svg" alt="Left-to-right flow: Curated sources (PDF, XML, ePub) to Format conversion, to Content normalization, to Language detection, to Metadata normalization, to Light filter, to the shared JSONL record." class="figure mx-auto d-block"><div class="figcaption">Left-to-right flow: Curated sources (PDF, XML,
+ePub) to Format conversion, to Content normalization, to Language
+detection, to Metadata normalization, to Light filter, to the shared
+JSONL record.</div>
+</figure><p>Figure 2: The curated path, following Figure 1 of Brandizzi et
+al. (<a href="#ref-brandizzi2024data">2024</a>): convert each source to
+plain text, normalize its content, detect its language, normalize its
+metadata, then apply light filtering. Both paths end in the same shared
+JSONL record.</p>
+<p>The curated path is short because the inputs are already orderly.</p>
+<div class="section level3">
+<h3 id="format-conversion-and-content-normalization">Format conversion and content normalization<a class="anchor" aria-label="anchor" href="#format-conversion-and-content-normalization"></a>
+</h3>
+<p>Curated sources arrive in many formats: PDF, XML, HTML, ePub. The
+first step is <strong>format conversion</strong>: extract the plain
+text<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
+into one common representation, UTF-8 text with the source’s markup and
+layout discarded. The second is <strong>content normalization</strong>:
+make the text valid, canonical UTF-8, standardize whitespace and line
+breaks, and remove stray control characters and conversion
+artifacts.</p>
+<p>This is small and unglamorous work, but it removes a whole class of
+downstream errors before they can spread.</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">import</span> unicodedata</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a><span class="im">import</span> re</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>raw <span class="op">=</span> <span class="st">"Café</span><span class="ch">\u00a0\u00a0</span><span class="st">World</span><span class="ch">\t\t</span><span class="st">text   here</span><span class="ch">\r\n\r\n</span><span class="st">"</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a><span class="kw">def</span> normalize(text):</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a>    text <span class="op">=</span> unicodedata.normalize(<span class="st">"NFC"</span>, text)   <span class="co"># valid, canonical Unicode</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>    text <span class="op">=</span> re.sub(<span class="vs">r"</span><span class="dv">\s</span><span class="op">+</span><span class="vs">"</span>, <span class="st">" "</span>, text)            <span class="co"># one regex collapses every</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>                                                <span class="co"># whitespace run: spaces, tabs,</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a>                                                <span class="co"># newlines, even non-breaking spaces</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>    <span class="cf">return</span> text.strip()                         <span class="co"># trim the edges</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a><span class="bu">print</span>(raw)                   <span class="co"># on screen the hidden characters look like spaces</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a><span class="bu">print</span>(<span class="bu">repr</span>(raw))             <span class="co"># the real string: non-breaking spaces, tabs, returns</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a><span class="bu">print</span>(<span class="bu">repr</span>(normalize(raw)))  <span class="co"># after normalization: ordinary single spaces</span></span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="ex">Café  World</span>     text   here</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a><span class="st">'Café\xa0\xa0World\t\ttext   here\r\n\r\n'</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a><span class="st">'Café World text here'</span></span></code></pre>
+</div>
+<p>Printed, <code>raw</code> already looks clean, yet <code>repr</code>
+exposes the non-breaking spaces, tabs, and carriage returns hiding
+inside it. The third line shows the same text after
+<code>normalize</code>, where every whitespace run has collapsed to a
+single ordinary space. Two strings can look identical on screen and
+still differ character for character, and that invisible mismatch is
+what later lets one copy of a document slip past deduplication, or makes
+a search for a phrase miss it. Normalization makes equal-looking text
+actually equal.</p>
+</div>
+<div class="section level3">
+<h3 id="language-detection-metadata-and-light-filtering">Language detection, metadata, and light filtering<a class="anchor" aria-label="anchor" href="#language-detection-metadata-and-light-filtering"></a>
+</h3>
+<p>The Teuken models from the <a href="#intro">introduction</a> span all
+24 official EU languages. A multilingual model is trained on a
+deliberately balanced mix of those languages, so every document first
+has to be sorted into the one it is written in, something a monolingual
+(say English-only) pipeline never has to worry about. That means
+labeling each document with its language and a <strong>confidence
+score</strong>. That label, with a few other attributes (a unique id,
+the source URL, the date), is consolidated by <strong>metadata
+normalization</strong>. Every source describes its documents
+differently, so this step maps them all onto one schema. After it, every
+later step reads the same fields no matter where a document came
+from.</p>
+<p>Finally, a <em>light</em> filtering pass drops a document that is too
+short or whose language score is too low to trust. The pass is light
+because curated inputs are already fairly clean: the goal is to catch
+obvious problems and otherwise leave the corpus as it is.</p>
+<p>The interesting part is where that confidence score comes from. Here
+is a tiny detector that produces one: the language whose common “stop
+words” appear most is the guess, and the share of the document those
+words cover is the confidence. A document we cannot place gets the label
+<code>xx</code>, the same marker the real pipeline uses for non-language
+content.</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="co"># A toy stop-word language detector. Real pipelines use character n-gram models</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a><span class="co"># (e.g. fastText); this shows where a language label and its score come from.</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>STOPWORDS <span class="op">=</span> {</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a>    <span class="st">"en"</span>: {<span class="st">"the"</span>, <span class="st">"a"</span>, <span class="st">"is"</span>, <span class="st">"are"</span>, <span class="st">"and"</span>, <span class="st">"of"</span>, <span class="st">"to"</span>, <span class="st">"in"</span>, <span class="st">"it"</span>, <span class="st">"on"</span>},</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>    <span class="st">"fr"</span>: {<span class="st">"le"</span>, <span class="st">"la"</span>, <span class="st">"les"</span>, <span class="st">"un"</span>, <span class="st">"une"</span>, <span class="st">"et"</span>, <span class="st">"de"</span>, <span class="st">"est"</span>, <span class="st">"dans"</span>, <span class="st">"ici"</span>},</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1" aria-label="code-block-3-7"></a>    <span class="st">"de"</span>: {<span class="st">"der"</span>, <span class="st">"die"</span>, <span class="st">"das"</span>, <span class="st">"und"</span>, <span class="st">"ist"</span>, <span class="st">"ein"</span>, <span class="st">"eine"</span>, <span class="st">"zu"</span>, <span class="st">"in"</span>, <span class="st">"den"</span>},</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1" aria-label="code-block-3-8"></a>}</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1" aria-label="code-block-3-9"></a></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1" aria-label="code-block-3-10"></a><span class="kw">def</span> detect_language(text):</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1" aria-label="code-block-3-11"></a>    words <span class="op">=</span> [w.strip(<span class="st">".,!?;:"</span>) <span class="cf">for</span> w <span class="kw">in</span> text.lower().split()]</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1" aria-label="code-block-3-12"></a>    hits <span class="op">=</span> {lang: <span class="bu">sum</span>(w <span class="kw">in</span> sw <span class="cf">for</span> w <span class="kw">in</span> words) <span class="cf">for</span> lang, sw <span class="kw">in</span> STOPWORDS.items()}</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1" aria-label="code-block-3-13"></a>    best <span class="op">=</span> <span class="bu">max</span>(hits, key<span class="op">=</span>hits.get)</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1" aria-label="code-block-3-14"></a>    score <span class="op">=</span> hits[best] <span class="op">/</span> <span class="bu">len</span>(words) <span class="cf">if</span> words <span class="cf">else</span> <span class="fl">0.0</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a>    <span class="cf">return</span> (best, score) <span class="cf">if</span> score <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> (<span class="st">"xx"</span>, <span class="fl">0.0</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1" aria-label="code-block-3-17"></a>MIN_CHARS      <span class="op">=</span> <span class="dv">20</span>    <span class="co"># too short to be useful</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1" aria-label="code-block-3-18"></a>MIN_LANG_SCORE <span class="op">=</span> <span class="fl">0.20</span>  <span class="co"># below this share of known words, we do not trust the label</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1" aria-label="code-block-3-19"></a></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1" aria-label="code-block-3-20"></a><span class="kw">def</span> keep(text):</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1" aria-label="code-block-3-21"></a>    lang, score <span class="op">=</span> detect_language(text)</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1" aria-label="code-block-3-22"></a>    <span class="cf">return</span> <span class="bu">len</span>(text) <span class="op">&gt;=</span> MIN_CHARS <span class="kw">and</span> score <span class="op">&gt;=</span> MIN_LANG_SCORE</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1" aria-label="code-block-3-23"></a></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1" aria-label="code-block-3-24"></a>docs <span class="op">=</span> [</span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1" aria-label="code-block-3-25"></a>    <span class="st">"The model is trained on a lot of raw text."</span>,      <span class="co"># clear English</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1" aria-label="code-block-3-26"></a>    <span class="st">"Le chat dort."</span>,                                   <span class="co"># clear French, but short</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1" aria-label="code-block-3-27"></a>    <span class="st">"Le chat est sur le tapis dans la maison."</span>,        <span class="co"># clear French</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1" aria-label="code-block-3-28"></a>    <span class="st">"Questo testo non contiene parole molto comuni."</span>,  <span class="co"># a language we did not list</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1" aria-label="code-block-3-29"></a>]</span></code></pre>
+</div>
+<p>Real pipelines usually threshold on token counts. We count characters
+here only to keep the example self-contained.</p>
+<p><strong>Your turn</strong></p>
+<p>First, predict the output. For each document, what language and
+confidence does <code>detect_language</code> return, and does
+<code>keep()</code> keep it?</p>
+<p>Then the harder question. <code>keep()</code> only sees length and a
+language score. Sketch a document that would clear <em>both</em>
+thresholds and still be worthless as training data. What does that tell
+you about what a filter like this can and cannot judge?</p>
+<p><strong>Solution</strong></p>
+<p>The detector’s verdict on each document, computed at render time:</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="cf">for</span> d <span class="kw">in</span> docs:</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>    lang, score <span class="op">=</span> detect_language(d)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>lang<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>score<span class="sc">:4.0%}</span><span class="ss">  </span><span class="sc">{</span><span class="st">'keep'</span> <span class="cf">if</span> keep(d) <span class="cf">else</span> <span class="st">'DROP'</span><span class="sc">}</span><span class="ss">  </span><span class="sc">{</span>d<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="ex">en</span>  50%  keep  The model is trained on a lot of raw text.</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a><span class="ex">fr</span>  33%  DROP  Le chat dort.</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a><span class="ex">fr</span>  56%  keep  Le chat est sur le tapis dans la maison.</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a><span class="ex">xx</span>   0%  DROP  Questo testo non contiene parole molto comuni.</span></code></pre>
+</div>
+<p>Two survive. The English and French sentences are recognized
+confidently, since about half their words are common function words, so
+they clear <code>MIN_LANG_SCORE</code>. <code>"Le chat dort."</code> is
+dropped by <code>MIN_CHARS</code>: at thirteen characters it is too
+short, even though the detector is fairly sure it is French. The Italian
+sentence is long and perfectly good text, but our detector knows no
+Italian stop words, so it scores 0.0, is labeled <code>xx</code>, and is
+dropped. A low score does not mean bad text; it means the pipeline
+cannot vouch for the label, and data it cannot place by language has
+nowhere to go in a per-language corpus.</p>
+<p>The harder question is the real point. A long, confidently-English
+block of spam clears both thresholds easily. Cruder cases are caught
+later by the web path’s quality metrics and blocklists, but the deeper
+gap, between what a filter can measure and whether the text is any good,
+is the problem <a href="#part-3">Part 3</a> takes up.</p>
+<p>Our toy detector fails on Italian because it was never given Italian
+stop words, and that exposes two failure modes real pipelines hit as
+well. <strong>Low-resource languages are hard to detect:</strong> a
+detector trained on little text for a language produces low-confidence
+labels, so genuine documents in that language score poorly and get
+dropped, exactly as our Italian sentence did. <strong>Similar languages
+are hard to distinguish:</strong> closely related languages share much
+of their vocabulary, so a confident label can still be the wrong one (a
+stop-word detector would struggle to tell Spanish from Portuguese, or
+Danish from Norwegian). The label and its score are only ever as good as
+the model behind them.</p>
+<p><strong>Useful tools</strong></p>
+<p>Production pipelines do not hand-roll these steps. Language detection
+usually runs <a href="https://fasttext.cc/docs/en/language-identification.html" class="external-link">fastText’s
+<code>lid.176</code></a> model instead of stop-word counts, and Unicode
+normalization is left to a library like <a href="https://github.com/rspeer/python-ftfy" class="external-link"><code>ftfy</code></a>,
+which repairs the mojibake and encoding glitches that a plain whitespace
+pass misses.</p>
+</div>
+</section><section><h2 class="section-heading" id="web-pipeline">Web pipeline<a class="anchor" aria-label="anchor" href="#web-pipeline"></a>
+</h2>
+<hr class="half-width">
+<figure><img src="fig/part1/web-pipeline.svg" alt="Two-row flow. Top row left-to-right: Common Crawl (WARC, WET) to Normalize, to Quality scoring, to Harmful-content scoring, to Language detection. It wraps to a bottom row reading right-to-left: Prefilter, Filter, Deduplicate (MinHash, LSH), then the shared JSONL record." class="figure mx-auto d-block"><div class="figcaption">Two-row flow. Top row left-to-right: Common
+Crawl (WARC, WET) to Normalize, to Quality scoring, to Harmful-content
+scoring, to Language detection. It wraps to a bottom row reading
+right-to-left: Prefilter, Filter, Deduplicate (MinHash, LSH), then the
+shared JSONL record.</div>
+</figure><p>Figure 3: The web path, following Figure 2 of Brandizzi et al. (<a href="#ref-brandizzi2024data">2024</a>): from Common Crawl, normalize
+aggressively, score for quality and harmful content, detect language,
+then prefilter, filter, and deduplicate before reaching the same shared
+JSONL record.</p>
+<p>The web path is longer because the input is raw and mostly unusable.
+The end goal is the same, but it takes many more steps.</p>
+<div class="section level3">
+<h3 id="acquisition">Acquisition<a class="anchor" aria-label="anchor" href="#acquisition"></a>
+</h3>
+<p>The common web source is <a href="https://commoncrawl.org/" class="external-link"><strong>Common Crawl</strong></a>, a
+public crawl of the open web that is republished regularly. Each release
+is called a <em>dump</em>.</p>
+<p>A dump can be read in two forms:</p>
+<ul>
+<li>a <strong>WARC</strong> file holds the full raw HTTP response,
+including the HTML markup</li>
+<li>a <strong>WET</strong> file holds only the plain text already
+extracted from that HTML</li>
+</ul>
+<p>WET is cheaper to process but lower fidelity. Extracting text
+yourself from WARC keeps more of what matters and gives cleaner results,
+but it costs more on two fronts: more compute to parse the raw HTML, and
+more engineering work, because you build the extraction and its filters
+yourself and have to test that they do what you intend. The trade-off is
+quality against both compute and effort.</p>
+<p>Even a single dump is large, and the full set runs to hundreds of
+terabytes.</p>
+</div>
+<div class="section level3">
+<h3 id="the-processing-core">The processing core<a class="anchor" aria-label="anchor" href="#the-processing-core"></a>
+</h3>
+<p>After acquisition, each document passes through a sequence of scoring
+and detection steps. The point here is what gets <em>measured</em>; the
+actual thresholds come next:</p>
+<ul>
+<li>
+<strong>normalize</strong>, as in the curated path but more
+aggressively</li>
+<li>
+<strong>quality scoring</strong>: a few cheap metrics that estimate
+how document-like the text is</li>
+<li>
+<strong>harmful-content scoring</strong>: a separate score for how
+likely the text is to be toxic or unsafe</li>
+<li>
+<strong>language detection</strong>: a language label and a
+confidence score</li>
+<li>
+<strong>prefilter</strong>: a cheap first pass that discards the
+clearly unusable</li>
+</ul>
+<p>These steps work in tandem: the scoring steps attach a score to each
+document, and the filter later turns those scores into keep-or-drop
+decisions. Each is picked up in detail below: the quality metrics and
+the prefilter under <em>Filtering</em>, the harmful-content score under
+<em>Harmful content</em>, and language detection exactly as on the
+curated path.</p>
+</div>
+<div class="section level3">
+<h3 id="filtering">Filtering<a class="anchor" aria-label="anchor" href="#filtering"></a>
+</h3>
+<p>Filtering turns each measurement from the processing core into a
+keep-or-drop decision, cheapest checks first so the expensive ones only
+ever see documents that already survived. Most quality signals are just
+<em>metrics</em>: a cheap count of something about a document. A filter
+then compares that metric to a threshold and keeps or drops the
+document. A few simple signals catch a surprising amount of junk:</p>
+<ul>
+<li>
+<strong>average words per line</strong>: menus, link lists, and
+tables are mostly very short lines</li>
+<li>
+<strong>share of symbols and digits</strong>: code, logs, and
+gibberish are heavy on non-letters</li>
+<li>
+<strong>document length</strong>: too little text carries too little
+signal</li>
+<li>
+<strong>repeated-line ratio</strong>: navigation and boilerplate
+repeat the same lines</li>
+</ul>
+<p>A prefilter is just a few of these metrics behind thresholds. Here is
+one made concrete, on three example documents:</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="kw">def</span> words_per_line(text):</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>    lines <span class="op">=</span> [ln <span class="cf">for</span> ln <span class="kw">in</span> text.splitlines() <span class="cf">if</span> ln.strip()]</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>    <span class="cf">return</span> <span class="bu">len</span>(text.split()) <span class="op">/</span> <span class="bu">len</span>(lines) <span class="cf">if</span> lines <span class="cf">else</span> <span class="fl">0.0</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a><span class="kw">def</span> symbol_share(text):</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1" aria-label="code-block-6-6"></a>    symbols <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> c <span class="kw">in</span> text <span class="cf">if</span> <span class="kw">not</span> (c.isalpha() <span class="kw">or</span> c.isspace()))</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1" aria-label="code-block-6-7"></a>    <span class="cf">return</span> symbols <span class="op">/</span> <span class="bu">len</span>(text) <span class="cf">if</span> text <span class="cf">else</span> <span class="fl">1.0</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1" aria-label="code-block-6-8"></a></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1" aria-label="code-block-6-9"></a><span class="kw">def</span> looks_like_prose(text):</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1" aria-label="code-block-6-10"></a>    <span class="cf">return</span> words_per_line(text) <span class="op">&gt;=</span> <span class="dv">4</span> <span class="kw">and</span> symbol_share(text) <span class="op">&lt;=</span> <span class="fl">0.30</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1" aria-label="code-block-6-11"></a></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1" aria-label="code-block-6-12"></a>examples <span class="op">=</span> {</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1" aria-label="code-block-6-13"></a>    <span class="st">"article"</span>:  <span class="st">"Warmer winters are projected for the region.</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1" aria-label="code-block-6-14"></a>                <span class="st">"Researchers compared decades of temperature records."</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1" aria-label="code-block-6-15"></a>    <span class="st">"nav menu"</span>: <span class="st">"Home</span><span class="ch">\n</span><span class="st">About</span><span class="ch">\n</span><span class="st">Products</span><span class="ch">\n</span><span class="st">Contact</span><span class="ch">\n</span><span class="st">Login</span><span class="ch">\n</span><span class="st">Help"</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1" aria-label="code-block-6-16"></a>    <span class="st">"log dump"</span>: <span class="st">"[03:11:02] ERR 0x8F retries=3 code=</span><span class="sc">{id:9}</span><span class="st"> &gt;&gt;&gt; 11010 0xFF"</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1" aria-label="code-block-6-17"></a>}</span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1" aria-label="code-block-6-18"></a></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1" aria-label="code-block-6-19"></a><span class="cf">for</span> name, text <span class="kw">in</span> examples.items():</span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1" aria-label="code-block-6-20"></a>    verdict <span class="op">=</span> <span class="st">"keep"</span> <span class="cf">if</span> looks_like_prose(text) <span class="cf">else</span> <span class="st">"DROP"</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1" aria-label="code-block-6-21"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:9}</span><span class="ss"> words/line=</span><span class="sc">{</span>words_per_line(text)<span class="sc">:4.1f}</span><span class="ss">  "</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1" aria-label="code-block-6-22"></a>          <span class="ss">f"symbols=</span><span class="sc">{</span>symbol_share(text)<span class="sc">:3.0%}</span><span class="ss">  -&gt;  </span><span class="sc">{</span>verdict<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="ex">article</span>   words/line= 6.5  symbols= 2%  <span class="at">-</span><span class="op">&gt;</span>  keep</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a><span class="ex">nav</span> menu  words/line= 1.0  symbols= 0%  <span class="at">-</span><span class="op">&gt;</span>  DROP</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a><span class="ex">log</span> dump  words/line= 8.0  symbols=50%  <span class="at">-</span><span class="op">&gt;</span>  DROP</span></code></pre>
+</div>
+<p>The article keeps; the navigation block fails on words per line, and
+the log dump fails on symbol share. What to notice is <em>how</em> these
+metrics judge: <code>symbol_share</code> reads every character, but it
+does not understand a single one. It measures the document’s surface
+statistics rather than what the text means or whether it is any good.
+That is exactly what makes the check cheap enough to run on hundreds of
+terabytes, and it is also its blind spot: a fluent, grammatical
+paragraph of marketing fluff or confident nonsense scores perfectly.
+Judging <em>meaning</em> is a different and much harder problem, and it
+is the subject of <a href="#part-3">Part 3</a>.</p>
+<div class="section level4">
+<h4 id="harmful-content">Harmful content<a class="anchor" aria-label="anchor" href="#harmful-content"></a>
+</h4>
+<p>Quality is not a single axis, though. The metrics above all ask
+<em>is this document-like?</em> A separate question is <em>is this
+safe?</em> Training data carries the <strong>toxicity and harmful
+content</strong> of its sources straight into the model’s behavior, so
+pipelines add a distinct <strong>harmful-content</strong> signal
+alongside the quality ones, dropping the worst material however clean
+the document’s shape looks (<a href="#ref-jansen2022perplexed">Jansen et
+al. 2022</a>).</p>
+<p>This check runs <em>before</em> language detection (<a href="#fig-web">Figure 3</a>) because it needs no language label: a
+<strong>domain blocklist</strong> drops whole unsafe sites before they
+are fetched, and multilingual <strong>word lists</strong> catch
+documents heavy with slurs and profanity across languages.</p>
+<p>Filtering is where most of the raw volume disappears.</p>
+<p><strong>Useful tools</strong></p>
+<p>Both levels start from public resources rather than a trained model:
+multilingual profanity lists such as <a href="https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words" class="external-link">LDNOOBW</a>
+for the word-level check, and a domain blocklist such as the <a href="https://dsi.ut-capitole.fr/blacklists/index_en.php" class="external-link">UT1
+blocklist</a> for the site-level one.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="deduplication">Deduplication<a class="anchor" aria-label="anchor" href="#deduplication"></a>
+</h3>
+<p>The web is extremely repetitive. The same article, quote, license
+notice, or template appears countless times. Training on duplicates
+wastes compute and can push the model toward memorizing instead of
+generalizing, so duplicates have to go (<a href="#ref-lee2022deduplicating">Lee et al. 2022</a>).</p>
+<p>Exact duplicates are easy to spot. The hard case is
+<strong>near-duplicates</strong>: pages that differ only in a date, a
+header, or an ad. The shared idea is <em>similarity</em>: measure how
+much two documents overlap, and drop one when the overlap is too high.
+Here is that idea in miniature, scoring documents by the overlap of
+their word sets (the Jaccard similarity):</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>corpus <span class="op">=</span> [</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1" aria-label="code-block-8-2"></a>    <span class="st">"The quick brown fox jumps over the lazy dog."</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1" aria-label="code-block-8-3"></a>    <span class="st">"The quick brown fox jumps over the lazy dog."</span>,         <span class="co"># exact duplicate</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1" aria-label="code-block-8-4"></a>    <span class="st">"The quick brown fox jumps over the lazy dog. (2024)"</span>,  <span class="co"># near-duplicate: a date</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1" aria-label="code-block-8-5"></a>    <span class="st">"An entirely different sentence about another topic."</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1" aria-label="code-block-8-6"></a>]</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1" aria-label="code-block-8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1" aria-label="code-block-8-8"></a><span class="kw">def</span> word_set(text):</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1" aria-label="code-block-8-9"></a>    <span class="cf">return</span> <span class="bu">set</span>(text.lower().replace(<span class="st">"."</span>, <span class="st">""</span>).split())</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1" aria-label="code-block-8-10"></a></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1" aria-label="code-block-8-11"></a><span class="kw">def</span> jaccard(a, b):</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1" aria-label="code-block-8-12"></a>    <span class="cf">return</span> <span class="bu">len</span>(a <span class="op">&amp;</span> b) <span class="op">/</span> <span class="bu">len</span>(a <span class="op">|</span> b) <span class="cf">if</span> (a <span class="op">|</span> b) <span class="cf">else</span> <span class="fl">0.0</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1" aria-label="code-block-8-13"></a></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1" aria-label="code-block-8-14"></a>sets <span class="op">=</span> [word_set(doc) <span class="cf">for</span> doc <span class="kw">in</span> corpus]</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1" aria-label="code-block-8-15"></a>n <span class="op">=</span> <span class="bu">len</span>(corpus)</span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1" aria-label="code-block-8-16"></a></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1" aria-label="code-block-8-17"></a><span class="co"># Score every pair into a similarity matrix. It is symmetric and its diagonal is</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1" aria-label="code-block-8-18"></a><span class="co"># always 1.0, so the real information lives in the upper triangle (j &gt; i).</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1" aria-label="code-block-8-19"></a>sim <span class="op">=</span> [[jaccard(sets[i], sets[j]) <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n)] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n)]</span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1" aria-label="code-block-8-20"></a><span class="bu">print</span>(<span class="st">"similarity matrix:"</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1" aria-label="code-block-8-21"></a><span class="cf">for</span> row <span class="kw">in</span> sim:</span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1" aria-label="code-block-8-22"></a>    <span class="bu">print</span>(<span class="st">"  "</span> <span class="op">+</span> <span class="st">"  "</span>.join(<span class="ss">f"</span><span class="sc">{</span>value<span class="sc">:.2f}</span><span class="ss">"</span> <span class="cf">for</span> value <span class="kw">in</span> row))</span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1" aria-label="code-block-8-23"></a></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1" aria-label="code-block-8-24"></a><span class="co"># Walk the upper triangle once. Drop document j when it repeats an earlier,</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1" aria-label="code-block-8-25"></a><span class="co"># still-kept document i.</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1" aria-label="code-block-8-26"></a>THRESHOLD <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1" aria-label="code-block-8-27"></a>dropped <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1" aria-label="code-block-8-28"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1" aria-label="code-block-8-29"></a>    <span class="cf">if</span> i <span class="kw">in</span> dropped:</span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1" aria-label="code-block-8-30"></a>        <span class="cf">continue</span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1" aria-label="code-block-8-31"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n):</span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1" aria-label="code-block-8-32"></a>        <span class="cf">if</span> sim[i][j] <span class="op">&gt;=</span> THRESHOLD:</span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1" aria-label="code-block-8-33"></a>            dropped.add(j)</span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1" aria-label="code-block-8-34"></a></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1" aria-label="code-block-8-35"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">verdicts:"</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1" aria-label="code-block-8-36"></a><span class="cf">for</span> i, doc <span class="kw">in</span> <span class="bu">enumerate</span>(corpus):</span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1" aria-label="code-block-8-37"></a>    <span class="bu">print</span>(<span class="ss">f"  doc </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">  </span><span class="sc">{</span><span class="st">'DROP'</span> <span class="cf">if</span> i <span class="kw">in</span> dropped <span class="cf">else</span> <span class="st">'keep'</span><span class="sc">}</span><span class="ss">  </span><span class="sc">{</span>doc<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb9">
+<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a><span class="ex">similarity</span> matrix:</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1" aria-label="code-block-9-2"></a>  <span class="ex">1.00</span>  1.00  0.89  0.00</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1" aria-label="code-block-9-3"></a>  <span class="ex">1.00</span>  1.00  0.89  0.00</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1" aria-label="code-block-9-4"></a>  <span class="ex">0.89</span>  0.89  1.00  0.00</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a>  <span class="ex">0.00</span>  0.00  0.00  1.00</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1" aria-label="code-block-9-7"></a><span class="ex">verdicts:</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1" aria-label="code-block-9-8"></a>  <span class="ex">doc</span> 0  keep  The quick brown fox jumps over the lazy dog.</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1" aria-label="code-block-9-9"></a>  <span class="ex">doc</span> 1  DROP  The quick brown fox jumps over the lazy dog.</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1" aria-label="code-block-9-10"></a>  <span class="ex">doc</span> 2  DROP  The quick brown fox jumps over the lazy dog. <span class="er">(</span><span class="ex">2024</span><span class="kw">)</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1" aria-label="code-block-9-11"></a>  <span class="ex">doc</span> 3  keep  An entirely different sentence about another topic.</span></code></pre>
+</div>
+<figure><img src="fig/part1/dedup-heatmap.svg" alt="A four-by-four similarity matrix shown as a heatmap. The diagonal is grey and labeled self. The lower triangle is blank because the matrix is symmetric. In the upper triangle, the cell for document 0 versus document 1 is fully dark at 1.00 and the cells for document 0 and document 1 versus document 2 are dark at 0.89, all three outlined in orange as duplicates above the 0.50 threshold; every cell involving the unrelated document 3 is white at 0.00." class="figure mx-auto d-block"><div class="figcaption">A four-by-four similarity matrix shown as a
+heatmap. The diagonal is grey and labeled self. The lower triangle is
+blank because the matrix is symmetric. In the upper triangle, the cell
+for document 0 versus document 1 is fully dark at 1.00 and the cells for
+document 0 and document 1 versus document 2 are dark at 0.89, all three
+outlined in orange as duplicates above the 0.50 threshold; every cell
+involving the unrelated document 3 is white at 0.00.</div>
+</figure><p>Figure 4: The same similarity matrix as a heatmap. The bright
+off-diagonal cells are the duplicate pairs: document 0 against its exact
+copy (1.00) and its date-stamped near-copy (0.89).</p>
+<p>In the upper triangle, document 1 scores 1.00 against document 0 (an
+exact copy) and document 2 scores high (the same text plus a date), so
+both are dropped as repeats of document 0; the unrelated document
+overlaps little with everything and stays. Comparing every pair of
+documents this way is far too slow at web scale, which is why OpenGPT-X
+uses <strong>MinHash</strong> with <strong>LSH</strong>
+(locality-sensitive hashing) (<a href="#ref-leveling2024evaluation">Leveling et al. 2024</a>) to estimate
+the same overlap cheaply, without comparing all pairs. The compute cost
+is still large, and we return to it in <a href="#part-2">Part 2</a>.</p>
+<p><strong>Useful tools</strong></p>
+<p>The near-duplicate method here has mature open implementations: <a href="https://github.com/ekzhu/datasketch" class="external-link"><code>datasketch</code></a>
+for MinHash and LSH in Python, <a href="https://github.com/ChenghaoMou/text-dedup" class="external-link"><code>text-dedup</code></a>,
+which packages the full near-deduplication workflow, and <a href="https://github.com/google-research/deduplicate-text-datasets" class="external-link"><code>deduplicate-text-datasets</code></a>,
+the suffix-array code released with Lee et al. (<a href="#ref-lee2022deduplicating">2022</a>).</p>
+</div>
+</section><section><h2 class="section-heading" id="both-paths-converge">Both paths converge<a class="anchor" aria-label="anchor" href="#both-paths-converge"></a>
+</h2>
+<hr class="half-width">
+<p>Whatever the source, every surviving document ends in the same shape:
+one JSON object per line, a format called <strong>JSONL</strong>. Each
+record carries the cleaned text plus the metadata gathered along the
+way: source, language, scores, and identifiers.</p>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">JSON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode json" tabindex="0"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1" aria-label="code-block-10-2"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"web-2024-30-000123"</span><span class="fu">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1" aria-label="code-block-10-3"></a>  <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"The cleaned document text, ready for training."</span><span class="fu">,</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1" aria-label="code-block-10-4"></a>  <span class="dt">"source"</span><span class="fu">:</span> <span class="st">"common_crawl"</span><span class="fu">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1" aria-label="code-block-10-5"></a>  <span class="dt">"language"</span><span class="fu">:</span> <span class="st">"de"</span><span class="fu">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1" aria-label="code-block-10-6"></a>  <span class="dt">"language_score"</span><span class="fu">:</span> <span class="fl">0.98</span><span class="fu">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1" aria-label="code-block-10-7"></a>  <span class="dt">"quality_score"</span><span class="fu">:</span> <span class="fl">0.71</span><span class="fu">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1" aria-label="code-block-10-8"></a>  <span class="dt">"url"</span><span class="fu">:</span> <span class="st">"https://example.org/article"</span><span class="fu">,</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1" aria-label="code-block-10-9"></a>  <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2024-07-15"</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1" aria-label="code-block-10-10"></a><span class="fu">}</span></span></code></pre>
+</div>
+<p>On disk each record sits on a single line; it is pretty-printed here
+only for readability. Fields are illustrative. This shared format is
+what lets curated and web data be combined downstream: mixing the
+sources in chosen proportions, versioning the corpus, and tokenizing it
+for training are all later steps, beyond this document, but each becomes
+possible only because every source now shares one shape.</p>
+<p>Keeping the <em>scores</em>, not just the keep-or-drop decision, has
+a second payoff that matters at scale. The recorded scores are the
+signals, and a threshold like <code>MIN_LANG_SCORE = 0.20</code> is the
+<strong>filter decision</strong> laid over them. A threshold is a
+choice, and choices get revisited. The pipeline computes the signals
+once; the filter decisions stay adjustable afterward.</p>
+<p><strong>Your turn</strong></p>
+<p>Picture a corpus built <em>without</em> keeping any of this metadata:
+just the final text, no source, no scores, no language label. Months
+later, the model trained on it turns out weak in one language. With only
+the raw text in hand, how would you even begin to find out why?</p>
+<p>Now look back at the JSONL record above. Which fields, had they been
+kept, would let you answer that, and what would each one tell you?</p>
+<p><strong>One way to reason about it</strong></p>
+<ul>
+<li>
+<strong><code>language</code> and
+<code>language_score</code>:</strong> was the language detected at all,
+and how confident was the detector? A low score points at misclassified
+or mixed-language text.</li>
+<li>
+<strong><code>quality_score</code>:</strong> were the surviving
+documents actually good, or did a loose threshold let filler
+through?</li>
+<li>
+<strong><code>source</code>:</strong> is the weak language coming
+mostly from one source that behaved badly?</li>
+<li>
+<strong><code>id</code> and <code>timestamp</code>:</strong> can you
+locate and re-pull the exact documents to inspect or re-run them?</li>
+</ul>
+<p>The point: without the record, none of these questions are
+answerable. The metadata is what makes a fault findable.</p>
+</section><section><h2 class="section-heading" id="recap">Recap<a class="anchor" aria-label="anchor" href="#recap"></a>
+</h2>
+<hr class="half-width">
+<p>Two very different inputs, curated and web, now share one shape:
+clean text paired with the metadata that records where it came from and
+how it was scored. That pairing is the real result of <a href="#part-1">Part 1</a>, and it is two outputs at once, both of which
+have to hold: the <strong>quality</strong> of the data, and the
+<strong>traceability</strong> of how it was produced.</p>
+<p>So far we have treated each step as a matter of logic: what to keep,
+what to drop, what to record. <a href="#part-2">Part 2</a> changes the
+question. At the true size of these corpora, every one of those steps is
+also a compute decision, and the traceability we just built is what
+makes the whole effort survivable.</p>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+
+</div>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</section><div class="footnotes footnotes-end-of-document">
+<hr>
+<ol>
+<li id="fn1"><p>Extraction is lossy and format-specific: a multi-column
+PDF must be read in the right order rather than straight across, and an
+HTML or XML file must yield its article body without the surrounding
+navigation and boilerplate. Getting either wrong corrupts the text
+before any later step sees it.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div></section><section id="aio-04-working-at-scale"><p>Content from <a href="04-working-at-scale.html">Working at scale</a></p>
+<hr>
+<p>Last updated on 2026-11-02 |
+
+        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/04-working-at-scale.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section><h2 class="section-heading" id="working-at-scale">Working at scale<a class="anchor" aria-label="anchor" href="#working-at-scale"></a>
+</h2>
+<hr class="half-width">
+<p>When you treat the pipeline as pure logic, every step has a clean
+answer: keep this, drop that, record the rest. Put it at the true size
+of a web corpus and a second constraint appears behind every one of
+those answers, a <em>price</em> measured in machine time. This part is
+about what changes once compute is the thing in short supply, because
+some of the answers from <a href="#part-1">Part 1</a> stop being
+affordable and others stop being possible.</p>
+</section><section><h2 class="section-heading" id="scale-changes-the-problem">Scale changes the problem<a class="anchor" aria-label="anchor" href="#scale-changes-the-problem"></a>
+</h2>
+<hr class="half-width">
+<p>The web side of Teuken’s data started from <strong>60 Common Crawl
+dumps</strong>, spanning late 2014 to early 2023. Together they held
+about <strong>173 billion documents</strong>, roughly <strong>703
+terabytes</strong> of raw text, around 2,7 billion documents per dump.
+Numbers this large change what the steps from <a href="#part-1">Part
+1</a> <em>mean</em> in practice.</p>
+<p>Take filtering. On average, <strong>96,94% of web documents are
+removed during filtering</strong> (<a href="#ref-brandizzi2024data">Brandizzi et al. 2024</a>). The <a href="#intro">introduction</a> set out why a number like that is a sign
+of success rather than failure: at web scale the input is <em>known</em>
+to be mostly navigation, boilerplate, and spam, so aggressive removal is
+the job working as intended. What the headline figure hides is how much
+still survives. Roughly 3% of 173 billion documents is on the order of
+<strong>five billion documents</strong> of far cleaner text, a large
+corpus in its own right.</p>
+<p>Numbers this size are hard to feel, so start from a landmark and work
+outward. The founding of Rome was about <strong>2.800 years
+ago</strong>, already deep history. Yet reading only the five billion
+documents that <em>survive</em> filtering, at a normal pace and never
+stopping, would take some <strong>35.000 years</strong>, more than ten
+times as far back as Rome, as old as the first cave paintings. And the
+full raw collection of 173 billion documents would take on the order of
+<strong>1,2 million years</strong>, about four times longer than our
+species has existed.</p>
+<figure><img src="fig/part2/web-scale.svg" alt="A logarithmic deep-time scale, today at the right and the distant past at the left. Two bars show how far back nonstop reading would reach: all 173 billion raw documents about 1,2 million years, roughly four times longer than Homo sapiens has existed; the five billion survivors about 35.000 years, as old as the first cave paintings. The founding of Rome, about 2.800 years ago, sits as a thin sliver near today." class="figure mx-auto d-block"><div class="figcaption">A logarithmic deep-time scale, today at the
+right and the distant past at the left. Two bars show how far back
+nonstop reading would reach: all 173 billion raw documents about 1,2
+million years, roughly four times longer than Homo sapiens has existed;
+the five billion survivors about 35.000 years, as old as the first cave
+paintings. The founding of Rome, about 2.800 years ago, sits as a thin
+sliver near today.</div>
+</figure><p>Figure 5: How long it would take a person to read the raw web, and
+the five billion documents that survive filtering. Read each bar by the
+age it reaches, not by its length.</p>
+<p>A web corpus already holds far more text than any model needs, so the
+binding constraint becomes machine time. From here on the work is
+rationed by compute, and that budget is spent very unevenly across the
+steps.</p>
+</section><section><h2 class="section-heading" id="every-decision-is-a-compute-decision">Every decision is a compute decision<a class="anchor" aria-label="anchor" href="#every-decision-is-a-compute-decision"></a>
+</h2>
+<hr class="half-width">
+<p>Once a step has a price, ordering it is an optimization. The pipeline
+runs its <strong>cheapest checks first</strong> so the expensive ones
+only ever see documents that already survived. A prefilter that costs
+almost nothing per document removes the obvious junk before any costly
+scoring or comparison runs, which means the expensive stages process a
+far smaller pile.</p>
+<p>Scale also turns two more concerns into load-bearing engineering
+decisions:</p>
+<ul>
+<li>
+<strong>Lineage and versioning.</strong> Each stage writes its
+output in the same JSONL format and saves intermediate results, so any
+version can be compared with the one before it and a fault can be traced
+to the stage that introduced it. This is the traceability from <a href="#part-1">Part 1</a>.</li>
+<li>
+<strong>Storage and movement.</strong> Those intermediate results
+are copied to remote storage to guard against loss, which costs disk;
+and moving hundreds of terabytes between a processing cluster and a
+training cluster is slow and expensive enough that keeping the data
+where the model will train is itself a design choice.</li>
+</ul>
+<p>None of this is visible in the final corpus, yet it is what keeps a
+multi-month pipeline from becoming unrepeatable.</p>
+<p>Take the failure from Part 1’s metadata exercise, the corpus that
+turns out weak in one language (<a href="#part-1">Part 1</a>). If the
+pipeline saved its outputs after language detection and after later
+filtering, the two versions can be compared and the loss traced to the
+stage that introduced it. If those intermediate snapshots were discarded
+to save storage, diagnosing the failure turns into rerunning months of
+work.</p>
+<p><strong>Further reading</strong></p>
+<p>Poolside’s <a href="https://www.poolside.ai/blog/introducing-the-model-factory" class="external-link">model
+factory</a> describes an industrial version of exactly this idea:
+treating data processing as a versioned, monitored production line
+rather than a one-off script.</p>
+</section><section><h2 class="section-heading" id="deduplication-is-the-expensive-step">Deduplication is the expensive step<a class="anchor" aria-label="anchor" href="#deduplication-is-the-expensive-step"></a>
+</h2>
+<hr class="half-width">
+<p>The clearest example of a logical step that is really a compute
+decision is deduplication. Of all the CPU time spent processing the web
+data, deduplication consumed about <strong>80,8%</strong>, with
+filtering at 16,7% and format conversion at 2,5% (<a href="#ref-brandizzi2024data">Brandizzi et al. 2024</a>). Put in human
+terms, the three stages together come to about <strong>273.952 CPU
+hours</strong>, close to <strong>31 years</strong> of work for a single
+CPU core. Deduplication is around <strong>25 of those years</strong> on
+its own. A cluster runs it in months by splitting the work across many
+cores, but the raw cost is the size of three decades on one machine.</p>
+<figure><img src="fig/part2/compute-spread.svg" alt="A proportional bar of total CPU time by stage, scaled to about 31 years on one CPU core: conversion about 0,8 years (6.912 CPU hours), filtering about 5,2 years (45.810 CPU hours), and deduplication about 25,3 years (221.230 CPU hours). Deduplication dominates and runs last." class="figure mx-auto d-block"><div class="figcaption">A proportional bar of total CPU time by stage,
+scaled to about 31 years on one CPU core: conversion about 0,8 years
+(6.912 CPU hours), filtering about 5,2 years (45.810 CPU hours), and
+deduplication about 25,3 years (221.230 CPU hours). Deduplication
+dominates and runs last.</div>
+</figure><p>Figure 6: How the web pipeline’s compute splits across its three
+stages.</p>
+<p>That single number sets the pipeline order. Because comparing
+documents for similarity is so costly, you run it <strong>last</strong>,
+on the small fraction that survived everything else, never on the full
+raw pile. Order the stages the other way and you would pay the most
+expensive step on the 97% you were about to discard.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<p><strong>Your turn</strong></p>
+<p>Deduplication is the most expensive stage and runs last; filtering
+removes about 97% of documents and runs earlier. Suppose an engineer,
+wanting “the cleanest data first,” reorders the pipeline to deduplicate
+<em>before</em> filtering. The output documents are identical either
+way. So what exactly does the reordering cost, and roughly by how
+much?</p>
+<p><strong>One way to reason about it</strong></p>
+<p>The factor that drives the cost is the <strong>number of
+documents</strong> deduplication has to compare: more documents means
+more comparisons, so the cost rises with the size of the input pile.
+Since filtering removes about 97% of documents, the “dedup first” order
+makes the most expensive stage process roughly 30 times as many
+documents for the same final corpus. Put in the same single-core terms
+as above: the ~25 core-years deduplication already costs would balloon
+to <strong>on the order of 750 core-years</strong> to produce an
+identical output. That is the whole reason the cheap, decisive cuts come
+first and the costly comparison comes last.</p>
+</section><section><h2 class="section-heading" id="compute-time-versus-wall-clock-time">Compute time versus wall-clock time<a class="anchor" aria-label="anchor" href="#compute-time-versus-wall-clock-time"></a>
+</h2>
+<hr class="half-width">
+<p>Total CPU time measures the work; how long the calendar takes is a
+separate question. Every stage already spreads across thousands of
+cores, so they all parallelize equally well. What separates them, and
+sets the calendar, is <strong>throughput</strong>: how much data each
+stage clears per day, which depends on how much work a single document
+costs it.</p>
+<p>Deduplication makes the point. It is the largest compute cost of all,
+four-fifths of the budget from the previous section, yet it moves
+through the data quickly: the cluster clears about 20 terabytes of raw
+data a day. The reason is the <em>kind</em> of work it does.
+Deduplication compares documents with a simple whitespace tokenizer and
+numeric similarity algorithms, cheap operations per document, so even
+though there are an enormous number of comparisons, each one is
+fast.</p>
+<p>Computing the quality signals is the opposite case. Every document is
+read in full: content analysis and tokenization, the heavy lifting of
+the pipeline, run on each one, so the stage clears only about <strong>6
+terabytes a day</strong>. Downloading the raw data is slow for a
+different reason: its speed is set by network bandwidth from the source,
+not by how many cores you add, and it manages a similar <strong>6
+terabytes a day</strong>. These two stages, three to four times slower
+than the rest, set the pace, because the whole pipeline can finish no
+faster than its slowest stage.</p>
+<figure><img src="fig/part2/throughput.svg" alt="A sorted bar chart of pipeline throughput by stage, in terabytes of raw data cleared per day. Upload completion about 25, deduplication about 20, conversion about 20, quality signals about 6,4, and download about 6,2. The two slowest stages, quality signals and download, are highlighted; at about 6 terabytes a day, about 725 terabytes take roughly 116 days." class="figure mx-auto d-block"><div class="figcaption">A sorted bar chart of pipeline throughput by
+stage, in terabytes of raw data cleared per day. Upload completion about
+25, deduplication about 20, conversion about 20, quality signals about
+6,4, and download about 6,2. The two slowest stages, quality signals and
+download, are highlighted; at about 6 terabytes a day, about 725
+terabytes take roughly 116 days.</div>
+</figure><p>Figure 7: Per-stage throughput, and the two slow stages that stretch
+the run to months. Bars show raw data cleared per stage per day, from
+the OpenGPT-X processing run of about 725 TB of raw web text, broader
+than the 60-dump set used for the final corpus.</p>
+<p>This is the gap between <em>compute</em> and <em>time</em>. Pushing
+roughly <strong>725 terabytes</strong> of raw web text through the
+pipeline, held to about 6 terabytes a day at the two slow stages, takes
+on the order of <strong>116 days</strong>, close to four months, even on
+a large cluster.</p>
+<p>And wall-clock time, not total compute, is the budget that actually
+binds. It is tied to the project’s lifetime: a project is allotted a
+compute window, and the corpus has to be ready inside it. Four months of
+wall time inside a one-year project is a very different proposition from
+the same corpus needing two years. Total core-years is what you pay for;
+wall-clock time is what you live by.</p>
+<p><strong>Key takeaway</strong></p>
+<p>Total compute time and wall-clock time are two separate budgets, and
+a real project is handed both at once: a fixed compute allocation and a
+deadline. Wall-clock time, tied to the project’s lifetime, is the one
+that ultimately binds, so the job is to fit the corpus inside the
+deadline without spending more than the compute you were given.</p>
+</section><section><h2 class="section-heading" id="recap">Recap<a class="anchor" aria-label="anchor" href="#recap"></a>
+</h2>
+<hr class="half-width">
+<p>Scale does not add new steps so much as it re-prices the ones we
+already have. Once every decision carries a cost in machine time, the
+question behind each step shifts from <em>what is correct?</em> to
+<em>what is affordable?</em> That shift is the lesson of this part: at
+web scale, preparing data becomes an exercise in economics as much as
+logic. The order of the pipeline, the reach of a step like
+deduplication, even whether a step is possible at all, are settled by
+the compute budget rather than by correctness alone.</p>
+<p>Both parts so far have rested on one assumption: that cheap,
+surface-level signals can separate good text from bad. <a href="#part-3">Part 3</a> puts that assumption to the test.</p>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+
+</div>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</section><div class="footnotes footnotes-end-of-document">
+<hr>
+<ol>
+<li id="fn1"><p>The same cost also forces a choice of <em>scope</em>:
+comparing every document against every other across all 60 dumps (a
+<em>global</em> deduplication) was impractical, since for a
+high-resource language like English the combined set was simply too
+large to process and brought no measurable benefit to the trained model.
+So deduplication was done <em>locally</em>, per dump and per language,
+which still removed about 30% of the data while staying inside the
+compute budget, the same logical goal with a different answer once the
+constraint is compute rather than correctness.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div></section><section id="aio-05-quality-question"><p>Content from <a href="05-quality-question.html">The quality question</a></p>
+<hr>
+<p>Last updated on 2026-11-02 |
+
+        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/05-quality-question.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section><h2 class="section-heading" id="the-quality-question">The quality question<a class="anchor" aria-label="anchor" href="#the-quality-question"></a>
+</h2>
+<hr class="half-width">
+<p><a href="#part-1">Part 1</a> built a pipeline that asks one question
+of every document: <em>is this well-formed?</em> The cheap surface
+checks answered it by counting characters and lines, and <a href="#part-2">Part 2</a> showed that they scale to hundreds of
+terabytes precisely because they are so cheap. This part asks the
+question those checks cannot reach: of the documents that are
+well-formed, which ones are actually worth learning from? That is the
+quality question, and it is where the easy answers end.</p>
+</section><section><h2 class="section-heading" id="surface-heuristics-cheap-transparent-blind">Surface heuristics: cheap, transparent, blind<a class="anchor" aria-label="anchor" href="#surface-heuristics-cheap-transparent-blind"></a>
+</h2>
+<hr class="half-width">
+<p>The surface metrics from <a href="#part-1">Part 1</a>, the cheap
+quality signals it filtered on, are <strong>surface heuristics</strong>:
+fixed rules that measure a document’s <em>shape</em>, how its characters
+and lines are arranged, the same way for every document. They cost
+almost nothing per document, which is what lets them run across web
+scale. They are transparent: a rule like “drop documents with fewer than
+four words per line” can be read, audited, and reasoned about. And they
+are deterministic, so the same document always gets the same
+verdict.</p>
+<p>What they cannot do is see <em>value</em>. A document can be
+perfectly well-formed and still be worthless to train on, and a
+heuristic, counting only surface features, gives it the same verdict as
+a genuinely useful one. And value takes more than one form: a document
+can be judged on how densely it packs information, on how well it is
+written, on how accurate it is. Here are two documents checked by the
+<strong>very same prefilter from Part 1</strong>,
+<code>looks_like_prose</code> remains unchanged:</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="co"># words_per_line(), symbol_share(), and looks_like_prose() are the Part 1 prefilter.</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a>documents <span class="op">=</span> {</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>    <span class="st">"explainer"</span>: <span class="st">"Photosynthesis converts sunlight into chemical energy.</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a>                 <span class="st">"Plants combine water and carbon dioxide to build sugars."</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>    <span class="st">"spam"</span>:      <span class="st">"Best cheap flights, book cheap flights online today.</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a>                 <span class="st">"Cheap flights deals, find cheap flights and save now."</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>}</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a><span class="cf">for</span> name, text <span class="kw">in</span> documents.items():</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>    verdict <span class="op">=</span> <span class="st">"clean"</span> <span class="cf">if</span> looks_like_prose(text) <span class="cf">else</span> <span class="st">"DROP"</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:9}</span><span class="ss"> words/line=</span><span class="sc">{</span>words_per_line(text)<span class="sc">:4.1f}</span><span class="ss">  "</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a>          <span class="ss">f"symbols=</span><span class="sc">{</span>symbol_share(text)<span class="sc">:3.0%}</span><span class="ss">  -&gt;  </span><span class="sc">{</span>verdict<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="ex">explainer</span> words/line= 7.5  symbols= 2%  <span class="at">-</span><span class="op">&gt;</span>  clean</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="ex">spam</span>      words/line= 8.5  symbols= 4%  <span class="at">-</span><span class="op">&gt;</span>  clean</span></code></pre>
+</div>
+<p>Both pass. The same prefilter that dropped Part 1’s nav menu and log
+dump keeps these two, yet only one is worth training on. The prefilter
+cannot tell them apart, because it counts the shape of the text and
+never reads what the words mean.</p>
+<div class="section level3">
+<h3 id="form-and-value-as-two-axes">Form and value as two axes<a class="anchor" aria-label="anchor" href="#form-and-value-as-two-axes"></a>
+</h3>
+<p>Picture every document placed on a grid. One axis is <em>form</em>,
+how well-formed the document is; the other is <em>value</em>, how much
+it is worth learning from. A surface heuristic reads only the horizontal
+axis, so any filter built on it can draw just one kind of line: a
+vertical cut that keeps the well-formed half and drops the rest,
+whatever those documents are worth. On the two diagonal cases that cut
+is right. A well-formed, valuable article is kept, and a malformed,
+worthless log dump is dropped. The other two corners are where it fails.
+A well-formed but worthless page, the spam from a moment ago, is kept; a
+substantive page that happens to look messy, say dense code or terse
+notes, is dropped. Those two corners are the price of judging form
+alone.</p>
+<figure><img src="fig/part3/shape-vs-value.svg" alt="A two-by-two grid. The horizontal axis is form, from poorly formed on the left to well-formed on the right. The vertical axis is value, from low at the bottom to high at the top. A vertical dashed line down the middle marks where a surface heuristic cuts: it keeps everything on the well-formed right half and drops the left half, regardless of value. Two corners are shaded as errors: the top-left, substantive but messy documents that the heuristic wrongly drops, and the bottom-right, well-formed but worthless documents such as spam that it wrongly keeps. Examples sit in each quadrant: an encyclopedia article top-right, spam bottom-right, a nav menu bottom-left, dense code or terse notes top-left." class="figure mx-auto d-block"><div class="figcaption">A two-by-two grid. The horizontal axis is form,
+from poorly formed on the left to well-formed on the right. The vertical
+axis is value, from low at the bottom to high at the top. A vertical
+dashed line down the middle marks where a surface heuristic cuts: it
+keeps everything on the well-formed right half and drops the left half,
+regardless of value. Two corners are shaded as errors: the top-left,
+substantive but messy documents that the heuristic wrongly drops, and
+the bottom-right, well-formed but worthless documents such as spam that
+it wrongly keeps. Examples sit in each quadrant: an encyclopedia article
+top-right, spam bottom-right, a nav menu bottom-left, dense code or
+terse notes top-left.</div>
+</figure><p>Figure 8: Surface heuristics judge a document’s form, so they cut
+along one axis only. The two shaded corners, well-formed but worthless
+and substantive but messy, are where a form-only heuristic gets it
+wrong.</p>
+<p>Heuristics do the job they are built for, cheaply and at scale, and
+they remain the first line of every pipeline. The point here is
+narrower: form is all they can measure, so value needs a different
+instrument.</p>
+<p><strong>Your turn</strong></p>
+<p>The heuristic above scored the spam and the explainer the same.
+Suppose you are allowed to add as many surface rules as you like: line
+length, punctuation balance, repeated-phrase ratio, vocabulary size,
+anything that counts characters or words without understanding them.
+Sketch a worthless document that still passes every such rule. What
+property of a document are all of these rules structurally unable to
+see?</p>
+<p><strong>One way to reason about it</strong></p>
+<p>Such a document is easy to write: vary the vocabulary, balance the
+punctuation, keep every line a sensible length, and it passes every
+count while saying nothing worth learning. Surface rules measure how
+text is <em>arranged</em>, never what it <em>means</em>, so
+<strong>meaning</strong> is the one property they cannot reach. Reading
+meaning is what a language model does, which is where the next section
+goes.</p>
+</div>
+</section><section><h2 class="section-heading" id="asking-a-model-to-judge">Asking a model to judge<a class="anchor" aria-label="anchor" href="#asking-a-model-to-judge"></a>
+</h2>
+<hr class="half-width">
+<p>If the missing instrument has to read meaning, the obvious candidate
+is a language model: hand it the full document and ask it to score the
+value the heuristics could not see. Scoring value means choosing
+<em>which</em> kind of value to measure. The one put to work at web
+scale is <strong>educational value</strong>: how much genuine, learnable
+information a document carries, rated on a small scale such as 0 to 5
+(<a href="#ref-penedo2024fineweb">Penedo et al. 2024</a>). Because the
+model actually reads the text, it can tell the explainer from the spam
+in a way no counting rule can.</p>
+<p><strong>Further reading</strong></p>
+<p>HuggingFace’s <a href="https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1" class="external-link">FineWeb
+blog post</a> walks through building exactly such a judge: an LLM scores
+documents for educational value, and those scores train the FineWeb-Edu
+quality classifier that filters a web-scale corpus.</p>
+<p>The difficulty is that this power is expensive. A surface heuristic
+is a few arithmetic operations per document; an LLM judgment is a full
+forward pass through billions of parameters, far more work each time.
+Multiply that by the roughly five billion surviving documents, and
+compute becomes the real obstacle.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+</section><section><h2 class="section-heading" id="the-cost-in-euros">The cost in euros<a class="anchor" aria-label="anchor" href="#the-cost-in-euros"></a>
+</h2>
+<hr class="half-width">
+<p>Of those two prices, the compute one can be made concrete. When you
+build a pipeline like this, the budget decides what you can actually
+run, as much as the quality you are aiming for does. The budget depends
+on two things: how much work there is, and what hardware it runs on<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+<div class="section level3">
+<h3 id="cpu-work-and-gpu-work">CPU work and GPU work<a class="anchor" aria-label="anchor" href="#cpu-work-and-gpu-work"></a>
+</h3>
+<p>The two kinds of processor are good at different things. A
+<strong>GPU</strong> packs thousands of small cores that all run the
+same arithmetic at once, which makes it fast at the dense matrix
+multiplication inside a neural network and slow at much else.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> A
+<strong>CPU</strong> has a few powerful, flexible cores built for
+sequential logic: branching, comparing, and shuffling data around. Most
+of a data pipeline is that second kind of work, converting file formats,
+hashing and comparing documents, reading and writing bytes, none of it
+matrix arithmetic. So it runs on CPUs, where an hour of compute is
+cheap.</p>
+<p>Recall the <a href="#part-2">Part 2</a> budget. Conversion,
+filtering, and deduplication together took about <strong>273.952 CPU
+hours</strong>. At a representative cloud price of four to five cents
+per CPU hour,<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> that whole pipeline costs on the order of
+<strong>12.000 €</strong> to run once. For hundreds of terabytes of
+processed text, that is remarkably little.</p>
+<p>Now imagine running the same work on GPUs, on the intuition that GPUs
+are faster. A GPU hour costs roughly <strong>seventy times</strong> a
+CPU hour,<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> and the work gains nothing from one:
+hashing and string comparison cannot use the matrix hardware you would
+be paying for. The same pipeline would cost on the order of
+<strong>800.000 €</strong>, and finish no sooner.</p>
+<p><strong>Key takeaway</strong></p>
+<p>Pay for a GPU only where the work is the dense, parallel arithmetic
+it is built for. Everything else belongs on a CPU, where it runs just as
+fast for a fraction of the price.</p>
+</div>
+<div class="section level3">
+<h3 id="the-judge-at-web-scale">The judge at web scale<a class="anchor" aria-label="anchor" href="#the-judge-at-web-scale"></a>
+</h3>
+<p>That rule has one exception in this pipeline, and it is the LLM
+judge. Reading a document for meaning <em>is</em> the dense matrix
+arithmetic a GPU is built for, so here the expensive hardware earns its
+price. The bill now has two multipliers working together: a GPU hour is
+expensive, and there are billions of documents to score.</p>
+<p>A heavy judge, a model in the tens of billions of parameters, scores
+on the order of <strong>ten thousand documents per GPU hour</strong>.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> At about 3
+€ per GPU hour that is roughly <strong>0,0003 € per document</strong>,
+which sounds negligible until you count the documents. Filtering leaves
+on the order of <strong>five billion</strong>, so judging all of them
+once comes to about <strong>1,5 million €</strong> and around
+<strong>half a million GPU hours</strong>, more than fifty years of
+nonstop work on a single card.</p>
+<p>The shape is the one <a href="#part-2">Part 2</a> made concrete: a
+cost that is tiny for one document grows enormous once it is paid
+billions of times over. Plotted against the number of documents, the
+effect is plain. Judging a small sample is inexpensive; judging the full
+corpus of survivors costs millions of euros:</p>
+<figure><img src="fig/part3/judge-cost-scale.svg" alt="A line chart on logarithmic axes (cost against number of documents) with three points on one straight line. Judging one million documents costs about 300 euros; fourteen million about 4.200 euros; and five billion, the full surviving corpus, about 1,5 million euros. Cost rises in proportion to the number of documents." class="figure mx-auto d-block"><div class="figcaption">A line chart on logarithmic axes (cost against
+number of documents) with three points on one straight line. Judging one
+million documents costs about 300 euros; fourteen million about 4.200
+euros; and five billion, the full surviving corpus, about 1,5 million
+euros. Cost rises in proportion to the number of documents.</div>
+</figure><p>Figure 9: The cost of judging documents with a heavy LLM, as the
+number of documents grows. Affordable on a sample, a major expense
+across the web.</p>
+<p>So the obstacle is the economics. A heavy judge reads meaning more
+reliably than any counting rule, yet running one across the whole web
+costs millions of euros and years of GPU time. That turns the next step
+into a sharp question: can a pipeline keep the judgment of a language
+model while paying something close to the price of a surface
+heuristic?</p>
+</div>
+</section><section><h2 class="section-heading" id="recap">Recap<a class="anchor" aria-label="anchor" href="#recap"></a>
+</h2>
+<hr class="half-width">
+<p>Part 3 separated two questions that <a href="#part-1">Part 1</a>’s
+surface heuristics had treated as one. <em>Form</em> asks whether a
+document is well-formed; <em>value</em> asks whether it is worth
+learning from. Heuristics settle form cheaply and at any scale, but they
+measure only the shape of the text, so value stays invisible to them. A
+language model can read the text and judge its value, but doing that
+across billions of documents is slow and expensive.</p>
+<p>That is the open problem this part leaves on the table: how to get
+the judgment quality of a language model at the running cost of a
+surface heuristic. <a href="#part-4">Part 4</a> is the answer this
+material follows, and it solves the problem with a move in the spirit of
+<a href="#part-2">Part 2</a>: trade a large one-time compute cost for a
+cheap one that runs at scale.</p>
+<p><strong>Useful tools</strong></p>
+<p>Open-source frameworks package these stages so you do not build them
+from scratch: <a href="https://github.com/huggingface/datatrove" class="external-link">DataTrove</a> (the
+pipeline behind FineWeb) and NVIDIA’s <a href="https://github.com/NVIDIA-NeMo/Curator" class="external-link">NeMo Curator</a> both
+handle filtering, deduplication, and large-scale processing. For the
+LLM-judge idea specifically, <a href="https://arxiv.org/abs/2602.12414" class="external-link">propella-1</a> annotates
+documents across many quality properties at once rather than a single
+score, and releases the resulting annotations as a dataset.</p>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+
+</div>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</section><div class="footnotes footnotes-end-of-document">
+<hr>
+<ol>
+<li id="fn1"><p>A second price is cross-lingual certainty: Teuken’s data
+spans all 24 EU languages, around 60% of it outside English, and whether
+one judge can rate quality evenly across every one, including
+low-resource languages it barely saw in training, is an open question.
+We follow the compute price here, since that is what the next step
+answers.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>The numbers below are order-of-magnitude illustrations
+at mid-2026 cloud prices; prices move, so the ratios are the durable
+part rather than the exact euro amounts.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>A third class of chip, the <strong>tensor processing
+unit</strong> (TPU) and a growing field of similar AI accelerators,
+targets the same dense matrix math as the GPU; for a data pipeline the
+decision that matters is still CPU versus GPU. Further reading: Google’s
+<a href="https://cloud.google.com/tpu/docs/intro-to-tpu" class="external-link">introduction to
+TPUs</a>.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Representative on-demand Linux CPU price, about 0,045 €
+per vCPU-hour, roughly 0,034 € to 0,055 € across AWS, GCP, and Azure
+general-purpose instances, mid-2026. Cloud prices change; the figure is
+illustrative.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>An NVIDIA H100 runs about 3 € per GPU-hour on specialist
+clouds and 7 € to 12 € on the large providers, mid-2026. Against about
+0,045 € per CPU-hour that is roughly 70 to 250 times more; we use the
+low end, which is the most favorable to the GPU. Prices change.<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>Order-of-magnitude estimate: a roughly
+70-billion-parameter judge in fp8 on an H100, batched, scoring documents
+of about 690 tokens each, processes on the order of 10.000 documents per
+GPU-hour, derived from public <a href="https://docs.nvidia.com/nim/benchmarking/llm/latest/performance.html" class="external-link">NVIDIA
+inference benchmarks</a>. Actual throughput varies with model, hardware,
+and batching.<a href="#fnref6" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div></section><section id="aio-06-cheap-proxies"><p>Content from <a href="06-cheap-proxies.html">Cheap proxies for good text</a></p>
+<hr>
+<p>Last updated on 2026-11-02 |
+
+        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/06-cheap-proxies.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section><h2 class="section-heading" id="cheap-proxies-for-good-text">Cheap proxies for good text<a class="anchor" aria-label="anchor" href="#cheap-proxies-for-good-text"></a>
+</h2>
+<hr class="half-width">
+<p><a href="#part-3">Part 3</a> ended on a sharp question: can a
+pipeline keep the judgment of a language model while paying something
+close to the price of a surface heuristic? Answering it means facing a
+harder question the pipeline has so far avoided. Every step has sorted
+documents into good and bad without ever saying what <em>good</em>
+means: <a href="#part-1">Part 1</a> caught malformed text and removed
+duplicates, <a href="#part-3">Part 3</a> scored surface form, yet none
+of them defined the quality they were chasing. This part confronts that
+gap first, then shows the practical answer a real pipeline uses.</p>
+</section><section><h2 class="section-heading" id="bad-is-easy-to-spot-good-is-not">Bad is easy to spot, good is not<a class="anchor" aria-label="anchor" href="#bad-is-easy-to-spot-good-is-not"></a>
+</h2>
+<hr class="half-width">
+<p>Defining bad text is straightforward. Bad text has signs you can
+count: it is too short, it is mostly symbols, it repeats one line, it is
+a duplicate of something you already kept. Part 1 caught all of these by
+counting characters, because a malformed document reveals itself in its
+shape.</p>
+<p>Good text has no such signs. There is no measurement you can run on a
+single document that returns “this is worth learning from”, because
+worth is <em>fitness for use</em> (<a href="#part-0">Part 0</a>): it
+depends on the goal you are training for and on what the model still
+needs to learn, neither of which is written on the page. So nobody
+filtering data ever truly writes down what good is. They pick a
+<em>proxy</em> for it: a property they can measure on each document,
+chosen because it tends to track quality even though it is not quality
+itself. The proxy that FineWeb introduced is <strong>educational
+value</strong>: how much genuine, learnable information a document
+carries, scored on a small 0-to-5 scale by a classifier trained on
+LLM-written ratings (<a href="#ref-penedo2024fineweb">Penedo et
+al. 2024</a>). It was chosen for three reasons, in rising order of
+importance: it is intuitive to people, it is cheap enough to score
+across the whole web, and, above all, models trained on the data it
+selects do better on the benchmarks. Educational value is a deliberate
+choice, open to debate, which is why even trained human annotators
+disagree on the borderline cases (<a href="#ref-ali2025jql">Ali et
+al. 2025</a>).</p>
+<p>This difference shapes the rest of the work. You can define bad up
+front and act on it cheaply. For good, you choose a proxy, apply it, and
+only find out whether the choice was sound much later, by training a
+model on the result and measuring how it does.</p>
+</section><section><h2 class="section-heading" id="every-quality-signal-is-a-cheap-proxy">Every quality signal is a cheap proxy<a class="anchor" aria-label="anchor" href="#every-quality-signal-is-a-cheap-proxy"></a>
+</h2>
+<hr class="half-width">
+<p>Seen this way, the tools in Parts 1 to 3 share one idea. A
+<strong>surface heuristic</strong> is a cheap proxy for “is this
+well-formed?”. An <strong>LLM judge</strong> is an expensive proxy for
+“would a careful reader call this good?”. Each replaces a judgment we
+cannot make directly with a measurement we can.</p>
+<p><strong>Key takeaway</strong></p>
+<p><strong>Every quality signal is a cheap proxy for an expensive
+judgment.</strong> The recipe is always the same: take the most
+trustworthy judgment you can afford, then distill it into a cheaper one,
+and repeat, each step trading a little accuracy for a large cut in cost,
+until the signal is cheap enough to run at the scale you need.</p>
+<p>That recipe stacks the judges in tiers, three of them. It helps to
+start at the most trustworthy, most expensive tier and work down, since
+each tier exists only to make the one below it affordable.</p>
+<p><strong>The top tier is human judgment.</strong> The closest thing to
+a true measure of whether a document is worth learning from is a person
+reading it, the way an editor decides what belongs in a book. It is also
+the costliest: a qualified annotator spends minutes per document and is
+paid by the hour, so scoring runs into euros per document<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, against fractions of
+a cent for a model. Reading the roughly five billion surviving documents
+by hand is impossible, so people never judge the whole corpus. They
+score a small, curated <strong>seed</strong> instead, the same kind of
+high-trust curated data from <a href="#part-1">Part 1</a>.</p>
+<p><strong>The middle tier is a large language model, calibrated against
+that seed.</strong> A capable model can read a document and rate it much
+as a person would, and the seed is how you check that it does: you keep
+the model whose scores track the human ones. But a model big enough to
+judge well is still far too expensive to run on the whole web, around
+<strong>1,5 million €</strong> for a single pass (<a href="#part-3">Part
+3</a>). So it never sees every document either. It judges a larger
+<em>sample</em>, big enough to teach the next tier but far short of the
+full corpus.</p>
+<p><strong>The bottom tier is a small model that runs
+everywhere.</strong> The sample the large model judged becomes training
+data for a small, cheap model that reproduces its verdicts at a fraction
+of the cost, light enough to score every surviving document. Each tier,
+in short, trains or calibrates the one beneath it: people vouch for the
+large model, and the large model labels the data that teaches the small
+one.</p>
+<p>This three-tier chain is what JQL (Judging Quality across Languages,
+pronounced <em>Jackal</em>) (<a href="#ref-ali2025jql">Ali et
+al. 2025</a>) builds; it came after OpenGPT-X and sharpens the same
+idea, and the details belong to the paper. The shape is always the same:
+pay one large cost once, on a sample, so a cheap step can run at
+scale.</p>
+<p>Plot the tiers by cost and coverage and they fall on a single
+downward line: the cheaper a judgment is per document, the more
+documents it can afford to run on. The costliest tier, human review,
+reaches only a curated seed; the cheapest, surface filters, runs across
+the whole web:</p>
+<figure><img src="fig/part4/quality-funnel.svg" alt="A log-log scatter plot. The horizontal axis is the number of documents a judgment runs on, from ten thousand to a trillion; the vertical axis is cost per document in euros. Three judgment tiers fall on a downward line from top-left to bottom-right: human review of a curated seed at about 10 euro per document; the LLM judge at about 0,0003 euro per document over the roughly 5 billion survivors; and surface filters plus deduplication at about 0,00000007 euro per document across the whole web. An open marker at the bottom right is the raw web of 173 billion documents, ungraded." class="figure mx-auto d-block"><div class="figcaption">A log-log scatter plot. The horizontal axis is
+the number of documents a judgment runs on, from ten thousand to a
+trillion; the vertical axis is cost per document in euros. Three
+judgment tiers fall on a downward line from top-left to bottom-right:
+human review of a curated seed at about 10 euro per document; the LLM
+judge at about 0,0003 euro per document over the roughly 5 billion
+survivors; and surface filters plus deduplication at about 0,00000007
+euro per document across the whole web. An open marker at the bottom
+right is the raw web of 173 billion documents, ungraded.</div>
+</figure><p>Figure 10: The judgment tiers on a cost-versus-coverage plot, both
+axes logarithmic. They fall on a downward line: human review costs about
+10 € per document but reaches only a curated seed; the LLM judge costs
+about 0,0003 € and reaches the ~5 billion survivors; surface filters and
+deduplication cost about 0,00000007 € and run across the whole web. The
+raw web of 173 billion documents sits ungraded on the baseline.</p>
+<p>Each tier down is cheaper than the one above, which invites one last
+question: could you take one more step and drop the model too? If some
+surface heuristic tracked the model’s verdicts closely enough, you could
+filter with plain character counts and skip the reading entirely. Nobody
+has found one that does, and <a href="#part-3">Part 3</a> is the reason
+to doubt one exists: surface form does not determine value, so a rule
+that only counts characters has nothing to read meaning with. Whether a
+rich enough set of surface features could ever line up perfectly with
+content is genuinely open; what we know is that none does today. So in
+practice the chain bottoms out at a small model that reads what the
+words mean, and for now there is no cheaper tier beneath it.</p>
+<p>The distilled model now puts a cheap value score on every surviving
+document, which turns the next step into a question: given a score for
+each document, where do you set the cutoff?</p>
+<div class="section level3">
+<h3 id="filtering-on-rank-rather-than-score">Filtering on rank rather than score<a class="anchor" aria-label="anchor" href="#filtering-on-rank-rather-than-score"></a>
+</h3>
+<p>A proxy that runs on every language raises a practical problem the
+moment you try to filter with it. A model returns a quality
+<em>score</em>, and you keep documents above some cutoff. But the
+score’s scale is arbitrary: one judge may rate most documents around 1,
+another around 4, while both rank documents in nearly the same order. An
+absolute cutoff like “keep everything scoring 3 or higher” then means
+something different for each judge and each language. The fix is to
+threshold on <strong>rank</strong>: keep the top share of documents,
+whatever their raw scores happen to be.</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="co"># Two quality judges score the same 10 documents from 0 to 5. They agree on the</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a><span class="co"># ranking but sit on different scales: "strict" clusters low, "generous" high.</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>strict   <span class="op">=</span> [<span class="fl">0.5</span>, <span class="fl">0.8</span>, <span class="fl">1.0</span>, <span class="fl">1.2</span>, <span class="fl">1.5</span>, <span class="fl">1.8</span>, <span class="fl">2.1</span>, <span class="fl">2.4</span>, <span class="fl">2.8</span>, <span class="fl">3.2</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a>generous <span class="op">=</span> [<span class="fl">2.1</span>, <span class="fl">2.6</span>, <span class="fl">3.0</span>, <span class="fl">3.3</span>, <span class="fl">3.6</span>, <span class="fl">3.9</span>, <span class="fl">4.1</span>, <span class="fl">4.3</span>, <span class="fl">4.6</span>, <span class="fl">4.9</span>]</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a><span class="kw">def</span> keep_absolute(scores, cutoff<span class="op">=</span><span class="fl">3.0</span>):</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>    <span class="cf">return</span> <span class="bu">sum</span>(s <span class="op">&gt;=</span> cutoff <span class="cf">for</span> s <span class="kw">in</span> scores)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a><span class="kw">def</span> keep_top_fraction(scores, fraction<span class="op">=</span><span class="fl">0.4</span>):</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>    <span class="co"># keep the best-scoring `fraction` of documents, whatever the scale</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>    ranked <span class="op">=</span> <span class="bu">sorted</span>(scores)</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a>    cut <span class="op">=</span> ranked[<span class="bu">int</span>(<span class="bu">len</span>(scores) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> fraction))]</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a>    <span class="cf">return</span> <span class="bu">sum</span>(s <span class="op">&gt;=</span> cut <span class="cf">for</span> s <span class="kw">in</span> scores)</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1" aria-label="code-block-1-16"></a><span class="cf">for</span> name, scores <span class="kw">in</span> [(<span class="st">"strict"</span>, strict), (<span class="st">"generous"</span>, generous)]:</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1" aria-label="code-block-1-17"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:8}</span><span class="ss">  absolute &gt;=3.0 keeps </span><span class="sc">{</span>keep_absolute(scores)<span class="sc">}</span><span class="ss">/10"</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1" aria-label="code-block-1-18"></a>          <span class="ss">f"   top 40% keeps </span><span class="sc">{</span>keep_top_fraction(scores)<span class="sc">}</span><span class="ss">/10"</span>)</span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="ex">strict</span>    absolute <span class="op">&gt;</span>=3.0 keeps 1/10   top 40% keeps 4/10</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="ex">generous</span>  absolute <span class="op">&gt;</span>=3.0 keeps 8/10   top 40% keeps 4/10</span></code></pre>
+</div>
+<p>The absolute cutoff keeps almost nothing from the strict judge and
+almost everything from the generous one, even though both ranked the
+documents the same way. The rank-based cutoff keeps the same share from
+each, so the filter means the same thing no matter which judge or which
+language produced the scores. It also gives you one clear control: the
+fraction you keep sets the trade-off between corpus size and average
+quality directly.</p>
+<p><strong>Your turn</strong></p>
+<p>Tightening the rank cutoff is only one way to raise the value of what
+you keep, and it always costs you corpus size. Name two <em>other</em>
+levers that improve the average quality of the surviving documents
+without simply keeping a smaller top share. Then consider the case
+OpenGPT-X actually used: a document is kept only if <em>three</em>
+independent judges each rank it in their own top share. Why would
+requiring agreement be safer than trusting one judge’s ranking?</p>
+<p><strong>One way to reason about it</strong></p>
+<p>Tightening the cutoff just moves along the quality-versus-quantity
+trade-off: a smaller corpus, higher average quality, nothing new gained.
+The other levers change the trade-off itself. <strong>Source
+mixing</strong>, upsampling high-value sources and downsampling
+low-value ones, lifts the average without judging any single document
+harder. And <strong>combining signals of different kinds</strong>, an
+LLM judge that reads meaning together with deterministic surface
+metrics, catches what either alone would miss: the judge scores value,
+the counts catch the malformed cases it overlooks. Requiring three
+judges to agree is a variation on that same idea: it guards against any
+one of them being wrong, since a single proxy has blind spots and noise,
+and a document that three differently-trained judges all rank highly is
+a safer choice than one that only a single model rated highly.</p>
+</div>
+</section><section><h2 class="section-heading" id="a-wider-family-of-proxies">A wider family of proxies<a class="anchor" aria-label="anchor" href="#a-wider-family-of-proxies"></a>
+</h2>
+<hr class="half-width">
+<p>Every proxy so far has done the same thing: score a whole document
+from its text, by its shape with a surface heuristic or by its meaning
+with an LLM judge, then keep it or drop it. Those are not the only
+instruments. Two more are worth knowing, because they show how broad the
+idea of a quality signal really is.</p>
+<p>The first reads something other than the text at all. A document
+carries <em>implicit</em> signals from how the web treated it: how many
+pages link to it, where a search engine ranks it, how often people click
+or stay. These judge a page by its reception rather than its words, so
+they need neither a surface heuristic nor an LLM judge. OpenGPT-X did
+not use them, but they are a standing option.</p>
+<p>The second does read the text, but asks a narrower question: how
+surprising is the text? To measure it, you can run a small language
+model over a document and measure its <em>perplexity</em>, how surprised
+the model is by the words: text that resembles the clean reference the
+model was trained on scores low, while gibberish, boilerplate, and spam
+score high.</p>
+<p>Taken together, these signals are a reminder that quality can be
+guessed from almost anywhere, not only a literal reading of the words on
+the page.</p>
+</section><section><h2 class="section-heading" id="what-good-still-leaves-open">What “good” still leaves open<a class="anchor" aria-label="anchor" href="#what-good-still-leaves-open"></a>
+</h2>
+<hr class="half-width">
+<p>JQL gives a strong, cheap proxy for good text and runs it across
+every language. It still leaves the definition of good itself open. Each
+step in this material has approximated good with something it could
+measure: <a href="#part-1">Part 1</a> with well-formedness, and with
+whether a document added anything new or merely repeated what was
+already kept, <a href="#part-3">Part 3</a> with those same surface
+heuristics, which it showed cannot reach value, and Part 4 with a
+model’s value score. Underneath all of them, the final test of whether
+any of it worked is how the trained model does on a benchmark, which is
+itself a proxy for the quality we actually care about. The
+approximations stack, and at the bottom there is no measurement that
+reads “this text is good”.</p>
+<p>This is the honest shape of the problem. Defining good text well
+enough to measure it, and across every language at once, is open
+research, and the choice of proxy decides what kind of model the data
+will make.</p>
+</section><section><h2 class="section-heading" id="recap">Recap<a class="anchor" aria-label="anchor" href="#recap"></a>
+</h2>
+<hr class="half-width">
+<p>Part 4 reframed the whole pipeline as a sequence of proxies. Bad text
+is definable and can be filtered cheaply; good text cannot be defined
+outright, so every quality signal is a cheap proxy for it, something
+measurable, and the only test of the choice comes downstream. Because a
+proxy good enough to read value is expensive to run, the move is to pay
+for it once on a sample and distill it into a cheap model that runs on
+the billions. Filtering on rank rather than raw score makes that proxy
+behave consistently across judges and languages. What remains open is
+the thing underneath: what makes text good at all.</p>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+
+</div>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</section><div class="footnotes footnotes-end-of-document">
+<hr>
+<ol>
+<li id="fn1"><p>Illustrative: a qualified annotator costs on the order
+of tens of euros an hour and scores only a handful of documents in that
+time, so human scoring runs to euros per document, orders of magnitude
+above an LLM judge at about 0,0003 € per document. The machine prices
+behind that comparison, about 0,045 € per CPU-hour and about 3 € per
+GPU-hour with their sources, are in the cost footnotes of <a href="#part-3">Part 3</a>.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div></section><section id="aio-07-closing"><p>Content from <a href="07-closing.html">Closing</a></p>
+<hr>
+<p>Last updated on 2026-11-02 |
+
+        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/07-closing.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul><li>
+</li></ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section><h2 class="section-heading" id="closing">Closing<a class="anchor" aria-label="anchor" href="#closing"></a>
+</h2>
+<hr class="half-width">
+<p>This material set out to answer one question: where does the enormous
+amount of suitable text a language model needs come from, and what does
+<em>suitable</em> even mean. Four parts on, both halves have an answer.
+Where the text comes from is now concrete: curated and web sources,
+drawn along the two paths of Part 1 and reduced, cheaply and in the
+right order, to the clean fraction worth keeping. What <em>suitable</em>
+means turned out to be the harder finding: bad text can be defined up
+front by the tells you can count, but good text has none, so it can only
+be approximated by a proxy and confirmed after the fact.</p>
+<p>Read back through the parts, here is what each was meant to leave you
+with:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr>
+<th>Part</th>
+<th>What you learned</th>
+<th>How to apply it</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>1) The pipeline</strong></td>
+<td>Turn curated and web text into one clean, shared record, and keep
+that record <em>traceable</em>.</td>
+<td>Save the metadata and intermediate outputs as you go.</td>
+</tr>
+<tr>
+<td><strong>2 Working at scale</strong></td>
+<td>At web scale every step is also a compute decision; wall-clock time,
+tied to the project’s compute window, is the budget that binds.</td>
+<td>Run the cheap, decisive cuts first and the expensive comparisons
+last.</td>
+</tr>
+<tr>
+<td><strong>3) The quality question</strong></td>
+<td>Cheap surface heuristics judge a document’s <em>form</em> but stay
+blind to its <em>value</em>; reading value means paying for a
+model.</td>
+<td>Never ask a surface filter whether text is <em>worth</em> learning
+from; it knows only the shape.</td>
+</tr>
+<tr>
+<td><strong>4) Cheap proxies for good text</strong></td>
+<td>Good text cannot be defined outright, so every quality signal is a
+cheap proxy you can confirm only after training.</td>
+<td>Treat a quality score as a hypothesis to test downstream, not a
+ground truth to trust up front.</td>
+</tr>
+</tbody>
+</table>
+<p>A language model is a product of its training data, so every decision
+taken before training, what to keep, what to call good, what to discard,
+is a decision about what the model can become. None of it shows in the
+finished weights, yet all of it is already there.</p>
+<p><strong>What we did not cover</strong></p>
+<p>This material stops at preparing crawled and curated text. The
+biggest neighbor it leaves out is <strong>synthetic data</strong>, text
+generated by a model rather than collected, which sidesteps the crawl
+entirely but brings its own quality and diversity questions (see this <a href="https://arxiv.org/abs/2404.07503" class="external-link">survey of best practices</a>).
+Tokenization and the <em>mixing weights</em> that set how much of each
+source a model sees are likewise their own topics.</p>
+<p>A closing word on where to take this. The field moves quickly, and
+the specifics will date faster than the principles: the libraries turn
+over and the judges keep improving. What carries forward is the way of
+thinking, keep the data traceable, match each step to its budget, and
+treat every quality signal as a proxy you still have to check. Hold on
+to those, and the next tool will be easy to learn.</p>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 
 </div>
@@ -449,9 +2479,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://carpentries.github.io/workbench-template-md/aio.html",
   "identifier": "https://carpentries.github.io/workbench-template-md/aio.html",
-  "dateCreated": "2026-11-01",
-  "dateModified": "2026-11-01",
-  "datePublished": "2026-11-01"
+  "dateCreated": "2026-11-02",
+  "dateModified": "2026-11-02",
+  "datePublished": "2026-11-02"
 }
 
   </script><script>

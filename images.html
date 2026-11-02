@@ -244,7 +244,79 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. </a>
+        <a href="01-introduction.html">1. Introduction</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush3">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading3">
+        <a href="02-concepts.html">2. Basic Concepts</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush4">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading4">
+        <a href="03-pipeline.html">3. The pipeline</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush5">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading5">
+        <a href="04-working-at-scale.html">4. Working at scale</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="05-quality-question.html">5. The quality question</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush7">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading7">
+        <a href="06-cheap-proxies.html">6. Cheap proxies for good text</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush8">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading8">
+        <a href="07-closing.html">7. Closing</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -326,7 +398,106 @@
     <main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>All Images</h1>
         
-<section id="introduction"><h2 class="section-heading"><a href="introduction.html"></a></h2>
+<section id="01-introduction"><h2 class="section-heading"><a href="01-introduction.html">Introduction</a></h2>
+<hr class="half-width"></section><section id="02-concepts"><h2 class="section-heading"><a href="02-concepts.html">Basic Concepts</a></h2>
+<hr class="half-width"></section><section id="03-pipeline"><h2 class="section-heading"><a href="03-pipeline.html">The pipeline</a></h2>
+<hr class="half-width">
+<h3 id="03-pipeline-figure-1">Figure 1</h3>
+<p aria-hidden="true">Image 1 of 1: ‘A mock web page: a cookie banner, a left navigation menu, an advertisement block, and a boilerplate footer all marked as noise to strip, surrounding a central article-body block marked to keep.’</p>
+<figure><img src="fig/part1/uneven-web-text.svg" alt="A mock web page: a cookie banner, a left navigation menu, an advertisement block, and a boilerplate footer all marked as noise to strip, surrounding a central article-body block marked to keep." class="figure mx-auto d-block"><div class="figcaption">A mock web page: a cookie banner, a left
+navigation menu, an advertisement block, and a boilerplate footer all
+marked as noise to strip, surrounding a central article-body block
+marked to keep.</div>
+</figure><hr>
+<h3 id="03-pipeline-figure-2">Figure 2</h3>
+<p aria-hidden="true">Image 1 of 1: ‘Left-to-right flow: Curated sources (PDF, XML, ePub) to Format conversion, to Content normalization, to Language detection, to Metadata normalization, to Light filter, to the shared JSONL record.’</p>
+<figure><img src="fig/part1/curated-pipeline.svg" alt="Left-to-right flow: Curated sources (PDF, XML, ePub) to Format conversion, to Content normalization, to Language detection, to Metadata normalization, to Light filter, to the shared JSONL record." class="figure mx-auto d-block"><div class="figcaption">Left-to-right flow: Curated sources (PDF, XML,
+ePub) to Format conversion, to Content normalization, to Language
+detection, to Metadata normalization, to Light filter, to the shared
+JSONL record.</div>
+</figure><hr>
+<h3 id="03-pipeline-figure-3">Figure 3</h3>
+<p aria-hidden="true">Image 1 of 1: ‘Two-row flow. Top row left-to-right: Common Crawl (WARC, WET) to Normalize, to Quality scoring, to Harmful-content scoring, to Language detection. It wraps to a bottom row reading right-to-left: Prefilter, Filter, Deduplicate (MinHash, LSH), then the shared JSONL record.’</p>
+<figure><img src="fig/part1/web-pipeline.svg" alt="Two-row flow. Top row left-to-right: Common Crawl (WARC, WET) to Normalize, to Quality scoring, to Harmful-content scoring, to Language detection. It wraps to a bottom row reading right-to-left: Prefilter, Filter, Deduplicate (MinHash, LSH), then the shared JSONL record." class="figure mx-auto d-block"><div class="figcaption">Two-row flow. Top row left-to-right: Common
+Crawl (WARC, WET) to Normalize, to Quality scoring, to Harmful-content
+scoring, to Language detection. It wraps to a bottom row reading
+right-to-left: Prefilter, Filter, Deduplicate (MinHash, LSH), then the
+shared JSONL record.</div>
+</figure><hr>
+<h3 id="03-pipeline-figure-4">Figure 4</h3>
+<p aria-hidden="true">Image 1 of 1: ‘A four-by-four similarity matrix shown as a heatmap. The diagonal is grey and labeled self. The lower triangle is blank because the matrix is symmetric. In the upper triangle, the cell for document 0 versus document 1 is fully dark at 1.00 and the cells for document 0 and document 1 versus document 2 are dark at 0.89, all three outlined in orange as duplicates above the 0.50 threshold; every cell involving the unrelated document 3 is white at 0.00.’</p>
+<figure><img src="fig/part1/dedup-heatmap.svg" alt="A four-by-four similarity matrix shown as a heatmap. The diagonal is grey and labeled self. The lower triangle is blank because the matrix is symmetric. In the upper triangle, the cell for document 0 versus document 1 is fully dark at 1.00 and the cells for document 0 and document 1 versus document 2 are dark at 0.89, all three outlined in orange as duplicates above the 0.50 threshold; every cell involving the unrelated document 3 is white at 0.00." class="figure mx-auto d-block"><div class="figcaption">A four-by-four similarity matrix shown as a
+heatmap. The diagonal is grey and labeled self. The lower triangle is
+blank because the matrix is symmetric. In the upper triangle, the cell
+for document 0 versus document 1 is fully dark at 1.00 and the cells for
+document 0 and document 1 versus document 2 are dark at 0.89, all three
+outlined in orange as duplicates above the 0.50 threshold; every cell
+involving the unrelated document 3 is white at 0.00.</div>
+</figure><hr></section><section id="04-working-at-scale"><h2 class="section-heading"><a href="04-working-at-scale.html">Working at scale</a></h2>
+<hr class="half-width">
+<h3 id="04-working-at-scale-figure-1">Figure 1</h3>
+<p aria-hidden="true">Image 1 of 1: ‘A logarithmic deep-time scale, today at the right and the distant past at the left. Two bars show how far back nonstop reading would reach: all 173 billion raw documents about 1,2 million years, roughly four times longer than Homo sapiens has existed; the five billion survivors about 35.000 years, as old as the first cave paintings. The founding of Rome, about 2.800 years ago, sits as a thin sliver near today.’</p>
+<figure><img src="fig/part2/web-scale.svg" alt="A logarithmic deep-time scale, today at the right and the distant past at the left. Two bars show how far back nonstop reading would reach: all 173 billion raw documents about 1,2 million years, roughly four times longer than Homo sapiens has existed; the five billion survivors about 35.000 years, as old as the first cave paintings. The founding of Rome, about 2.800 years ago, sits as a thin sliver near today." class="figure mx-auto d-block"><div class="figcaption">A logarithmic deep-time scale, today at the
+right and the distant past at the left. Two bars show how far back
+nonstop reading would reach: all 173 billion raw documents about 1,2
+million years, roughly four times longer than Homo sapiens has existed;
+the five billion survivors about 35.000 years, as old as the first cave
+paintings. The founding of Rome, about 2.800 years ago, sits as a thin
+sliver near today.</div>
+</figure><hr>
+<h3 id="04-working-at-scale-figure-2">Figure 2</h3>
+<p aria-hidden="true">Image 1 of 1: ‘A proportional bar of total CPU time by stage, scaled to about 31 years on one CPU core: conversion about 0,8 years (6.912 CPU hours), filtering about 5,2 years (45.810 CPU hours), and deduplication about 25,3 years (221.230 CPU hours). Deduplication dominates and runs last.’</p>
+<figure><img src="fig/part2/compute-spread.svg" alt="A proportional bar of total CPU time by stage, scaled to about 31 years on one CPU core: conversion about 0,8 years (6.912 CPU hours), filtering about 5,2 years (45.810 CPU hours), and deduplication about 25,3 years (221.230 CPU hours). Deduplication dominates and runs last." class="figure mx-auto d-block"><div class="figcaption">A proportional bar of total CPU time by stage,
+scaled to about 31 years on one CPU core: conversion about 0,8 years
+(6.912 CPU hours), filtering about 5,2 years (45.810 CPU hours), and
+deduplication about 25,3 years (221.230 CPU hours). Deduplication
+dominates and runs last.</div>
+</figure><hr>
+<h3 id="04-working-at-scale-figure-3">Figure 3</h3>
+<p aria-hidden="true">Image 1 of 1: ‘A sorted bar chart of pipeline throughput by stage, in terabytes of raw data cleared per day. Upload completion about 25, deduplication about 20, conversion about 20, quality signals about 6,4, and download about 6,2. The two slowest stages, quality signals and download, are highlighted; at about 6 terabytes a day, about 725 terabytes take roughly 116 days.’</p>
+<figure><img src="fig/part2/throughput.svg" alt="A sorted bar chart of pipeline throughput by stage, in terabytes of raw data cleared per day. Upload completion about 25, deduplication about 20, conversion about 20, quality signals about 6,4, and download about 6,2. The two slowest stages, quality signals and download, are highlighted; at about 6 terabytes a day, about 725 terabytes take roughly 116 days." class="figure mx-auto d-block"><div class="figcaption">A sorted bar chart of pipeline throughput by
+stage, in terabytes of raw data cleared per day. Upload completion about
+25, deduplication about 20, conversion about 20, quality signals about
+6,4, and download about 6,2. The two slowest stages, quality signals and
+download, are highlighted; at about 6 terabytes a day, about 725
+terabytes take roughly 116 days.</div>
+</figure><hr></section><section id="05-quality-question"><h2 class="section-heading"><a href="05-quality-question.html">The quality question</a></h2>
+<hr class="half-width">
+<h3 id="05-quality-question-figure-1">Figure 1</h3>
+<p aria-hidden="true">Image 1 of 1: ‘A two-by-two grid. The horizontal axis is form, from poorly formed on the left to well-formed on the right. The vertical axis is value, from low at the bottom to high at the top. A vertical dashed line down the middle marks where a surface heuristic cuts: it keeps everything on the well-formed right half and drops the left half, regardless of value. Two corners are shaded as errors: the top-left, substantive but messy documents that the heuristic wrongly drops, and the bottom-right, well-formed but worthless documents such as spam that it wrongly keeps. Examples sit in each quadrant: an encyclopedia article top-right, spam bottom-right, a nav menu bottom-left, dense code or terse notes top-left.’</p>
+<figure><img src="fig/part3/shape-vs-value.svg" alt="A two-by-two grid. The horizontal axis is form, from poorly formed on the left to well-formed on the right. The vertical axis is value, from low at the bottom to high at the top. A vertical dashed line down the middle marks where a surface heuristic cuts: it keeps everything on the well-formed right half and drops the left half, regardless of value. Two corners are shaded as errors: the top-left, substantive but messy documents that the heuristic wrongly drops, and the bottom-right, well-formed but worthless documents such as spam that it wrongly keeps. Examples sit in each quadrant: an encyclopedia article top-right, spam bottom-right, a nav menu bottom-left, dense code or terse notes top-left." class="figure mx-auto d-block"><div class="figcaption">A two-by-two grid. The horizontal axis is form,
+from poorly formed on the left to well-formed on the right. The vertical
+axis is value, from low at the bottom to high at the top. A vertical
+dashed line down the middle marks where a surface heuristic cuts: it
+keeps everything on the well-formed right half and drops the left half,
+regardless of value. Two corners are shaded as errors: the top-left,
+substantive but messy documents that the heuristic wrongly drops, and
+the bottom-right, well-formed but worthless documents such as spam that
+it wrongly keeps. Examples sit in each quadrant: an encyclopedia article
+top-right, spam bottom-right, a nav menu bottom-left, dense code or
+terse notes top-left.</div>
+</figure><hr>
+<h3 id="05-quality-question-figure-2">Figure 2</h3>
+<p aria-hidden="true">Image 1 of 1: ‘A line chart on logarithmic axes (cost against number of documents) with three points on one straight line. Judging one million documents costs about 300 euros; fourteen million about 4.200 euros; and five billion, the full surviving corpus, about 1,5 million euros. Cost rises in proportion to the number of documents.’</p>
+<figure><img src="fig/part3/judge-cost-scale.svg" alt="A line chart on logarithmic axes (cost against number of documents) with three points on one straight line. Judging one million documents costs about 300 euros; fourteen million about 4.200 euros; and five billion, the full surviving corpus, about 1,5 million euros. Cost rises in proportion to the number of documents." class="figure mx-auto d-block"><div class="figcaption">A line chart on logarithmic axes (cost against
+number of documents) with three points on one straight line. Judging one
+million documents costs about 300 euros; fourteen million about 4.200
+euros; and five billion, the full surviving corpus, about 1,5 million
+euros. Cost rises in proportion to the number of documents.</div>
+</figure><hr></section><section id="06-cheap-proxies"><h2 class="section-heading"><a href="06-cheap-proxies.html">Cheap proxies for good text</a></h2>
+<hr class="half-width">
+<h3 id="06-cheap-proxies-figure-1">Figure 1</h3>
+<p aria-hidden="true">Image 1 of 1: ‘A log-log scatter plot. The horizontal axis is the number of documents a judgment runs on, from ten thousand to a trillion; the vertical axis is cost per document in euros. Three judgment tiers fall on a downward line from top-left to bottom-right: human review of a curated seed at about 10 euro per document; the LLM judge at about 0,0003 euro per document over the roughly 5 billion survivors; and surface filters plus deduplication at about 0,00000007 euro per document across the whole web. An open marker at the bottom right is the raw web of 173 billion documents, ungraded.’</p>
+<figure><img src="fig/part4/quality-funnel.svg" alt="A log-log scatter plot. The horizontal axis is the number of documents a judgment runs on, from ten thousand to a trillion; the vertical axis is cost per document in euros. Three judgment tiers fall on a downward line from top-left to bottom-right: human review of a curated seed at about 10 euro per document; the LLM judge at about 0,0003 euro per document over the roughly 5 billion survivors; and surface filters plus deduplication at about 0,00000007 euro per document across the whole web. An open marker at the bottom right is the raw web of 173 billion documents, ungraded." class="figure mx-auto d-block"><div class="figcaption">A log-log scatter plot. The horizontal axis is
+the number of documents a judgment runs on, from ten thousand to a
+trillion; the vertical axis is cost per document in euros. Three
+judgment tiers fall on a downward line from top-left to bottom-right:
+human review of a curated seed at about 10 euro per document; the LLM
+judge at about 0,0003 euro per document over the roughly 5 billion
+survivors; and surface filters plus deduplication at about 0,00000007
+euro per document across the whole web. An open marker at the bottom
+right is the raw web of 173 billion documents, ungraded.</div>
+</figure><hr></section><section id="07-closing"><h2 class="section-heading"><a href="07-closing.html">Closing</a></h2>
 <hr class="half-width"></section>
 </div>
     </main>
@@ -376,9 +547,9 @@
   "creativeWorkStatus": "active",
   "url": "https://carpentries.github.io/workbench-template-md/images.html",
   "identifier": "https://carpentries.github.io/workbench-template-md/images.html",
-  "dateCreated": "2026-11-01",
-  "dateModified": "2026-11-01",
-  "datePublished": "2026-11-01"
+  "dateCreated": "2026-11-02",
+  "dateModified": "2026-11-02",
+  "datePublished": "2026-11-02"
 }
 
   </script><script>

@@ -67,7 +67,13 @@ contact: 'team@carpentries.org' # FIXME
 
 # Order of episodes in your lesson
 episodes: 
-- introduction.md
+- 01-introduction.md
+- 02-concepts.md
+- 03-pipeline.md
+- 04-working-at-scale.md
+- 05-quality-question.md
+- 06-cheap-proxies.md
+- 07-closing.md
 
 # Information for Learners
 learners: 

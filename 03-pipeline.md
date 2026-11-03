@@ -22,7 +22,7 @@ How raw text becomes training data. We follow two paths, curated and web, from t
 
 ## Not all text is equal
 
-A model learns from whatever text it is shown, so the composition of the data (its sources, its domains, its quality) shapes how the model behaves ([Gao et al. 2020](#ref-gao2020pile); [Penedo et al. 2024](#ref-penedo2024fineweb)).
+A model learns from whatever text it is shown, so the composition of the data (its sources, its domains, its quality) shapes how the model behaves ([Gao et al. 2020](./reference.html#ref-gao2020pile); [Penedo et al. 2024](./reference.html#ref-penedo2024fineweb)).
 
 Raw text from the internet is uneven:
 
@@ -30,9 +30,9 @@ Raw text from the internet is uneven:
 - the same page can appear thousands of times
 - some text is spam or machine-generated filler
 
-![A mock web page: a cookie banner, a left navigation menu, an advertisement block, and a boilerplate footer all marked as noise to strip, surrounding a central article-body block marked to keep.](fig/part1/uneven-web-text.svg)
+![A mock web page: a cookie banner, a left navigation menu, an advertisement block, and a boilerplate footer all marked as noise to strip, surrounding a central article-body block marked to keep.](fig/part1/uneven-web-text.svg){alt="A diagram of a mock web page, showing the body as the important element, surrounded by various noise elements like navigation, cookie banners, ads, and boilerplate."}
 
-Figure 1: On a typical web page, the genuinely useful prose (the article body) is a small island in a sea of navigation, cookie banners, ads, and boilerplate. The pipeline’s job is to keep the island and discard the rest.
+On a typical web page, the genuinely useful prose (the article body) is a small island in a sea of navigation, cookie banners, ads, and boilerplate. The pipeline’s job is to keep the island and discard the rest.
 
 More text is not automatically better text. The job of a data pipeline is to turn a large, messy pile of raw text into a smaller body of training data that is actually worth learning from.
 
@@ -42,15 +42,15 @@ That job starts by splitting the raw material by where it came from: two kinds o
 
 **Curated sources** are collections that already passed through a human curation process before we ever saw them: a book has an editor, an encyclopedia has reviewers, parliamentary proceedings have an official transcriber. That editorial care, someone whose job was to make the text correct and coherent, is what makes them relatively clean, relatively small, and high value per token. They take the *light path*, precisely because most of the quality work was already done upstream.
 
-**Web data** comes from large crawls of the open internet. It is enormous and cheap to obtain, but mostly low value. It takes the *heavy path*: it needs aggressive cleaning before it is usable ([Penedo et al. 2024](#ref-penedo2024fineweb)).
+**Web data** comes from large crawls of the open internet. It is enormous and cheap to obtain, but mostly low value. It takes the *heavy path*: it needs aggressive cleaning before it is usable ([Penedo et al. 2024](./reference.html#ref-penedo2024fineweb)).
 
 The next two sections follow each path from its raw input to the shared JSON record they both produce.
 
 ## Curated pipeline
 
-![Left-to-right flow: Curated sources (PDF, XML, ePub) to Format conversion, to Content normalization, to Language detection, to Metadata normalization, to Light filter, to the shared JSONL record.](fig/part1/curated-pipeline.svg)
+![Left-to-right flow: Curated sources (PDF, XML, ePub) to Format conversion, to Content normalization, to Language detection, to Metadata normalization, to Light filter, to the shared JSONL record.](fig/part1/curated-pipeline.svg){alt="A diagram of the curated data pipeline, showing the flow from various source formats through conversion, normalization, detection, and filtering to the shared JSONL record."}
 
-Figure 2: The curated path, following Figure 1 of Brandizzi et al. ([2024](#ref-brandizzi2024data)): convert each source to plain text, normalize its content, detect its language, normalize its metadata, then apply light filtering. Both paths end in the same shared JSONL record.
+The curated path, following Figure 1 of Brandizzi et al. ([2024](./reference.html#ref-brandizzi2024data)): convert each source to plain text, normalize its content, detect its language, normalize its metadata, then apply light filtering. Both paths end in the same shared JSONL record.
 
 The curated path is short because the inputs are already orderly.
 
@@ -88,7 +88,7 @@ Printed, `raw` already looks clean, yet `repr` exposes the non-breaking spaces, 
 
 ### Language detection, metadata, and light filtering
 
-The Teuken models from the [introduction](#intro) span all 24 official EU languages. A multilingual model is trained on a deliberately balanced mix of those languages, so every document first has to be sorted into the one it is written in, something a monolingual (say English-only) pipeline never has to worry about. That means labeling each document with its language and a **confidence score**. That label, with a few other attributes (a unique id, the source URL, the date), is consolidated by **metadata normalization**. Every source describes its documents differently, so this step maps them all onto one schema. After it, every later step reads the same fields no matter where a document came from.
+The Teuken models from the [introduction](./01-introduction.html) span all 24 official EU languages. A multilingual model is trained on a deliberately balanced mix of those languages, so every document first has to be sorted into the one it is written in, something a monolingual (say English-only) pipeline never has to worry about. That means labeling each document with its language and a **confidence score**. That label, with a few other attributes (a unique id, the source URL, the date), is consolidated by **metadata normalization**. Every source describes its documents differently, so this step maps them all onto one schema. After it, every later step reads the same fields no matter where a document came from.
 
 Finally, a *light* filtering pass drops a document that is too short or whose language score is too low to trust. The pass is light because curated inputs are already fairly clean: the goal is to catch obvious problems and otherwise leave the corpus as it is.
 
@@ -161,9 +161,9 @@ Production pipelines do not hand-roll these steps. Language detection usually ru
 
 ## Web pipeline
 
-![Two-row flow. Top row left-to-right: Common Crawl (WARC, WET) to Normalize, to Quality scoring, to Harmful-content scoring, to Language detection. It wraps to a bottom row reading right-to-left: Prefilter, Filter, Deduplicate (MinHash, LSH), then the shared JSONL record.](fig/part1/web-pipeline.svg)
+![Two-row flow. Top row left-to-right: Common Crawl (WARC, WET) to Normalize, to Quality scoring, to Harmful-content scoring, to Language detection. It wraps to a bottom row reading right-to-left: Prefilter, Filter, Deduplicate (MinHash, LSH), then the shared JSONL record.](fig/part1/web-pipeline.svg){alt="The web data pipeline, which expands the curated pipeline earlier to include additional steps for handling raw web data, such as quality scoring, harmful-content scoring, and deduplication."}
 
-Figure 3: The web path, following Figure 2 of Brandizzi et al. ([2024](#ref-brandizzi2024data)): from Common Crawl, normalize aggressively, score for quality and harmful content, detect language, then prefilter, filter, and deduplicate before reaching the same shared JSONL record.
+The web path, following Figure 2 of Brandizzi et al. ([2024](./reference.html#ref-brandizzi2024data)): from Common Crawl, normalize aggressively, score for quality and harmful content, detect language, then prefilter, filter, and deduplicate before reaching the same shared JSONL record.
 
 The web path is longer because the input is raw and mostly unusable. The end goal is the same, but it takes many more steps.
 
@@ -236,7 +236,7 @@ The article keeps; the navigation block fails on words per line, and the log dum
 
 #### Harmful content
 
-Quality is not a single axis, though. The metrics above all ask *is this document-like?* A separate question is *is this safe?* Training data carries the **toxicity and harmful content** of its sources straight into the model’s behavior, so pipelines add a distinct **harmful-content** signal alongside the quality ones, dropping the worst material however clean the document’s shape looks ([Jansen et al. 2022](#ref-jansen2022perplexed)).
+Quality is not a single axis, though. The metrics above all ask *is this document-like?* A separate question is *is this safe?* Training data carries the **toxicity and harmful content** of its sources straight into the model’s behavior, so pipelines add a distinct **harmful-content** signal alongside the quality ones, dropping the worst material however clean the document’s shape looks ([Jansen et al. 2022](./reference.html#ref-jansen2022perplexed)).
 
 This check runs *before* language detection ([Figure 3](#fig-web)) because it needs no language label: a **domain blocklist** drops whole unsafe sites before they are fetched, and multilingual **word lists** catch documents heavy with slurs and profanity across languages.
 

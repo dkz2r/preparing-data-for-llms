@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<title>Lesson Title: All in One View</title>
+<title>Preparing Data for Large Language Models: All in One View</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="../assets/themetoggle.js"></script><link rel="stylesheet" type="text/css" href="../assets/styles.css">
 <script src="../assets/scripts.js" type="text/javascript"></script><!-- mathjax --><!-- NOTE: https://docs.mathjax.org/en/latest/output/mathml.html#mathml-support --><!-- Changes from V2 to V4: https://mathjax.github.io/MathJax-demos-web/convert-configuration/convert-configuration.html
@@ -103,7 +103,7 @@
       <img class="small-logo" alt="Carpentries Incubator" src="../assets/images/incubator-logo-sm.svg"></a>
     </div>
     <div class="lesson-title-md">
-      Lesson Title
+      Preparing Data for Large Language Models
     </div>
     <div class="search-icon-sm">
       <!-- TODO: do not show until we have search
@@ -114,7 +114,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 <li class="nav-item">
           <span class="lesson-title">
-            Lesson Title
+            Preparing Data for Large Language Models
           </span>
         </li>
         <li class="nav-item">
@@ -404,7 +404,7 @@
 <hr>
 <p>Last updated on 2026-11-02 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/01-introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/dkz2r/preparing-data-for-llms/edit/main/episodes/01-introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -552,9 +552,9 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-02-concepts"><p>Content from <a href="02-concepts.html">Basic Concepts</a></p>
 <hr>
-<p>Last updated on 2026-11-02 |
+<p>Last updated on 2026-11-03 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/02-concepts.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/dkz2r/preparing-data-for-llms/edit/main/episodes/02-concepts.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -624,15 +624,16 @@ three.</p>
 <p>There is no single number that captures whether text is “good.” The
 closest standard definition comes from ISO/IEC 25012, which describes
 data quality as the degree to which the characteristics of data satisfy
-stated and implied needs under specified conditions (<a href="file:///C:/Users/Jonathan/AppData/Local/Temp/c2eee7ab-b7a5-47db-a2d5-17d6bfdc57d7_draft_train_material.zip.7d7/_output/data-training-doc.html#ref-iso25012">International
+stated and implied needs under specified conditions (<a href="https://www.iso.org/standard/35736.html" class="external-link">International
 Organization for Standardization 2008</a>). An older and more intuitive
 phrasing calls quality fitness for use2: data is high quality when it
 serves the purpose you have for it.</p>
 <p>That phrasing carries a warning for everything that follows. Quality
 is defined against a use, and the use here is training a capable
 language model, so what counts as “good text” depends on a downstream
-outcome no filter can observe directly. Parts 3 and 4 return to
-this.</p>
+outcome no filter can observe directly. Later episodes (<a href=".././episodes/04-quality-question.html">The Quality Question</a> and
+<a href=".././episodes/05-cheap-proxies.html">Cheap Proxies for Good
+Text</a>) return to this.</p>
 </section><section><h2 class="section-heading" id="filters-and-signals">Filters and Signals<a class="anchor" aria-label="anchor" href="#filters-and-signals"></a>
 </h2>
 <hr class="half-width">
@@ -715,9 +716,9 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-03-pipeline"><p>Content from <a href="03-pipeline.html">The pipeline</a></p>
 <hr>
-<p>Last updated on 2026-11-02 |
+<p>Last updated on 2026-11-03 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/03-pipeline.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/dkz2r/preparing-data-for-llms/edit/main/episodes/03-pipeline.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -756,7 +757,9 @@ output.</p>
 <hr class="half-width">
 <p>A model learns from whatever text it is shown, so the composition of
 the data (its sources, its domains, its quality) shapes how the model
-behaves (<a href="#ref-gao2020pile">Gao et al. 2020</a>; <a href="#ref-penedo2024fineweb">Penedo et al. 2024</a>).</p>
+behaves (<a href="./reference.html#ref-gao2020pile">Gao et al. 2020</a>;
+<a href="./reference.html#ref-penedo2024fineweb">Penedo et
+al. 2024</a>).</p>
 <p>Raw text from the internet is uneven:</p>
 <ul>
 <li>clean prose sits next to navigation menus, cookie banners, and
@@ -764,14 +767,14 @@ boilerplate</li>
 <li>the same page can appear thousands of times</li>
 <li>some text is spam or machine-generated filler</li>
 </ul>
-<figure><img src="../fig/part1/uneven-web-text.svg" alt="A mock web page: a cookie banner, a left navigation menu, an advertisement block, and a boilerplate footer all marked as noise to strip, surrounding a central article-body block marked to keep." class="figure mx-auto d-block"><div class="figcaption">A mock web page: a cookie banner, a left
+<figure><img src="../fig/part1/uneven-web-text.svg" alt="A diagram of a mock web page, showing the body as the important element, surrounded by various noise elements like navigation, cookie banners, ads, and boilerplate." class="figure mx-auto d-block"><div class="figcaption">A mock web page: a cookie banner, a left
 navigation menu, an advertisement block, and a boilerplate footer all
 marked as noise to strip, surrounding a central article-body block
 marked to keep.</div>
-</figure><p>Figure 1: On a typical web page, the genuinely useful prose (the
-article body) is a small island in a sea of navigation, cookie banners,
-ads, and boilerplate. The pipeline’s job is to keep the island and
-discard the rest.</p>
+</figure><p>On a typical web page, the genuinely useful prose (the article body)
+is a small island in a sea of navigation, cookie banners, ads, and
+boilerplate. The pipeline’s job is to keep the island and discard the
+rest.</p>
 <p>More text is not automatically better text. The job of a data
 pipeline is to turn a large, messy pile of raw text into a smaller body
 of training data that is actually worth learning from.</p>
@@ -791,21 +794,21 @@ upstream.</p>
 <p><strong>Web data</strong> comes from large crawls of the open
 internet. It is enormous and cheap to obtain, but mostly low value. It
 takes the <em>heavy path</em>: it needs aggressive cleaning before it is
-usable (<a href="#ref-penedo2024fineweb">Penedo et al. 2024</a>).</p>
+usable (<a href="./reference.html#ref-penedo2024fineweb">Penedo et
+al. 2024</a>).</p>
 <p>The next two sections follow each path from its raw input to the
 shared JSON record they both produce.</p>
 </section><section><h2 class="section-heading" id="curated-pipeline">Curated pipeline<a class="anchor" aria-label="anchor" href="#curated-pipeline"></a>
 </h2>
 <hr class="half-width">
-<figure><img src="../fig/part1/curated-pipeline.svg" alt="Left-to-right flow: Curated sources (PDF, XML, ePub) to Format conversion, to Content normalization, to Language detection, to Metadata normalization, to Light filter, to the shared JSONL record." class="figure mx-auto d-block"><div class="figcaption">Left-to-right flow: Curated sources (PDF, XML,
+<figure><img src="../fig/part1/curated-pipeline.svg" alt="A diagram of the curated data pipeline, showing the flow from various source formats through conversion, normalization, detection, and filtering to the shared JSONL record." class="figure mx-auto d-block"><div class="figcaption">Left-to-right flow: Curated sources (PDF, XML,
 ePub) to Format conversion, to Content normalization, to Language
 detection, to Metadata normalization, to Light filter, to the shared
 JSONL record.</div>
-</figure><p>Figure 2: The curated path, following Figure 1 of Brandizzi et
-al. (<a href="#ref-brandizzi2024data">2024</a>): convert each source to
-plain text, normalize its content, detect its language, normalize its
-metadata, then apply light filtering. Both paths end in the same shared
-JSONL record.</p>
+</figure><p>The curated path, following Figure 1 of Brandizzi et al. (<a href="./reference.html#ref-brandizzi2024data">2024</a>): convert each
+source to plain text, normalize its content, detect its language,
+normalize its metadata, then apply light filtering. Both paths end in
+the same shared JSONL record.</p>
 <p>The curated path is short because the inputs are already orderly.</p>
 <div class="section level3">
 <h3 id="format-conversion-and-content-normalization">Format conversion and content normalization<a class="anchor" aria-label="anchor" href="#format-conversion-and-content-normalization"></a>
@@ -861,18 +864,17 @@ actually equal.</p>
 <div class="section level3">
 <h3 id="language-detection-metadata-and-light-filtering">Language detection, metadata, and light filtering<a class="anchor" aria-label="anchor" href="#language-detection-metadata-and-light-filtering"></a>
 </h3>
-<p>The Teuken models from the <a href="#intro">introduction</a> span all
-24 official EU languages. A multilingual model is trained on a
-deliberately balanced mix of those languages, so every document first
-has to be sorted into the one it is written in, something a monolingual
-(say English-only) pipeline never has to worry about. That means
-labeling each document with its language and a <strong>confidence
-score</strong>. That label, with a few other attributes (a unique id,
-the source URL, the date), is consolidated by <strong>metadata
-normalization</strong>. Every source describes its documents
-differently, so this step maps them all onto one schema. After it, every
-later step reads the same fields no matter where a document came
-from.</p>
+<p>The Teuken models from the <a href="./01-introduction.html">introduction</a> span all 24 official EU
+languages. A multilingual model is trained on a deliberately balanced
+mix of those languages, so every document first has to be sorted into
+the one it is written in, something a monolingual (say English-only)
+pipeline never has to worry about. That means labeling each document
+with its language and a <strong>confidence score</strong>. That label,
+with a few other attributes (a unique id, the source URL, the date), is
+consolidated by <strong>metadata normalization</strong>. Every source
+describes its documents differently, so this step maps them all onto one
+schema. After it, every later step reads the same fields no matter where
+a document came from.</p>
 <p>Finally, a <em>light</em> filtering pass drops a document that is too
 short or whose language score is too low to trust. The pass is light
 because curated inputs are already fairly clean: the goal is to catch
@@ -980,15 +982,15 @@ pass misses.</p>
 </section><section><h2 class="section-heading" id="web-pipeline">Web pipeline<a class="anchor" aria-label="anchor" href="#web-pipeline"></a>
 </h2>
 <hr class="half-width">
-<figure><img src="../fig/part1/web-pipeline.svg" alt="Two-row flow. Top row left-to-right: Common Crawl (WARC, WET) to Normalize, to Quality scoring, to Harmful-content scoring, to Language detection. It wraps to a bottom row reading right-to-left: Prefilter, Filter, Deduplicate (MinHash, LSH), then the shared JSONL record." class="figure mx-auto d-block"><div class="figcaption">Two-row flow. Top row left-to-right: Common
+<figure><img src="../fig/part1/web-pipeline.svg" alt="The web data pipeline, which expands the curated pipeline earlier to include additional steps for handling raw web data, such as quality scoring, harmful-content scoring, and deduplication." class="figure mx-auto d-block"><div class="figcaption">Two-row flow. Top row left-to-right: Common
 Crawl (WARC, WET) to Normalize, to Quality scoring, to Harmful-content
 scoring, to Language detection. It wraps to a bottom row reading
 right-to-left: Prefilter, Filter, Deduplicate (MinHash, LSH), then the
 shared JSONL record.</div>
-</figure><p>Figure 3: The web path, following Figure 2 of Brandizzi et al. (<a href="#ref-brandizzi2024data">2024</a>): from Common Crawl, normalize
-aggressively, score for quality and harmful content, detect language,
-then prefilter, filter, and deduplicate before reaching the same shared
-JSONL record.</p>
+</figure><p>The web path, following Figure 2 of Brandizzi et al. (<a href="./reference.html#ref-brandizzi2024data">2024</a>): from Common
+Crawl, normalize aggressively, score for quality and harmful content,
+detect language, then prefilter, filter, and deduplicate before reaching
+the same shared JSONL record.</p>
 <p>The web path is longer because the input is raw and mostly unusable.
 The end goal is the same, but it takes many more steps.</p>
 <div class="section level3">
@@ -1120,7 +1122,7 @@ safe?</em> Training data carries the <strong>toxicity and harmful
 content</strong> of its sources straight into the model’s behavior, so
 pipelines add a distinct <strong>harmful-content</strong> signal
 alongside the quality ones, dropping the worst material however clean
-the document’s shape looks (<a href="#ref-jansen2022perplexed">Jansen et
+the document’s shape looks (<a href="./reference.html#ref-jansen2022perplexed">Jansen et
 al. 2022</a>).</p>
 <p>This check runs <em>before</em> language detection (<a href="#fig-web">Figure 3</a>) because it needs no language label: a
 <strong>domain blocklist</strong> drops whole unsafe sites before they
@@ -1354,7 +1356,7 @@ before any later step sees it.<a href="#fnref1" class="footnote-back">↩︎</a>
 <hr>
 <p>Last updated on 2026-11-02 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/04-working-at-scale.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/dkz2r/preparing-data-for-llms/edit/main/episodes/04-working-at-scale.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -1595,7 +1597,7 @@ surface-level signals can separate good text from bad. <a href="#part-3">Part 3<
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 
 </div>
@@ -1635,7 +1637,7 @@ constraint is compute rather than correctness.<a href="#fnref1" class="footnote-
 <hr>
 <p>Last updated on 2026-11-02 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/05-quality-question.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/dkz2r/preparing-data-for-llms/edit/main/episodes/05-quality-question.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -1907,7 +1909,7 @@ score, and releases the resulting annotations as a dataset.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 
 </div>
@@ -1967,7 +1969,7 @@ and batching.<a href="#fnref6" class="footnote-back">↩︎</a></p></li>
 <hr>
 <p>Last updated on 2026-11-02 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/06-cheap-proxies.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/dkz2r/preparing-data-for-llms/edit/main/episodes/06-cheap-proxies.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -2298,7 +2300,7 @@ GPU-hour with their sources, are in the cost footnotes of <a href="#part-3">Part
 <hr>
 <p>Last updated on 2026-11-02 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/07-closing.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/dkz2r/preparing-data-for-llms/edit/main/episodes/07-closing.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -2452,14 +2454,14 @@ any links that you are not going to use.
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/README.md" class="external-link">Edit on GitHub</a>
+        <a href="https://github.com/dkz2r/preparing-data-for-llms/edit/main/README.md" class="external-link">Edit on GitHub</a>
 
 	
-        | <a href="https://github.com/carpentries/workbench-template-md/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
-        | <a href="https://github.com/carpentries/workbench-template-md/" class="external-link">Source</a></p>
+        | <a href="https://github.com/dkz2r/preparing-data-for-llms/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
+        | <a href="https://github.com/dkz2r/preparing-data-for-llms/" class="external-link">Source</a></p>
         <p>
         <a href="../citation.html">Cite</a>
-        | <a href="mailto:team@carpentries.org">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
+        | <a href="mailto:info@dkz2r.de">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 		</div>
 		<div class="col-md-6">
 
@@ -2479,16 +2481,16 @@ any links that you are not going to use.
     {
   "@context": "https://schema.org",
   "@type": "LearningResource",
-  "@id": "https://carpentries.github.io/workbench-template-md/instructor/aio.html",
+  "@id": "https://dkz2r.github.io/preparing-data-for-llms/instructor/aio.html",
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "software, data, lesson, The Carpentries",
+  "keywords": "data, large language models, LLMs, preprocessing",
   "name": "All in One View",
   "creativeWorkStatus": "active",
-  "url": "https://carpentries.github.io/workbench-template-md/instructor/aio.html",
-  "identifier": "https://carpentries.github.io/workbench-template-md/instructor/aio.html",
-  "dateCreated": "2026-11-02",
+  "url": "https://dkz2r.github.io/preparing-data-for-llms/instructor/aio.html",
+  "identifier": "https://dkz2r.github.io/preparing-data-for-llms/instructor/aio.html",
+  "dateCreated": "2026-08-25",
   "dateModified": "2026-11-03",
   "datePublished": "2026-11-03"
 }

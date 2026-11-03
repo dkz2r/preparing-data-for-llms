@@ -1,117 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/01-introduction.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/01-introduction.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/02-concepts.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/02-concepts.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/03-pipeline.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/03-pipeline.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/04-working-at-scale.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/04-working-at-scale.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/05-quality-question.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/05-quality-question.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/06-cheap-proxies.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/06-cheap-proxies.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/07-closing.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/07-closing.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/404.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/404.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/CODE_OF_CONDUCT.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/LICENSE.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/aio.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/aio.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/citation.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/citation.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/images.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/images.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/index.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/index.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/01-introduction.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/01-introduction.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/02-concepts.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/02-concepts.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/03-pipeline.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/03-pipeline.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/04-working-at-scale.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/04-working-at-scale.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/05-quality-question.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/05-quality-question.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/06-cheap-proxies.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/06-cheap-proxies.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/07-closing.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/07-closing.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/404.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/404.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/CODE_OF_CONDUCT.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/LICENSE.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/aio.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/aio.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/citation.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/citation.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/images.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/images.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/index.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/index.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/instructor-notes.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/instructor-notes.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/introduction.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/introduction.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/key-points.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/key-points.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/profiles.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/profiles.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/reference.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor/reference.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor-notes.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/instructor-notes.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/introduction.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/introduction.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/key-points.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/key-points.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/profiles.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/profiles.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/reference.html</loc>
+    <loc>https://dkz2r.github.io/preparing-data-for-llms/reference.html</loc>
   </url>
 </urlset>

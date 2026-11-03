@@ -37,12 +37,12 @@ Evaluation and fine-tuning sets are far smaller in volume than the training corp
 ## Data Quality
 
 There is no single number that captures whether text is “good.”
-The closest standard definition comes from ISO/IEC 25012, which describes data quality as the degree to which the characteristics of data satisfy stated and implied needs under specified conditions ([International Organization for Standardization 2008](file:///C:/Users/Jonathan/AppData/Local/Temp/c2eee7ab-b7a5-47db-a2d5-17d6bfdc57d7_draft_train_material.zip.7d7/_output/data-training-doc.html#ref-iso25012)).
+The closest standard definition comes from ISO/IEC 25012, which describes data quality as the degree to which the characteristics of data satisfy stated and implied needs under specified conditions ([International Organization for Standardization 2008](https://www.iso.org/standard/35736.html)).
 An older and more intuitive phrasing calls quality fitness for use2: data is high quality when it serves the purpose you have for it.
 
 That phrasing carries a warning for everything that follows.
 Quality is defined against a use, and the use here is training a capable language model, so what counts as “good text” depends on a downstream outcome no filter can observe directly.
-Parts 3 and 4 return to this.
+Later episodes ([The Quality Question](./episodes/04-quality-question.md) and [Cheap Proxies for Good Text](./episodes/05-cheap-proxies.md)) return to this.
 
 ## Filters and Signals
 

@@ -60,11 +60,46 @@ Curated sources arrive in many formats: PDF, XML, HTML, ePub. The first step is 
 
 This is small and unglamorous work, but it removes a whole class of downstream errors before they can spread.
 
+Let's start by reading in an example file and looking at how it looks when it is read in:
+
+``` python
+def read_file(filepath):
+    with open(filepath) as file_obj:
+        return file_obj.read()
+
+raw_text = read_file("data/messy_file.txt")
+```
+
+If we print the text from our file, it looks ok, but we see spaces and new lines:
+
+```python
+print(raw_text)
+```
+
+``` output
+CafÃ©  World		text   here
+
+
+
+
+```
+
+But looking at the "repr" (representation) of the text, we can see that there are some tabs (`\t`), new lines (`\n`) and even some unicode (`\\xa0`):
+
+```python
+repr(raw_text)
+```
+
+``` output
+"'CafÃ©\\xa0\\xa0World\\t\\ttext   here\\n\\n\\n\\n'"
+```
+
+Let's write a short function to clean these elements out of text we read in:
+
+
 ``` python
 import unicodedata
 import re
-
-raw = "Café\u00a0\u00a0World\t\ttext   here\r\n\r\n"
 
 def normalize(text):
     text = unicodedata.normalize("NFC", text)   # valid, canonical Unicode
@@ -72,23 +107,34 @@ def normalize(text):
                                                 # whitespace run: spaces, tabs,
                                                 # newlines, even non-breaking spaces
     return text.strip()                         # trim the edges
-
-print(raw)                   # on screen the hidden characters look like spaces
-print(repr(raw))             # the real string: non-breaking spaces, tabs, returns
-print(repr(normalize(raw)))  # after normalization: ordinary single spaces
 ```
 
-    Café  World     text   here
+We'll tie this together with our read_file function:
 
+``` python
+def read_and_normalize_file(filepath):
+    raw_text = read_file(filepath)
+    return normalize(raw_text)
 
-    'Café\xa0\xa0World\t\ttext   here\r\n\r\n'
-    'Café World text here'
+text = read_and_normalize_file("data/messy_file.txt")
+repr(text)
+```
+
+``` python
+"'CafÃ© World text here'"
+```
+
 
 Printed, `raw` already looks clean, yet `repr` exposes the non-breaking spaces, tabs, and carriage returns hiding inside it. The third line shows the same text after `normalize`, where every whitespace run has collapsed to a single ordinary space. Two strings can look identical on screen and still differ character for character, and that invisible mismatch is what later lets one copy of a document slip past deduplication, or makes a search for a phrase miss it. Normalization makes equal-looking text actually equal.
 
 ### Language detection, metadata, and light filtering
 
-The Teuken models from the [introduction](./01-introduction.html) span all 24 official EU languages. A multilingual model is trained on a deliberately balanced mix of those languages, so every document first has to be sorted into the one it is written in, something a monolingual (say English-only) pipeline never has to worry about. That means labeling each document with its language and a **confidence score**. That label, with a few other attributes (a unique id, the source URL, the date), is consolidated by **metadata normalization**. Every source describes its documents differently, so this step maps them all onto one schema. After it, every later step reads the same fields no matter where a document came from.
+The Teuken models from the [introduction](./01-introduction.html) span all 24 official EU languages.
+A multilingual model is trained on a deliberately balanced mix of those languages, so every document first has to be sorted into the one it is written in, something a monolingual (say English-only) pipeline never has to worry about.
+That means labeling each document with its language and a **confidence score**.
+That label, with a few other attributes (a unique id, the source URL, the date), is consolidated by **metadata normalization**.
+Every source describes its documents differently, so this step maps them all onto one schema.
+After it, every later step reads the same fields no matter where a document came from.
 
 Finally, a *light* filtering pass drops a document that is too short or whose language score is too low to trust. The pass is light because curated inputs are already fairly clean: the goal is to catch obvious problems and otherwise leave the corpus as it is.
 
@@ -105,55 +151,117 @@ STOPWORDS = {
 }
 
 def detect_language(text):
+    # Split the text into lowercase words and remove all punctuation
     words = [w.strip(".,!?;:") for w in text.lower().split()]
+    # Create a dictionary, where keys are the languages in our stopwords and values
+    # are the number of times those words appear in our word list
     hits = {lang: sum(w in sw for w in words) for lang, sw in STOPWORDS.items()}
     best = max(hits, key=hits.get)
     score = hits[best] / len(words) if words else 0.0
     return (best, score) if score > 0 else ("xx", 0.0)
 
-MIN_CHARS      = 20    # too short to be useful
-MIN_LANG_SCORE = 0.20  # below this share of known words, we do not trust the label
+```
 
-def keep(text):
-    lang, score = detect_language(text)
-    return len(text) >= MIN_CHARS and score >= MIN_LANG_SCORE
+We've implemented this function in the "pipeline_utils" file.
+Import it into your notebook like so:
 
+``` python
+from pipeline_utils import detect_language
+```
+
+We can try it out on some sample text:
+
+``` python
+detect_language("The model is trained on a lot of raw text.")
+```
+
+```output
+('en', 0.5)
+```
+
+``` python
+detect_language("Le chat dort.")
+```
+
+```output
+('fr', 0.3333333333333333)
+```
+
+:::::::::::::::::: challenge
+
+We would like to keep only those texts where we can confidently determine the language.
+Write a short function called "keep" that will return either a "True" or "False" based on the length of the text and the score returned by `detect_language`.
+Then, implement that function in a loop to determine which of the following documents to keep and, for those we do keep, which language they are:
+
+``` python
 docs = [
-    "The model is trained on a lot of raw text.",      # clear English
-    "Le chat dort.",                                   # clear French, but short
-    "Le chat est sur le tapis dans la maison.",        # clear French
-    "Questo testo non contiene parole molto comuni.",  # a language we did not list
+    "The model is trained on a lot of raw text.",
+    "Le chat dort.",
+    "Le chat est sur le tapis dans la maison.",
+    "Questo testo non contiene parole molto comuni.",
 ]
 ```
 
-Real pipelines usually threshold on token counts. We count characters here only to keep the example self-contained.
+How does this approach work? Can you craft a sentence that slips though but would still be worthless as training data?
 
-**Your turn**
+::: hint
 
-First, predict the output. For each document, what language and confidence does `detect_language` return, and does `keep()` keep it?
+Keep in mind that the language score alone isn't enough to determine if something is worth keeping!
 
-Then the harder question. `keep()` only sees length and a language score. Sketch a document that would clear *both* thresholds and still be worthless as training data. What does that tell you about what a filter like this can and cannot judge?
+:::
 
-**Solution**
+::: hint
 
-The detector’s verdict on each document, computed at render time:
+Some code to get you started:
 
 ``` python
-for d in docs:
-    lang, score = detect_language(d)
-    print(f"{lang} {score:4.0%}  {'keep' if keep(d) else 'DROP'}  {d}")
+
+def keep(text: str, any_additional_parameters):
+    # Your implementation here
+
+for doc in docs:
+    text = normalize(doc)
+    lang, score = detect_language(text)
+    verdict = keep(doc, any_additional_parameters)
+    print(f"{'KEEP' if verdict else 'DROP'} {lang}:{score:4.0%}")
+
 ```
 
-    en  50%  keep  The model is trained on a lot of raw text.
-    fr  33%  DROP  Le chat dort.
-    fr  56%  keep  Le chat est sur le tapis dans la maison.
-    xx   0%  DROP  Questo testo non contiene parole molto comuni.
+:::
 
-Two survive. The English and French sentences are recognized confidently, since about half their words are common function words, so they clear `MIN_LANG_SCORE`. `"Le chat dort."` is dropped by `MIN_CHARS`: at thirteen characters it is too short, even though the detector is fairly sure it is French. The Italian sentence is long and perfectly good text, but our detector knows no Italian stop words, so it scores 0.0, is labeled `xx`, and is dropped. A low score does not mean bad text; it means the pipeline cannot vouch for the label, and data it cannot place by language has nowhere to go in a per-language corpus.
+:::::::::::: solution
+
+``` python
+
+def keep(text: str, min_chars=20, min_lang_score=0.2):
+    lang, score = detect_language(text)
+    return len(text) >= min_chars and score >= min_lang_score
+
+for doc in docs:
+    text = normalize(doc)
+    lang, score = detect_language(text)
+    verdict = keep(doc, any_additional_parameters)
+    print(f"{'KEEP' if verdict else 'DROP'} {lang}:{score:4.0%}")
+
+```
+
+``` output
+KEEP en: 50%
+DROP fr: 33%
+KEEP fr: 56%
+DROP xx:  0%
+```
+
+Two survive. The English and French sentences are recognized confidently, since about half their words are common function words, so they clear `min_lang_score`. `"Le chat dort."` is dropped by `min_chars`: at thirteen characters it is too short, even though the detector is fairly sure it is French. The Italian sentence is long and perfectly good text, but our detector knows no Italian stop words, so it scores 0.0, is labeled `xx`, and is dropped. A low score does not mean bad text; it means the pipeline cannot vouch for the label, and data it cannot place by language has nowhere to go in a per-language corpus.
 
 The harder question is the real point. A long, confidently-English block of spam clears both thresholds easily. Cruder cases are caught later by the web path’s quality metrics and blocklists, but the deeper gap, between what a filter can measure and whether the text is any good, is the problem [Part 3](#part-3) takes up.
 
 Our toy detector fails on Italian because it was never given Italian stop words, and that exposes two failure modes real pipelines hit as well. **Low-resource languages are hard to detect:** a detector trained on little text for a language produces low-confidence labels, so genuine documents in that language score poorly and get dropped, exactly as our Italian sentence did. **Similar languages are hard to distinguish:** closely related languages share much of their vocabulary, so a confident label can still be the wrong one (a stop-word detector would struggle to tell Spanish from Portuguese, or Danish from Norwegian). The label and its score are only ever as good as the model behind them.
+
+
+::::::::::::
+
+::::::::::::::::::
 
 **Useful tools**
 

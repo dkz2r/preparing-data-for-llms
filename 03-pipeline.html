@@ -357,7 +357,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>The pipeline</h1>
-        <p>Last updated on 2026-11-03 |
+        <p>Last updated on 2026-11-04 |
 
         <a href="https://github.com/dkz2r/preparing-data-for-llms/edit/main/episodes/03-pipeline.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -456,33 +456,76 @@ breaks, and remove stray control characters and conversion
 artifacts.</p>
 <p>This is small and unglamorous work, but it removes a whole class of
 downstream errors before they can spread.</p>
+<p>Let’s start by reading in an example file and looking at how it looks
+when it is read in:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">import</span> unicodedata</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a><span class="im">import</span> re</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>raw <span class="op">=</span> <span class="st">"Café</span><span class="ch">\u00a0\u00a0</span><span class="st">World</span><span class="ch">\t\t</span><span class="st">text   here</span><span class="ch">\r\n\r\n</span><span class="st">"</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a><span class="kw">def</span> normalize(text):</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a>    text <span class="op">=</span> unicodedata.normalize(<span class="st">"NFC"</span>, text)   <span class="co"># valid, canonical Unicode</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>    text <span class="op">=</span> re.sub(<span class="vs">r"</span><span class="dv">\s</span><span class="op">+</span><span class="vs">"</span>, <span class="st">" "</span>, text)            <span class="co"># one regex collapses every</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>                                                <span class="co"># whitespace run: spaces, tabs,</span></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a>                                                <span class="co"># newlines, even non-breaking spaces</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>    <span class="cf">return</span> text.strip()                         <span class="co"># trim the edges</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a><span class="bu">print</span>(raw)                   <span class="co"># on screen the hidden characters look like spaces</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a><span class="bu">print</span>(<span class="bu">repr</span>(raw))             <span class="co"># the real string: non-breaking spaces, tabs, returns</span></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a><span class="bu">print</span>(<span class="bu">repr</span>(normalize(raw)))  <span class="co"># after normalization: ordinary single spaces</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="kw">def</span> read_file(filepath):</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a>    <span class="cf">with</span> <span class="bu">open</span>(filepath) <span class="im">as</span> file_obj:</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a>        <span class="cf">return</span> file_obj.read()</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a>raw_text <span class="op">=</span> read_file(<span class="st">"data/messy_file.txt"</span>)</span></code></pre>
 </div>
+<p>If we print the text from our file, it looks ok, but we see spaces
+and new lines:</p>
 <div class="codewrapper sourceCode" id="cb2">
-<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="ex">Café  World</span>     text   here</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a><span class="st">'Café\xa0\xa0World\t\ttext   here\r\n\r\n'</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a><span class="st">'Café World text here'</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="bu">print</span>(raw_text)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>CafÃ©  World		text   here
+
+
+
+</code></pre>
+</div>
+<p>But looking at the “repr” (representation) of the text, we can see
+that there are some tabs (<code>\t</code>), new lines (<code>\n</code>)
+and even some unicode (<code>\\xa0</code>):</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="bu">repr</span>(raw_text)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code><span><span class="st">"'CafÃ©\\xa0\\xa0World\\t\\ttext   here\\n\\n\\n\\n'"</span></span></code></pre>
+</div>
+<p>Let’s write a short function to clean these elements out of text we
+read in:</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="im">import</span> unicodedata</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a><span class="im">import</span> re</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a><span class="kw">def</span> normalize(text):</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a>    text <span class="op">=</span> unicodedata.normalize(<span class="st">"NFC"</span>, text)   <span class="co"># valid, canonical Unicode</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1" aria-label="code-block-6-6"></a>    text <span class="op">=</span> re.sub(<span class="vs">r"</span><span class="dv">\s</span><span class="op">+</span><span class="vs">"</span>, <span class="st">" "</span>, text)            <span class="co"># one regex collapses every</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1" aria-label="code-block-6-7"></a>                                                <span class="co"># whitespace run: spaces, tabs,</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1" aria-label="code-block-6-8"></a>                                                <span class="co"># newlines, even non-breaking spaces</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1" aria-label="code-block-6-9"></a>    <span class="cf">return</span> text.strip()                         <span class="co"># trim the edges</span></span></code></pre>
+</div>
+<p>We’ll tie this together with our read_file function:</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="kw">def</span> read_and_normalize_file(filepath):</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a>    raw_text <span class="op">=</span> read_file(filepath)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a>    <span class="cf">return</span> normalize(raw_text)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1" aria-label="code-block-7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1" aria-label="code-block-7-5"></a>text <span class="op">=</span> read_and_normalize_file(<span class="st">"data/messy_file.txt"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1" aria-label="code-block-7-6"></a><span class="bu">repr</span>(text)</span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a><span class="co">"'CafÃ© World text here'"</span></span></code></pre>
 </div>
 <p>Printed, <code>raw</code> already looks clean, yet <code>repr</code>
 exposes the non-breaking spaces, tabs, and carriage returns hiding
@@ -517,70 +560,156 @@ words” appear most is the guess, and the share of the document those
 words cover is the confidence. A document we cannot place gets the label
 <code>xx</code>, the same marker the real pipeline uses for non-language
 content.</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="co"># A toy stop-word language detector. Real pipelines use character n-gram models</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a><span class="co"># (e.g. fastText); this shows where a language label and its score come from.</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>STOPWORDS <span class="op">=</span> {</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a>    <span class="st">"en"</span>: {<span class="st">"the"</span>, <span class="st">"a"</span>, <span class="st">"is"</span>, <span class="st">"are"</span>, <span class="st">"and"</span>, <span class="st">"of"</span>, <span class="st">"to"</span>, <span class="st">"in"</span>, <span class="st">"it"</span>, <span class="st">"on"</span>},</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>    <span class="st">"fr"</span>: {<span class="st">"le"</span>, <span class="st">"la"</span>, <span class="st">"les"</span>, <span class="st">"un"</span>, <span class="st">"une"</span>, <span class="st">"et"</span>, <span class="st">"de"</span>, <span class="st">"est"</span>, <span class="st">"dans"</span>, <span class="st">"ici"</span>},</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1" aria-label="code-block-3-7"></a>    <span class="st">"de"</span>: {<span class="st">"der"</span>, <span class="st">"die"</span>, <span class="st">"das"</span>, <span class="st">"und"</span>, <span class="st">"ist"</span>, <span class="st">"ein"</span>, <span class="st">"eine"</span>, <span class="st">"zu"</span>, <span class="st">"in"</span>, <span class="st">"den"</span>},</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1" aria-label="code-block-3-8"></a>}</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1" aria-label="code-block-3-9"></a></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1" aria-label="code-block-3-10"></a><span class="kw">def</span> detect_language(text):</span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1" aria-label="code-block-3-11"></a>    words <span class="op">=</span> [w.strip(<span class="st">".,!?;:"</span>) <span class="cf">for</span> w <span class="kw">in</span> text.lower().split()]</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1" aria-label="code-block-3-12"></a>    hits <span class="op">=</span> {lang: <span class="bu">sum</span>(w <span class="kw">in</span> sw <span class="cf">for</span> w <span class="kw">in</span> words) <span class="cf">for</span> lang, sw <span class="kw">in</span> STOPWORDS.items()}</span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1" aria-label="code-block-3-13"></a>    best <span class="op">=</span> <span class="bu">max</span>(hits, key<span class="op">=</span>hits.get)</span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1" aria-label="code-block-3-14"></a>    score <span class="op">=</span> hits[best] <span class="op">/</span> <span class="bu">len</span>(words) <span class="cf">if</span> words <span class="cf">else</span> <span class="fl">0.0</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a>    <span class="cf">return</span> (best, score) <span class="cf">if</span> score <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> (<span class="st">"xx"</span>, <span class="fl">0.0</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1" aria-label="code-block-3-17"></a>MIN_CHARS      <span class="op">=</span> <span class="dv">20</span>    <span class="co"># too short to be useful</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1" aria-label="code-block-3-18"></a>MIN_LANG_SCORE <span class="op">=</span> <span class="fl">0.20</span>  <span class="co"># below this share of known words, we do not trust the label</span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1" aria-label="code-block-3-19"></a></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1" aria-label="code-block-3-20"></a><span class="kw">def</span> keep(text):</span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1" aria-label="code-block-3-21"></a>    lang, score <span class="op">=</span> detect_language(text)</span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1" aria-label="code-block-3-22"></a>    <span class="cf">return</span> <span class="bu">len</span>(text) <span class="op">&gt;=</span> MIN_CHARS <span class="kw">and</span> score <span class="op">&gt;=</span> MIN_LANG_SCORE</span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1" aria-label="code-block-3-23"></a></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1" aria-label="code-block-3-24"></a>docs <span class="op">=</span> [</span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1" aria-label="code-block-3-25"></a>    <span class="st">"The model is trained on a lot of raw text."</span>,      <span class="co"># clear English</span></span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1" aria-label="code-block-3-26"></a>    <span class="st">"Le chat dort."</span>,                                   <span class="co"># clear French, but short</span></span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1" aria-label="code-block-3-27"></a>    <span class="st">"Le chat est sur le tapis dans la maison."</span>,        <span class="co"># clear French</span></span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1" aria-label="code-block-3-28"></a>    <span class="st">"Questo testo non contiene parole molto comuni."</span>,  <span class="co"># a language we did not list</span></span>
-<span id="cb3-29"><a href="#cb3-29" tabindex="-1" aria-label="code-block-3-29"></a>]</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a><span class="co"># A toy stop-word language detector. Real pipelines use character n-gram models</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1" aria-label="code-block-9-2"></a><span class="co"># (e.g. fastText); this shows where a language label and its score come from.</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1" aria-label="code-block-9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1" aria-label="code-block-9-4"></a>STOPWORDS <span class="op">=</span> {</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a>    <span class="st">"en"</span>: {<span class="st">"the"</span>, <span class="st">"a"</span>, <span class="st">"is"</span>, <span class="st">"are"</span>, <span class="st">"and"</span>, <span class="st">"of"</span>, <span class="st">"to"</span>, <span class="st">"in"</span>, <span class="st">"it"</span>, <span class="st">"on"</span>},</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a>    <span class="st">"fr"</span>: {<span class="st">"le"</span>, <span class="st">"la"</span>, <span class="st">"les"</span>, <span class="st">"un"</span>, <span class="st">"une"</span>, <span class="st">"et"</span>, <span class="st">"de"</span>, <span class="st">"est"</span>, <span class="st">"dans"</span>, <span class="st">"ici"</span>},</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1" aria-label="code-block-9-7"></a>    <span class="st">"de"</span>: {<span class="st">"der"</span>, <span class="st">"die"</span>, <span class="st">"das"</span>, <span class="st">"und"</span>, <span class="st">"ist"</span>, <span class="st">"ein"</span>, <span class="st">"eine"</span>, <span class="st">"zu"</span>, <span class="st">"in"</span>, <span class="st">"den"</span>},</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1" aria-label="code-block-9-8"></a>}</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1" aria-label="code-block-9-9"></a></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1" aria-label="code-block-9-10"></a><span class="kw">def</span> detect_language(text):</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1" aria-label="code-block-9-11"></a>    <span class="co"># Split the text into lowercase words and remove all punctuation</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1" aria-label="code-block-9-12"></a>    words <span class="op">=</span> [w.strip(<span class="st">".,!?;:"</span>) <span class="cf">for</span> w <span class="kw">in</span> text.lower().split()]</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1" aria-label="code-block-9-13"></a>    <span class="co"># Create a dictionary, where keys are the languages in our stopwords and values</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1" aria-label="code-block-9-14"></a>    <span class="co"># are the number of times those words appear in our word list</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1" aria-label="code-block-9-15"></a>    hits <span class="op">=</span> {lang: <span class="bu">sum</span>(w <span class="kw">in</span> sw <span class="cf">for</span> w <span class="kw">in</span> words) <span class="cf">for</span> lang, sw <span class="kw">in</span> STOPWORDS.items()}</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1" aria-label="code-block-9-16"></a>    best <span class="op">=</span> <span class="bu">max</span>(hits, key<span class="op">=</span>hits.get)</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1" aria-label="code-block-9-17"></a>    score <span class="op">=</span> hits[best] <span class="op">/</span> <span class="bu">len</span>(words) <span class="cf">if</span> words <span class="cf">else</span> <span class="fl">0.0</span></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1" aria-label="code-block-9-18"></a>    <span class="cf">return</span> (best, score) <span class="cf">if</span> score <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> (<span class="st">"xx"</span>, <span class="fl">0.0</span>)</span></code></pre>
 </div>
-<p>Real pipelines usually threshold on token counts. We count characters
-here only to keep the example self-contained.</p>
-<p><strong>Your turn</strong></p>
-<p>First, predict the output. For each document, what language and
-confidence does <code>detect_language</code> return, and does
-<code>keep()</code> keep it?</p>
-<p>Then the harder question. <code>keep()</code> only sees length and a
-language score. Sketch a document that would clear <em>both</em>
-thresholds and still be worthless as training data. What does that tell
-you about what a filter like this can and cannot judge?</p>
-<p><strong>Solution</strong></p>
-<p>The detector’s verdict on each document, computed at render time:</p>
-<div class="codewrapper sourceCode" id="cb4">
+<p>We’ve implemented this function in the “pipeline_utils” file. Import
+it into your notebook like so:</p>
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="cf">for</span> d <span class="kw">in</span> docs:</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>    lang, score <span class="op">=</span> detect_language(d)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>lang<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>score<span class="sc">:4.0%}</span><span class="ss">  </span><span class="sc">{</span><span class="st">'keep'</span> <span class="cf">if</span> keep(d) <span class="cf">else</span> <span class="st">'DROP'</span><span class="sc">}</span><span class="ss">  </span><span class="sc">{</span>d<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a><span class="im">from</span> pipeline_utils <span class="im">import</span> detect_language</span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<p>We can try it out on some sample text:</p>
+<div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="ex">en</span>  50%  keep  The model is trained on a lot of raw text.</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a><span class="ex">fr</span>  33%  DROP  Le chat dort.</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a><span class="ex">fr</span>  56%  keep  Le chat est sur le tapis dans la maison.</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a><span class="ex">xx</span>   0%  DROP  Questo testo non contiene parole molto comuni.</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1" aria-label="code-block-11-1"></a>detect_language(<span class="st">"The model is trained on a lot of raw text."</span>)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>('en', 0.5)</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1" aria-label="code-block-13-1"></a>detect_language(<span class="st">"Le chat dort."</span>)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>('fr', 0.3333333333333333)</code></pre>
+</div>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
+<div class="callout-content">
+<p>We would like to keep only those texts where we can confidently
+determine the language. Write a short function called “keep” that will
+return either a “True” or “False” based on the length of the text and
+the score returned by <code>detect_language</code>. Then, implement that
+function in a loop to determine which of the following documents to keep
+and, for those we do keep, which language they are:</p>
+<div class="codewrapper sourceCode" id="cb15">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1" aria-label="code-block-15-1"></a>docs <span class="op">=</span> [</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1" aria-label="code-block-15-2"></a>    <span class="st">"The model is trained on a lot of raw text."</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1" aria-label="code-block-15-3"></a>    <span class="st">"Le chat dort."</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1" aria-label="code-block-15-4"></a>    <span class="st">"Le chat est sur le tapis dans la maison."</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1" aria-label="code-block-15-5"></a>    <span class="st">"Questo testo non contiene parole molto comuni."</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1" aria-label="code-block-15-6"></a>]</span></code></pre>
+</div>
+<p>How does this approach work? Can you craft a sentence that slips
+though but would still be worthless as training data?</p>
+</div>
+</div>
+</div>
+<div id="accordionHint1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
+  <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
+</button>
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div class="accordion-body">
+<p>Keep in mind that the language score alone isn’t enough to determine
+if something is worth keeping!</p>
+</div>
+</div>
+</div>
+</div>
+<div id="accordionHint2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
+  <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
+</button>
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
+<div class="accordion-body">
+<p>Some code to get you started:</p>
+<div class="codewrapper sourceCode" id="cb16">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1" aria-label="code-block-16-1"></a></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1" aria-label="code-block-16-2"></a><span class="kw">def</span> keep(text: <span class="bu">str</span>, any_additional_parameters):</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1" aria-label="code-block-16-3"></a>    <span class="co"># Your implementation here</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1" aria-label="code-block-16-4"></a></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1" aria-label="code-block-16-5"></a><span class="cf">for</span> doc <span class="kw">in</span> docs:</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1" aria-label="code-block-16-6"></a>    text <span class="op">=</span> normalize(doc)</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1" aria-label="code-block-16-7"></a>    lang, score <span class="op">=</span> detect_language(text)</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1" aria-label="code-block-16-8"></a>    verdict <span class="op">=</span> keep(doc, any_additional_parameters)</span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1" aria-label="code-block-16-9"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'KEEP'</span> <span class="cf">if</span> verdict <span class="cf">else</span> <span class="st">'DROP'</span><span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>lang<span class="sc">}</span><span class="ss">:</span><span class="sc">{</span>score<span class="sc">:4.0%}</span><span class="ss">"</span>)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb17">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1" aria-label="code-block-17-1"></a></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1" aria-label="code-block-17-2"></a><span class="kw">def</span> keep(text: <span class="bu">str</span>, min_chars<span class="op">=</span><span class="dv">20</span>, min_lang_score<span class="op">=</span><span class="fl">0.2</span>):</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1" aria-label="code-block-17-3"></a>    lang, score <span class="op">=</span> detect_language(text)</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1" aria-label="code-block-17-4"></a>    <span class="cf">return</span> <span class="bu">len</span>(text) <span class="op">&gt;=</span> min_chars <span class="kw">and</span> score <span class="op">&gt;=</span> min_lang_score</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1" aria-label="code-block-17-5"></a></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1" aria-label="code-block-17-6"></a><span class="cf">for</span> doc <span class="kw">in</span> docs:</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1" aria-label="code-block-17-7"></a>    text <span class="op">=</span> normalize(doc)</span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1" aria-label="code-block-17-8"></a>    lang, score <span class="op">=</span> detect_language(text)</span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1" aria-label="code-block-17-9"></a>    verdict <span class="op">=</span> keep(doc, any_additional_parameters)</span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1" aria-label="code-block-17-10"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'KEEP'</span> <span class="cf">if</span> verdict <span class="cf">else</span> <span class="st">'DROP'</span><span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>lang<span class="sc">}</span><span class="ss">:</span><span class="sc">{</span>score<span class="sc">:4.0%}</span><span class="ss">"</span>)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>KEEP en: 50%
+DROP fr: 33%
+KEEP fr: 56%
+DROP xx:  0%</code></pre>
 </div>
 <p>Two survive. The English and French sentences are recognized
 confidently, since about half their words are common function words, so
-they clear <code>MIN_LANG_SCORE</code>. <code>"Le chat dort."</code> is
-dropped by <code>MIN_CHARS</code>: at thirteen characters it is too
+they clear <code>min_lang_score</code>. <code>"Le chat dort."</code> is
+dropped by <code>min_chars</code>: at thirteen characters it is too
 short, even though the detector is fairly sure it is French. The Italian
 sentence is long and perfectly good text, but our detector knows no
 Italian stop words, so it scores 0.0, is labeled <code>xx</code>, and is
@@ -603,6 +732,10 @@ of their vocabulary, so a confident label can still be the wrong one (a
 stop-word detector would struggle to tell Spanish from Portuguese, or
 Danish from Norwegian). The label and its score are only ever as good as
 the model behind them.</p>
+</div>
+</div>
+</div>
+</div>
 <p><strong>Useful tools</strong></p>
 <p>Production pipelines do not hand-roll these steps. Language detection
 usually runs <a href="https://fasttext.cc/docs/en/language-identification.html" class="external-link">fastText’s
@@ -691,38 +824,38 @@ signal</li>
 repeat the same lines</li>
 </ul><p>A prefilter is just a few of these metrics behind thresholds. Here is
 one made concrete, on three example documents:</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="kw">def</span> words_per_line(text):</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>    lines <span class="op">=</span> [ln <span class="cf">for</span> ln <span class="kw">in</span> text.splitlines() <span class="cf">if</span> ln.strip()]</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>    <span class="cf">return</span> <span class="bu">len</span>(text.split()) <span class="op">/</span> <span class="bu">len</span>(lines) <span class="cf">if</span> lines <span class="cf">else</span> <span class="fl">0.0</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a><span class="kw">def</span> symbol_share(text):</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1" aria-label="code-block-6-6"></a>    symbols <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> c <span class="kw">in</span> text <span class="cf">if</span> <span class="kw">not</span> (c.isalpha() <span class="kw">or</span> c.isspace()))</span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1" aria-label="code-block-6-7"></a>    <span class="cf">return</span> symbols <span class="op">/</span> <span class="bu">len</span>(text) <span class="cf">if</span> text <span class="cf">else</span> <span class="fl">1.0</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1" aria-label="code-block-6-8"></a></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1" aria-label="code-block-6-9"></a><span class="kw">def</span> looks_like_prose(text):</span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1" aria-label="code-block-6-10"></a>    <span class="cf">return</span> words_per_line(text) <span class="op">&gt;=</span> <span class="dv">4</span> <span class="kw">and</span> symbol_share(text) <span class="op">&lt;=</span> <span class="fl">0.30</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1" aria-label="code-block-6-11"></a></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1" aria-label="code-block-6-12"></a>examples <span class="op">=</span> {</span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1" aria-label="code-block-6-13"></a>    <span class="st">"article"</span>:  <span class="st">"Warmer winters are projected for the region.</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1" aria-label="code-block-6-14"></a>                <span class="st">"Researchers compared decades of temperature records."</span>,</span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1" aria-label="code-block-6-15"></a>    <span class="st">"nav menu"</span>: <span class="st">"Home</span><span class="ch">\n</span><span class="st">About</span><span class="ch">\n</span><span class="st">Products</span><span class="ch">\n</span><span class="st">Contact</span><span class="ch">\n</span><span class="st">Login</span><span class="ch">\n</span><span class="st">Help"</span>,</span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1" aria-label="code-block-6-16"></a>    <span class="st">"log dump"</span>: <span class="st">"[03:11:02] ERR 0x8F retries=3 code=</span><span class="sc">{id:9}</span><span class="st"> &gt;&gt;&gt; 11010 0xFF"</span>,</span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1" aria-label="code-block-6-17"></a>}</span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1" aria-label="code-block-6-18"></a></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1" aria-label="code-block-6-19"></a><span class="cf">for</span> name, text <span class="kw">in</span> examples.items():</span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1" aria-label="code-block-6-20"></a>    verdict <span class="op">=</span> <span class="st">"keep"</span> <span class="cf">if</span> looks_like_prose(text) <span class="cf">else</span> <span class="st">"DROP"</span></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1" aria-label="code-block-6-21"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:9}</span><span class="ss"> words/line=</span><span class="sc">{</span>words_per_line(text)<span class="sc">:4.1f}</span><span class="ss">  "</span></span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1" aria-label="code-block-6-22"></a>          <span class="ss">f"symbols=</span><span class="sc">{</span>symbol_share(text)<span class="sc">:3.0%}</span><span class="ss">  -&gt;  </span><span class="sc">{</span>verdict<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1" aria-label="code-block-19-1"></a><span class="kw">def</span> words_per_line(text):</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1" aria-label="code-block-19-2"></a>    lines <span class="op">=</span> [ln <span class="cf">for</span> ln <span class="kw">in</span> text.splitlines() <span class="cf">if</span> ln.strip()]</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1" aria-label="code-block-19-3"></a>    <span class="cf">return</span> <span class="bu">len</span>(text.split()) <span class="op">/</span> <span class="bu">len</span>(lines) <span class="cf">if</span> lines <span class="cf">else</span> <span class="fl">0.0</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1" aria-label="code-block-19-4"></a></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1" aria-label="code-block-19-5"></a><span class="kw">def</span> symbol_share(text):</span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1" aria-label="code-block-19-6"></a>    symbols <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> c <span class="kw">in</span> text <span class="cf">if</span> <span class="kw">not</span> (c.isalpha() <span class="kw">or</span> c.isspace()))</span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1" aria-label="code-block-19-7"></a>    <span class="cf">return</span> symbols <span class="op">/</span> <span class="bu">len</span>(text) <span class="cf">if</span> text <span class="cf">else</span> <span class="fl">1.0</span></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1" aria-label="code-block-19-8"></a></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1" aria-label="code-block-19-9"></a><span class="kw">def</span> looks_like_prose(text):</span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1" aria-label="code-block-19-10"></a>    <span class="cf">return</span> words_per_line(text) <span class="op">&gt;=</span> <span class="dv">4</span> <span class="kw">and</span> symbol_share(text) <span class="op">&lt;=</span> <span class="fl">0.30</span></span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1" aria-label="code-block-19-11"></a></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1" aria-label="code-block-19-12"></a>examples <span class="op">=</span> {</span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1" aria-label="code-block-19-13"></a>    <span class="st">"article"</span>:  <span class="st">"Warmer winters are projected for the region.</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1" aria-label="code-block-19-14"></a>                <span class="st">"Researchers compared decades of temperature records."</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1" aria-label="code-block-19-15"></a>    <span class="st">"nav menu"</span>: <span class="st">"Home</span><span class="ch">\n</span><span class="st">About</span><span class="ch">\n</span><span class="st">Products</span><span class="ch">\n</span><span class="st">Contact</span><span class="ch">\n</span><span class="st">Login</span><span class="ch">\n</span><span class="st">Help"</span>,</span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1" aria-label="code-block-19-16"></a>    <span class="st">"log dump"</span>: <span class="st">"[03:11:02] ERR 0x8F retries=3 code=</span><span class="sc">{id:9}</span><span class="st"> &gt;&gt;&gt; 11010 0xFF"</span>,</span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1" aria-label="code-block-19-17"></a>}</span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1" aria-label="code-block-19-18"></a></span>
+<span id="cb19-19"><a href="#cb19-19" tabindex="-1" aria-label="code-block-19-19"></a><span class="cf">for</span> name, text <span class="kw">in</span> examples.items():</span>
+<span id="cb19-20"><a href="#cb19-20" tabindex="-1" aria-label="code-block-19-20"></a>    verdict <span class="op">=</span> <span class="st">"keep"</span> <span class="cf">if</span> looks_like_prose(text) <span class="cf">else</span> <span class="st">"DROP"</span></span>
+<span id="cb19-21"><a href="#cb19-21" tabindex="-1" aria-label="code-block-19-21"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:9}</span><span class="ss"> words/line=</span><span class="sc">{</span>words_per_line(text)<span class="sc">:4.1f}</span><span class="ss">  "</span></span>
+<span id="cb19-22"><a href="#cb19-22" tabindex="-1" aria-label="code-block-19-22"></a>          <span class="ss">f"symbols=</span><span class="sc">{</span>symbol_share(text)<span class="sc">:3.0%}</span><span class="ss">  -&gt;  </span><span class="sc">{</span>verdict<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="ex">article</span>   words/line= 6.5  symbols= 2%  <span class="at">-</span><span class="op">&gt;</span>  keep</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a><span class="ex">nav</span> menu  words/line= 1.0  symbols= 0%  <span class="at">-</span><span class="op">&gt;</span>  DROP</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a><span class="ex">log</span> dump  words/line= 8.0  symbols=50%  <span class="at">-</span><span class="op">&gt;</span>  DROP</span></code></pre>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" tabindex="-1" aria-label="code-block-20-1"></a><span class="ex">article</span>   words/line= 6.5  symbols= 2%  <span class="at">-</span><span class="op">&gt;</span>  keep</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1" aria-label="code-block-20-2"></a><span class="ex">nav</span> menu  words/line= 1.0  symbols= 0%  <span class="at">-</span><span class="op">&gt;</span>  DROP</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1" aria-label="code-block-20-3"></a><span class="ex">log</span> dump  words/line= 8.0  symbols=50%  <span class="at">-</span><span class="op">&gt;</span>  DROP</span></code></pre>
 </div>
 <p>The article keeps; the navigation block fails on words per line, and
 the log dump fails on symbol share. What to notice is <em>how</em> these
@@ -768,61 +901,61 @@ header, or an ad. The shared idea is <em>similarity</em>: measure how
 much two documents overlap, and drop one when the overlap is too high.
 Here is that idea in miniature, scoring documents by the overlap of
 their word sets (the Jaccard similarity):</p>
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>corpus <span class="op">=</span> [</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1" aria-label="code-block-8-2"></a>    <span class="st">"The quick brown fox jumps over the lazy dog."</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1" aria-label="code-block-8-3"></a>    <span class="st">"The quick brown fox jumps over the lazy dog."</span>,         <span class="co"># exact duplicate</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1" aria-label="code-block-8-4"></a>    <span class="st">"The quick brown fox jumps over the lazy dog. (2024)"</span>,  <span class="co"># near-duplicate: a date</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1" aria-label="code-block-8-5"></a>    <span class="st">"An entirely different sentence about another topic."</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1" aria-label="code-block-8-6"></a>]</span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1" aria-label="code-block-8-7"></a></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1" aria-label="code-block-8-8"></a><span class="kw">def</span> word_set(text):</span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1" aria-label="code-block-8-9"></a>    <span class="cf">return</span> <span class="bu">set</span>(text.lower().replace(<span class="st">"."</span>, <span class="st">""</span>).split())</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1" aria-label="code-block-8-10"></a></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1" aria-label="code-block-8-11"></a><span class="kw">def</span> jaccard(a, b):</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1" aria-label="code-block-8-12"></a>    <span class="cf">return</span> <span class="bu">len</span>(a <span class="op">&amp;</span> b) <span class="op">/</span> <span class="bu">len</span>(a <span class="op">|</span> b) <span class="cf">if</span> (a <span class="op">|</span> b) <span class="cf">else</span> <span class="fl">0.0</span></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1" aria-label="code-block-8-13"></a></span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1" aria-label="code-block-8-14"></a>sets <span class="op">=</span> [word_set(doc) <span class="cf">for</span> doc <span class="kw">in</span> corpus]</span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1" aria-label="code-block-8-15"></a>n <span class="op">=</span> <span class="bu">len</span>(corpus)</span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1" aria-label="code-block-8-16"></a></span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1" aria-label="code-block-8-17"></a><span class="co"># Score every pair into a similarity matrix. It is symmetric and its diagonal is</span></span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1" aria-label="code-block-8-18"></a><span class="co"># always 1.0, so the real information lives in the upper triangle (j &gt; i).</span></span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1" aria-label="code-block-8-19"></a>sim <span class="op">=</span> [[jaccard(sets[i], sets[j]) <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n)] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n)]</span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1" aria-label="code-block-8-20"></a><span class="bu">print</span>(<span class="st">"similarity matrix:"</span>)</span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1" aria-label="code-block-8-21"></a><span class="cf">for</span> row <span class="kw">in</span> sim:</span>
-<span id="cb8-22"><a href="#cb8-22" tabindex="-1" aria-label="code-block-8-22"></a>    <span class="bu">print</span>(<span class="st">"  "</span> <span class="op">+</span> <span class="st">"  "</span>.join(<span class="ss">f"</span><span class="sc">{</span>value<span class="sc">:.2f}</span><span class="ss">"</span> <span class="cf">for</span> value <span class="kw">in</span> row))</span>
-<span id="cb8-23"><a href="#cb8-23" tabindex="-1" aria-label="code-block-8-23"></a></span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1" aria-label="code-block-8-24"></a><span class="co"># Walk the upper triangle once. Drop document j when it repeats an earlier,</span></span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1" aria-label="code-block-8-25"></a><span class="co"># still-kept document i.</span></span>
-<span id="cb8-26"><a href="#cb8-26" tabindex="-1" aria-label="code-block-8-26"></a>THRESHOLD <span class="op">=</span> <span class="fl">0.5</span></span>
-<span id="cb8-27"><a href="#cb8-27" tabindex="-1" aria-label="code-block-8-27"></a>dropped <span class="op">=</span> <span class="bu">set</span>()</span>
-<span id="cb8-28"><a href="#cb8-28" tabindex="-1" aria-label="code-block-8-28"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb8-29"><a href="#cb8-29" tabindex="-1" aria-label="code-block-8-29"></a>    <span class="cf">if</span> i <span class="kw">in</span> dropped:</span>
-<span id="cb8-30"><a href="#cb8-30" tabindex="-1" aria-label="code-block-8-30"></a>        <span class="cf">continue</span></span>
-<span id="cb8-31"><a href="#cb8-31" tabindex="-1" aria-label="code-block-8-31"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n):</span>
-<span id="cb8-32"><a href="#cb8-32" tabindex="-1" aria-label="code-block-8-32"></a>        <span class="cf">if</span> sim[i][j] <span class="op">&gt;=</span> THRESHOLD:</span>
-<span id="cb8-33"><a href="#cb8-33" tabindex="-1" aria-label="code-block-8-33"></a>            dropped.add(j)</span>
-<span id="cb8-34"><a href="#cb8-34" tabindex="-1" aria-label="code-block-8-34"></a></span>
-<span id="cb8-35"><a href="#cb8-35" tabindex="-1" aria-label="code-block-8-35"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">verdicts:"</span>)</span>
-<span id="cb8-36"><a href="#cb8-36" tabindex="-1" aria-label="code-block-8-36"></a><span class="cf">for</span> i, doc <span class="kw">in</span> <span class="bu">enumerate</span>(corpus):</span>
-<span id="cb8-37"><a href="#cb8-37" tabindex="-1" aria-label="code-block-8-37"></a>    <span class="bu">print</span>(<span class="ss">f"  doc </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">  </span><span class="sc">{</span><span class="st">'DROP'</span> <span class="cf">if</span> i <span class="kw">in</span> dropped <span class="cf">else</span> <span class="st">'keep'</span><span class="sc">}</span><span class="ss">  </span><span class="sc">{</span>doc<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1" aria-label="code-block-21-1"></a>corpus <span class="op">=</span> [</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1" aria-label="code-block-21-2"></a>    <span class="st">"The quick brown fox jumps over the lazy dog."</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1" aria-label="code-block-21-3"></a>    <span class="st">"The quick brown fox jumps over the lazy dog."</span>,         <span class="co"># exact duplicate</span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1" aria-label="code-block-21-4"></a>    <span class="st">"The quick brown fox jumps over the lazy dog. (2024)"</span>,  <span class="co"># near-duplicate: a date</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1" aria-label="code-block-21-5"></a>    <span class="st">"An entirely different sentence about another topic."</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1" aria-label="code-block-21-6"></a>]</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1" aria-label="code-block-21-7"></a></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1" aria-label="code-block-21-8"></a><span class="kw">def</span> word_set(text):</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1" aria-label="code-block-21-9"></a>    <span class="cf">return</span> <span class="bu">set</span>(text.lower().replace(<span class="st">"."</span>, <span class="st">""</span>).split())</span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1" aria-label="code-block-21-10"></a></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1" aria-label="code-block-21-11"></a><span class="kw">def</span> jaccard(a, b):</span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1" aria-label="code-block-21-12"></a>    <span class="cf">return</span> <span class="bu">len</span>(a <span class="op">&amp;</span> b) <span class="op">/</span> <span class="bu">len</span>(a <span class="op">|</span> b) <span class="cf">if</span> (a <span class="op">|</span> b) <span class="cf">else</span> <span class="fl">0.0</span></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1" aria-label="code-block-21-13"></a></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1" aria-label="code-block-21-14"></a>sets <span class="op">=</span> [word_set(doc) <span class="cf">for</span> doc <span class="kw">in</span> corpus]</span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1" aria-label="code-block-21-15"></a>n <span class="op">=</span> <span class="bu">len</span>(corpus)</span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1" aria-label="code-block-21-16"></a></span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1" aria-label="code-block-21-17"></a><span class="co"># Score every pair into a similarity matrix. It is symmetric and its diagonal is</span></span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1" aria-label="code-block-21-18"></a><span class="co"># always 1.0, so the real information lives in the upper triangle (j &gt; i).</span></span>
+<span id="cb21-19"><a href="#cb21-19" tabindex="-1" aria-label="code-block-21-19"></a>sim <span class="op">=</span> [[jaccard(sets[i], sets[j]) <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n)] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n)]</span>
+<span id="cb21-20"><a href="#cb21-20" tabindex="-1" aria-label="code-block-21-20"></a><span class="bu">print</span>(<span class="st">"similarity matrix:"</span>)</span>
+<span id="cb21-21"><a href="#cb21-21" tabindex="-1" aria-label="code-block-21-21"></a><span class="cf">for</span> row <span class="kw">in</span> sim:</span>
+<span id="cb21-22"><a href="#cb21-22" tabindex="-1" aria-label="code-block-21-22"></a>    <span class="bu">print</span>(<span class="st">"  "</span> <span class="op">+</span> <span class="st">"  "</span>.join(<span class="ss">f"</span><span class="sc">{</span>value<span class="sc">:.2f}</span><span class="ss">"</span> <span class="cf">for</span> value <span class="kw">in</span> row))</span>
+<span id="cb21-23"><a href="#cb21-23" tabindex="-1" aria-label="code-block-21-23"></a></span>
+<span id="cb21-24"><a href="#cb21-24" tabindex="-1" aria-label="code-block-21-24"></a><span class="co"># Walk the upper triangle once. Drop document j when it repeats an earlier,</span></span>
+<span id="cb21-25"><a href="#cb21-25" tabindex="-1" aria-label="code-block-21-25"></a><span class="co"># still-kept document i.</span></span>
+<span id="cb21-26"><a href="#cb21-26" tabindex="-1" aria-label="code-block-21-26"></a>THRESHOLD <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb21-27"><a href="#cb21-27" tabindex="-1" aria-label="code-block-21-27"></a>dropped <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb21-28"><a href="#cb21-28" tabindex="-1" aria-label="code-block-21-28"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb21-29"><a href="#cb21-29" tabindex="-1" aria-label="code-block-21-29"></a>    <span class="cf">if</span> i <span class="kw">in</span> dropped:</span>
+<span id="cb21-30"><a href="#cb21-30" tabindex="-1" aria-label="code-block-21-30"></a>        <span class="cf">continue</span></span>
+<span id="cb21-31"><a href="#cb21-31" tabindex="-1" aria-label="code-block-21-31"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n):</span>
+<span id="cb21-32"><a href="#cb21-32" tabindex="-1" aria-label="code-block-21-32"></a>        <span class="cf">if</span> sim[i][j] <span class="op">&gt;=</span> THRESHOLD:</span>
+<span id="cb21-33"><a href="#cb21-33" tabindex="-1" aria-label="code-block-21-33"></a>            dropped.add(j)</span>
+<span id="cb21-34"><a href="#cb21-34" tabindex="-1" aria-label="code-block-21-34"></a></span>
+<span id="cb21-35"><a href="#cb21-35" tabindex="-1" aria-label="code-block-21-35"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">verdicts:"</span>)</span>
+<span id="cb21-36"><a href="#cb21-36" tabindex="-1" aria-label="code-block-21-36"></a><span class="cf">for</span> i, doc <span class="kw">in</span> <span class="bu">enumerate</span>(corpus):</span>
+<span id="cb21-37"><a href="#cb21-37" tabindex="-1" aria-label="code-block-21-37"></a>    <span class="bu">print</span>(<span class="ss">f"  doc </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">  </span><span class="sc">{</span><span class="st">'DROP'</span> <span class="cf">if</span> i <span class="kw">in</span> dropped <span class="cf">else</span> <span class="st">'keep'</span><span class="sc">}</span><span class="ss">  </span><span class="sc">{</span>doc<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a><span class="ex">similarity</span> matrix:</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1" aria-label="code-block-9-2"></a>  <span class="ex">1.00</span>  1.00  0.89  0.00</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1" aria-label="code-block-9-3"></a>  <span class="ex">1.00</span>  1.00  0.89  0.00</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1" aria-label="code-block-9-4"></a>  <span class="ex">0.89</span>  0.89  1.00  0.00</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a>  <span class="ex">0.00</span>  0.00  0.00  1.00</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1" aria-label="code-block-9-7"></a><span class="ex">verdicts:</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1" aria-label="code-block-9-8"></a>  <span class="ex">doc</span> 0  keep  The quick brown fox jumps over the lazy dog.</span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1" aria-label="code-block-9-9"></a>  <span class="ex">doc</span> 1  DROP  The quick brown fox jumps over the lazy dog.</span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1" aria-label="code-block-9-10"></a>  <span class="ex">doc</span> 2  DROP  The quick brown fox jumps over the lazy dog. <span class="er">(</span><span class="ex">2024</span><span class="kw">)</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1" aria-label="code-block-9-11"></a>  <span class="ex">doc</span> 3  keep  An entirely different sentence about another topic.</span></code></pre>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" tabindex="-1" aria-label="code-block-22-1"></a><span class="ex">similarity</span> matrix:</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1" aria-label="code-block-22-2"></a>  <span class="ex">1.00</span>  1.00  0.89  0.00</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1" aria-label="code-block-22-3"></a>  <span class="ex">1.00</span>  1.00  0.89  0.00</span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1" aria-label="code-block-22-4"></a>  <span class="ex">0.89</span>  0.89  1.00  0.00</span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1" aria-label="code-block-22-5"></a>  <span class="ex">0.00</span>  0.00  0.00  1.00</span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1" aria-label="code-block-22-6"></a></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1" aria-label="code-block-22-7"></a><span class="ex">verdicts:</span></span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1" aria-label="code-block-22-8"></a>  <span class="ex">doc</span> 0  keep  The quick brown fox jumps over the lazy dog.</span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1" aria-label="code-block-22-9"></a>  <span class="ex">doc</span> 1  DROP  The quick brown fox jumps over the lazy dog.</span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1" aria-label="code-block-22-10"></a>  <span class="ex">doc</span> 2  DROP  The quick brown fox jumps over the lazy dog. <span class="er">(</span><span class="ex">2024</span><span class="kw">)</span></span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1" aria-label="code-block-22-11"></a>  <span class="ex">doc</span> 3  keep  An entirely different sentence about another topic.</span></code></pre>
 </div>
 <figure><img src="fig/part1/dedup-heatmap.svg" alt="A four-by-four similarity matrix shown as a heatmap. The diagonal is grey and labeled self. The lower triangle is blank because the matrix is symmetric. In the upper triangle, the cell for document 0 versus document 1 is fully dark at 1.00 and the cells for document 0 and document 1 versus document 2 are dark at 0.89, all three outlined in orange as duplicates above the 0.50 threshold; every cell involving the unrelated document 3 is white at 0.00." class="figure mx-auto d-block"><div class="figcaption">A four-by-four similarity matrix shown as a
 heatmap. The diagonal is grey and labeled self. The lower triangle is
@@ -854,19 +987,19 @@ the suffix-array code released with Lee et al. (<a href="#ref-lee2022deduplicat
 one JSON object per line, a format called <strong>JSONL</strong>. Each
 record carries the cleaned text plus the metadata gathered along the
 way: source, language, scores, and identifiers.</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">JSON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode json" tabindex="0"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a><span class="fu">{</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1" aria-label="code-block-10-2"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"web-2024-30-000123"</span><span class="fu">,</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1" aria-label="code-block-10-3"></a>  <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"The cleaned document text, ready for training."</span><span class="fu">,</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1" aria-label="code-block-10-4"></a>  <span class="dt">"source"</span><span class="fu">:</span> <span class="st">"common_crawl"</span><span class="fu">,</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1" aria-label="code-block-10-5"></a>  <span class="dt">"language"</span><span class="fu">:</span> <span class="st">"de"</span><span class="fu">,</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1" aria-label="code-block-10-6"></a>  <span class="dt">"language_score"</span><span class="fu">:</span> <span class="fl">0.98</span><span class="fu">,</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1" aria-label="code-block-10-7"></a>  <span class="dt">"quality_score"</span><span class="fu">:</span> <span class="fl">0.71</span><span class="fu">,</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1" aria-label="code-block-10-8"></a>  <span class="dt">"url"</span><span class="fu">:</span> <span class="st">"https://example.org/article"</span><span class="fu">,</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1" aria-label="code-block-10-9"></a>  <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2024-07-15"</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1" aria-label="code-block-10-10"></a><span class="fu">}</span></span></code></pre>
+<pre class="sourceCode json" tabindex="0"><code class="sourceCode json"><span id="cb23-1"><a href="#cb23-1" tabindex="-1" aria-label="code-block-23-1"></a><span class="fu">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1" aria-label="code-block-23-2"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"web-2024-30-000123"</span><span class="fu">,</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1" aria-label="code-block-23-3"></a>  <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"The cleaned document text, ready for training."</span><span class="fu">,</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1" aria-label="code-block-23-4"></a>  <span class="dt">"source"</span><span class="fu">:</span> <span class="st">"common_crawl"</span><span class="fu">,</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1" aria-label="code-block-23-5"></a>  <span class="dt">"language"</span><span class="fu">:</span> <span class="st">"de"</span><span class="fu">,</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1" aria-label="code-block-23-6"></a>  <span class="dt">"language_score"</span><span class="fu">:</span> <span class="fl">0.98</span><span class="fu">,</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1" aria-label="code-block-23-7"></a>  <span class="dt">"quality_score"</span><span class="fu">:</span> <span class="fl">0.71</span><span class="fu">,</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1" aria-label="code-block-23-8"></a>  <span class="dt">"url"</span><span class="fu">:</span> <span class="st">"https://example.org/article"</span><span class="fu">,</span></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1" aria-label="code-block-23-9"></a>  <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2024-07-15"</span></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1" aria-label="code-block-23-10"></a><span class="fu">}</span></span></code></pre>
 </div>
 <p>On disk each record sits on a single line; it is pretty-printed here
 only for readability. Fields are illustrative. This shared format is
@@ -916,7 +1049,7 @@ what to drop, what to record. <a href="#part-2">Part 2</a> changes the
 question. At the true size of these corpora, every one of those steps is
 also a compute decision, and the traceability we just built is what
 makes the whole effort survivable.</p>
-<div id="challenge1" class="callout challenge">
+<div id="challenge2" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -928,12 +1061,12 @@ makes the whole effort survivable.</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 
 </div>
@@ -1025,8 +1158,8 @@ before any later step sees it.<a href="#fnref1" class="footnote-back">↩︎</a>
   "url": "https://dkz2r.github.io/preparing-data-for-llms/03-pipeline.html",
   "identifier": "https://dkz2r.github.io/preparing-data-for-llms/03-pipeline.html",
   "dateCreated": "2026-08-25",
-  "dateModified": "2026-11-03",
-  "datePublished": "2026-11-03"
+  "dateModified": "2026-11-04",
+  "datePublished": "2026-11-04"
 }
 
   </script><script>

@@ -216,12 +216,12 @@ Some code to get you started:
 
 ``` python
 
-def keep(text: str, any_additional_parameters):
+def keep(text: str, any_additional_parameters) -> bool:
     # Your implementation here
 
 for doc in docs:
-    text = normalize(doc)
-    lang, score = detect_language(text)
+    normalized_text = # ...
+    lang, score = # ...
     verdict = keep(doc, any_additional_parameters)
     print(f"{'KEEP' if verdict else 'DROP'} {lang}:{score:4.0%}")
 
@@ -231,6 +231,8 @@ for doc in docs:
 
 :::::::::::: solution
 
+One version might look something like this:
+
 ``` python
 
 def keep(text: str, min_chars=20, min_lang_score=0.2):
@@ -238,8 +240,8 @@ def keep(text: str, min_chars=20, min_lang_score=0.2):
     return len(text) >= min_chars and score >= min_lang_score
 
 for doc in docs:
-    text = normalize(doc)
-    lang, score = detect_language(text)
+    normalized_text = normalize(doc)
+    lang, score = detect_language(normalized_text)
     verdict = keep(doc, any_additional_parameters)
     print(f"{'KEEP' if verdict else 'DROP'} {lang}:{score:4.0%}")
 
@@ -356,9 +358,11 @@ Both levels start from public resources rather than a trained model: multilingua
 
 ### Deduplication
 
-The web is extremely repetitive. The same article, quote, license notice, or template appears countless times. Training on duplicates wastes compute and can push the model toward memorizing instead of generalizing, so duplicates have to go ([Lee et al. 2022](#ref-lee2022deduplicating)).
+The web is extremely repetitive. The same article, quote, license notice, or template appears countless times. Training on duplicates wastes compute and can push the model toward memorizing instead of generalizing, so duplicates have to go ([Lee et al. 2022](./reference.html#ref-lee2022deduplicating)).
 
-Exact duplicates are easy to spot. The hard case is **near-duplicates**: pages that differ only in a date, a header, or an ad. The shared idea is *similarity*: measure how much two documents overlap, and drop one when the overlap is too high. Here is that idea in miniature, scoring documents by the overlap of their word sets (the Jaccard similarity):
+Exact duplicates are easy to spot. The hard case is **near-duplicates**: pages that differ only in a date, a header, or an ad. The shared idea is *similarity*: measure how much two documents overlap, and drop one when the overlap is too high. Let's start by looking at the following documents:
+
+
 
 ``` python
 corpus = [
@@ -368,49 +372,62 @@ corpus = [
     "An entirely different sentence about another topic.",
 ]
 
-def word_set(text):
-    return set(text.lower().replace(".", "").split())
-
-def jaccard(a, b):
-    return len(a & b) / len(a | b) if (a | b) else 0.0
-
-sets = [word_set(doc) for doc in corpus]
-n = len(corpus)
-
-# Score every pair into a similarity matrix. It is symmetric and its diagonal is
-# always 1.0, so the real information lives in the upper triangle (j > i).
-sim = [[jaccard(sets[i], sets[j]) for j in range(n)] for i in range(n)]
-print("similarity matrix:")
-for row in sim:
-    print("  " + "  ".join(f"{value:.2f}" for value in row))
-
-# Walk the upper triangle once. Drop document j when it repeats an earlier,
-# still-kept document i.
-THRESHOLD = 0.5
-dropped = set()
-for i in range(n):
-    if i in dropped:
-        continue
-    for j in range(i + 1, n):
-        if sim[i][j] >= THRESHOLD:
-            dropped.add(j)
-
-print("\nverdicts:")
-for i, doc in enumerate(corpus):
-    print(f"  doc {i}  {'DROP' if i in dropped else 'keep'}  {doc}")
 ```
 
-    similarity matrix:
-      1.00  1.00  0.89  0.00
-      1.00  1.00  0.89  0.00
-      0.89  0.89  1.00  0.00
-      0.00  0.00  0.00  1.00
+The first two documents would be trivial to differentiate, but the third document is just a tiny bit different.
+One idea might be to count the number of unique words that appears in a pair of documents and see how many they have in common.
+This is called *Jaccard Similarity**.
+We can use the python `set` object to efficiently implement this method.
 
-    verdicts:
-      doc 0  keep  The quick brown fox jumps over the lazy dog.
-      doc 1  DROP  The quick brown fox jumps over the lazy dog.
-      doc 2  DROP  The quick brown fox jumps over the lazy dog. (2024)
-      doc 3  keep  An entirely different sentence about another topic.
+``` python
+
+def word_set(text: str) -> set:
+    return set(text.lower().replace(".", "").split())
+
+def jaccard(a: set, b: set) -> float:
+    return len(a & b) / len(a | b) if (a | b) else 0.0
+```
+
+We can now easily compare two documents with a single line of code:
+
+``` python
+jaccard(word_set(corpus[1]), word_set(corpus[2]))
+```
+
+``` output
+0.8888888888888888
+```
+
+Using these functions, we can make a short script to compare each document to the rest and determine which ones to drop and which to keep.
+
+``` python
+from itertools import combinations
+
+THRESHOLD = 0.5
+
+to_drop = set()
+for doc1, doc2 in combinations(corpus, 2):
+    # Skip this pair if we've already decided to drop document 2
+    if doc2 in to_drop:
+        continue
+    # Calculate the Jaccard similarity of each pair of documents
+    similarity_score = jaccard(word_set(corpus[doc1]), word_set(corpus[doc2]))
+    if similarity_score >= THRESHOLD:
+        to_drop.add(doc2)
+
+for doc in corpus:
+    if doc in to_drop:
+        print("DROP", corpus[doc])
+    else:
+        print("KEEP", corpus[doc])
+```
+
+``` output
+KEEP The quick brown fox jumps over the lazy dog.
+DROP The quick brown fox jumps over the lazy dog.
+DROP The quick brown fox jumps over the lazy dog. (2024)
+KEEP An entirely different sentence about another topic.
+```
 
 ![A four-by-four similarity matrix shown as a heatmap. The diagonal is grey and labeled self. The lower triangle is blank because the matrix is symmetric. In the upper triangle, the cell for document 0 versus document 1 is fully dark at 1.00 and the cells for document 0 and document 1 versus document 2 are dark at 0.89, all three outlined in orange as duplicates above the 0.50 threshold; every cell involving the unrelated document 3 is white at 0.00.](fig/part1/dedup-heatmap.svg)
 
@@ -443,11 +460,7 @@ On disk each record sits on a single line; it is pretty-printed here only for re
 
 Keeping the *scores*, not just the keep-or-drop decision, has a second payoff that matters at scale. The recorded scores are the signals, and a threshold like `MIN_LANG_SCORE = 0.20` is the **filter decision** laid over them. A threshold is a choice, and choices get revisited. The pipeline computes the signals once; the filter decisions stay adjustable afterward.
 
-**Your turn**
-
 Picture a corpus built *without* keeping any of this metadata: just the final text, no source, no scores, no language label. Months later, the model trained on it turns out weak in one language. With only the raw text in hand, how would you even begin to find out why?
-
-Now look back at the JSONL record above. Which fields, had they been kept, would let you answer that, and what would each one tell you?
 
 **One way to reason about it**
 

@@ -6,13 +6,13 @@ exercises: 2 # exercise time in minutes
 
 :::::::::::::::::::::::::::::::::::::: questions
 
--
+- What is some basic terminology that we need to know before we start?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
--
+- Become familiar with basic terminology related to data processing for language models
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -66,19 +66,13 @@ The two come apart constantly: a stage can be cheap in compute yet slow on the c
 
 With the vocabulary in place, Part 1 follows raw text through the pipeline that turns it into training data.
 
-::::::::::::::::::::::::::::::::::::: challenge
-
-
-:::::::::::::::::::::::: solution
-
-
-:::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
--
+- There are several different kinds of data used in the pipeline.
+- There is no single definition of "good" data.
+- We used signals and filters to assess and select data for training.
+- Compute time and wall-clock time are important considerations in managing a web-scale data processing pipeline.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::

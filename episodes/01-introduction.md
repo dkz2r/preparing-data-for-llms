@@ -6,13 +6,15 @@ exercises: 2 # exercise time in minutes
 
 :::::::::::::::::::::::::::::::::::::: questions
 
--
+- Why is processing data correctly important for language models?
+- What will we cover in this workshop?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
--
+- Introduce the importance of data processing for language models
+- Outline the key steps involved in preparing text data for training
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -64,19 +66,21 @@ You may never run a pipeline this size yourself, but the lesson still applies: t
 
 Two questions run underneath all of it and shape the rest of the material: where does the enormous amount of suitable text a model needs come from, and what does *suitable* even mean?
 
-::::::::::::::::::::::::::::::::::::: challenge
+::::::::::::::::::::::::::::::::::::: discussion
 
-
-:::::::::::::::::::::::: solution
-
-
-:::::::::::::::::::::::::::::::::
+Consider text you encounter when browsing the web day to day.
+- How much of it do you think would be usable for training a model?
+- How does it rate in terms of quality, relevance, and reliability?
+- How would a model be affected if we trained it exclusively on text scraped from apps like social media platforms?
+- What if we just used something like wikipedia?
+- What criteria would you use to decide if a piece of text is suitable for training?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
--
+- Processing data correctly is an important step when it comes to ensuring the quality and reliability of the resulting language model.
+- The data used for training LLMs are vast and diverse, and require well thought out processing to ensure that the final data is suitable for training.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::

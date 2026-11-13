@@ -49,5 +49,9 @@ docs/
 # translation temp files
 po/*~
 
+# VS Code settings
+.vscode/
+
+# Scratch files
 /source
 /scratch

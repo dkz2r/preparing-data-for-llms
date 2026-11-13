@@ -1,18 +1,21 @@
 ---
 title: "The pipeline"
-teaching: 10 # teaching time in minutes
-exercises: 2 # exercise time in minutes
+teaching: 45 # teaching time in minutes
+exercises: 15 # exercise time in minutes
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions
 
--
+- How do we turn raw text in to usable training data?
+- What is the difference between curated and web data?
+- How can we measure text quality without judging its meaning directly?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
--
+- Understand the difference between curated and web data pipelines.
+- Apply language detection and filtering techniques to example data.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -190,6 +193,11 @@ detect_language("Le chat dort.")
 :::::::::::::::::: challenge
 
 We would like to keep only those texts where we can confidently determine the language.
+"Confident" in our case means two things:
+
+1. The detected score is high enough that we trust the label (remember that `detect_language` returns a tuple, where the first element is the language and the second is the confidence score).
+2. The text itself is long enough to be useful for training.
+
 Write a short function called "keep" that will return either a "True" or "False" based on the length of the text and the score returned by `detect_language`.
 Then, implement that function in a loop to determine which of the following documents to keep and, for those we do keep, which language they are:
 
@@ -311,7 +319,42 @@ Filtering turns each measurement from the processing core into a keep-or-drop de
 - **document length**: too little text carries too little signal
 - **repeated-line ratio**: navigation and boilerplate repeat the same lines
 
-A prefilter is just a few of these metrics behind thresholds. Here is one made concrete, on three example documents:
+A prefilter is just a few of these metrics behind thresholds.
+
+::: discussion
+
+Let's take a look at three documents and ask the following questions:
+1. Would we keep this in our dataset or drop it?
+2. What signals would we use to make that decision?
+
+Document 1:
+
+```
+Warmer winters are projected for the region.
+Researchers compared decades of temperature records.
+```
+
+Document 2:
+
+```
+Home
+About
+Products
+Contact
+Login
+Help
+```
+
+Document 3:
+
+```
+[03:11:02] ERR 0x8F retries=3 code={id:9} >>> 11010 0xFF
+```
+
+:::
+
+Here is one made concrete, on three example documents, where we have implemented two simple quality checks: words per line, and symbol share.
+We combine these into a single function `looks_like_prose` that returns `True` only if both checks pass.
 
 ``` python
 def words_per_line(text):
@@ -401,17 +444,22 @@ jaccard(word_set(corpus[1]), word_set(corpus[2]))
 Using these functions, we can make a short script to compare each document to the rest and determine which ones to drop and which to keep.
 
 ``` python
+# We will use the "combinations" function from itertools to generate all pairs of documents for comparison.
+# This is part of the python standard library, and creates all unique pairwise combinations of the input iterable.
 from itertools import combinations
 
 THRESHOLD = 0.5
 
 to_drop = set()
+# For every pair of documents...
 for doc1, doc2 in combinations(corpus, 2):
-    # Skip this pair if we've already decided to drop document 2
+    # Skip this pair if we've already decided to drop document 2 to avoid redundant comparisons
     if doc2 in to_drop:
         continue
-    # Calculate the Jaccard similarity of each pair of documents
+    # Calculate the Jaccard similarity of each pair of documents (how much do they overlap?)
     similarity_score = jaccard(word_set(corpus[doc1]), word_set(corpus[doc2]))
+
+    # If they're too similar, mark document 2 for dropping
     if similarity_score >= THRESHOLD:
         to_drop.add(doc2)
 
@@ -434,6 +482,15 @@ KEEP An entirely different sentence about another topic.
 Figure 4: The same similarity matrix as a heatmap. The bright off-diagonal cells are the duplicate pairs: document 0 against its exact copy (1.00) and its date-stamped near-copy (0.89).
 
 In the upper triangle, document 1 scores 1.00 against document 0 (an exact copy) and document 2 scores high (the same text plus a date), so both are dropped as repeats of document 0; the unrelated document overlaps little with everything and stays. Comparing every pair of documents this way is far too slow at web scale, which is why OpenGPT-X uses **MinHash** with **LSH** (locality-sensitive hashing) ([Leveling et al. 2024](#ref-leveling2024evaluation)) to estimate the same overlap cheaply, without comparing all pairs. The compute cost is still large, and we return to it in [Part 2](#part-2).
+
+::: callout
+
+This approach works, but the pairwise comparison of all documents is computationally expensive for large corpora.
+Imagine a corpus where we have 1 million documents.
+A pairwise comparison would require checking every possible pair of documents, which is on the order of 1 million squared, or 1 trillion comparisons.
+If we could perform 100,000 comparisons per second, that would take about 10,000,000 seconds, or roughly 115 days to complete.
+
+:::
 
 **Useful tools**
 
@@ -481,17 +538,49 @@ So far we have treated each step as a matter of logic: what to keep, what to dro
 
 ::::::::::::::::::::::::::::::::::::: challenge
 
+# Challenge: Curated or Web Data?
+
+Given the following, which source is more likely to be curated and which is more likely to be web data?
+What steps would you include in the processing pipeline for each type of data?
+
+1. A collection of peer-reviewed academic papers in PDF format.
+2. A data dump of Wikipedia articles.
+3. A collection of emails from a corporate inbox.
+4. Comments and posts from a social media platform.
+
 
 :::::::::::::::::::::::: solution
+
+These are hypthetical examples, so there's no clear cut answer.
+However, here are some ideas:
+
+1. Likely curated. We would need to extract the text from the PDFs carefully - tables and figures will need special handling to preserve their structure and meaning.
+2. Likely curated. Wikipedia dumps are structured and relatively clean.
+3. Likely curated. Emails have a defined structure, not not all emails are going to be relevant or clean, so we would need to filter and possibly anonymize sensitive information.
+4. Likely web data. Social media content is noisy and unstructured, so we would need to clean the text, remove spam or irrelevant/inappropriate content, and record metadata such as timestamps and user information.
+
+:::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+
+
+
+:::::::::::::::::::::::: solution
+
 
 
 :::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-
 ::::::::::::::::::::::::::::::::::::: keypoints
 
--
+- Raw text requires careful processing to become usable training data.
+- The kinds of processing applied depends on the source of the data.
+- Processing involves a multi-step process that includes extraction, cleaning, filtering, and metadata recording.
+- Metadata is crucial for ensuring the traceability and quality of the processed data.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::

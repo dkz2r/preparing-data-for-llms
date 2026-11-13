@@ -1,7 +1,7 @@
 ---
 title: "Basic Concepts"
 teaching: 10 # teaching time in minutes
-exercises: 2 # exercise time in minutes
+exercises: 0 # exercise time in minutes
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions

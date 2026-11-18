@@ -530,9 +530,9 @@ The point: without the record, none of these questions are answerable. The metad
 
 ## Recap
 
-Two very different inputs, curated and web, now share one shape: clean text paired with the metadata that records where it came from and how it was scored. That pairing is the real result of [Part 1](#part-1), and it is two outputs at once, both of which have to hold: the **quality** of the data, and the **traceability** of how it was produced.
+Two very different inputs, curated and web, now share one shape: clean text paired with the metadata that records where it came from and how it was scored. That pairing is the real result of this section, and it is two outputs at once, both of which have to hold: the **quality** of the data, and the **traceability** of how it was produced.
 
-So far we have treated each step as a matter of logic: what to keep, what to drop, what to record. [Part 2](#part-2) changes the question. At the true size of these corpora, every one of those steps is also a compute decision, and the traceability we just built is what makes the whole effort survivable.
+So far we have treated each step as a matter of logic: what to keep, what to drop, what to record. [The next episode](./04-working-at-scale.html) changes the question. At the true size of these corpora, every one of those steps is also a compute decision, and the traceability we just built is what makes the whole effort survivable.
 
 [^1]: Extraction is lossy and format-specific: a multi-column PDF must be read in the right order rather than straight across, and an HTML or XML file must yield its article body without the surrounding navigation and boilerplate. Getting either wrong corrupts the text before any later step sees it.
 
@@ -563,18 +563,6 @@ However, here are some ideas:
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::: challenge
-
-
-
-
-:::::::::::::::::::::::: solution
-
-
-
-:::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 

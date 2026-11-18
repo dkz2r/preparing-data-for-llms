@@ -6,7 +6,9 @@ exercises: 2 # exercise time in minutes
 
 :::::::::::::::::::::::::::::::::::::: questions
 
--
+- How do we apply what we have learned so far to larger datasets?
+- What do I need to keep in mind when working at scale?
+- What is the difference between "compute" time and "wall" time?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -18,19 +20,23 @@ exercises: 2 # exercise time in minutes
 
 ## Working at scale
 
-When you treat the pipeline as pure logic, every step has a clean answer: keep this, drop that, record the rest. Put it at the true size of a web corpus and a second constraint appears behind every one of those answers, a *price* measured in machine time. This part is about what changes once compute is the thing in short supply, because some of the answers from [Part 1](#part-1) stop being affordable and others stop being possible.
+When you treat the pipeline as pure logic, every step has a clean answer: keep this, drop that, record the rest. Put it at the true size of a web corpus and a second constraint appears behind every one of those answers, a *price* measured in machine time. This part is about what changes once compute is the thing in short supply, because some of the answers from [the last section](./03-pipeline.html) stop being affordable and others stop being possible.
 
 ## Scale changes the problem
 
-The web side of Teuken’s data started from **60 Common Crawl dumps**, spanning late 2014 to early 2023. Together they held about **173 billion documents**, roughly **703 terabytes** of raw text, around 2,7 billion documents per dump. Numbers this large change what the steps from [Part 1](#part-1) *mean* in practice.
+The web side of Teuken’s data started from **60 Common Crawl dumps**, spanning late 2014 to early 2023. Together they held about **173 billion documents**, roughly **703 terabytes** of raw text, around 2,7 billion documents per dump. Numbers this large change what the steps from [the previous section](./03-pipeline.html) *mean* in practice.
 
-Take filtering. On average, **96,94% of web documents are removed during filtering** ([Brandizzi et al. 2024](#ref-brandizzi2024data)). The [introduction](#intro) set out why a number like that is a sign of success rather than failure: at web scale the input is *known* to be mostly navigation, boilerplate, and spam, so aggressive removal is the job working as intended. What the headline figure hides is how much still survives. Roughly 3% of 173 billion documents is on the order of **five billion documents** of far cleaner text, a large corpus in its own right.
+::: callout
+
+We can't possibly run this kind of computation on our own. This requires a large amount of computation that is best done at scale. What we talk about in this section is based on prior work by the author.
+
+:::
+
+Take filtering. On average, **96,94% of web documents are removed during filtering** ([Brandizzi et al. 2024](./reference.html##ref-brandizzi2024data)). The [introduction](./01-introduction.html) set out why a number like that is a sign of success rather than failure: at web scale the input is *known* to be mostly navigation, boilerplate, and spam, so aggressive removal is the job working as intended. What the headline figure hides is how much still survives. Roughly 3% of 173 billion documents is on the order of **five billion documents** of far cleaner text, a large corpus in its own right.
 
 Numbers this size are hard to feel, so start from a landmark and work outward. The founding of Rome was about **2.800 years ago**, already deep history. Yet reading only the five billion documents that *survive* filtering, at a normal pace and never stopping, would take some **35.000 years**, more than ten times as far back as Rome, as old as the first cave paintings. And the full raw collection of 173 billion documents would take on the order of **1,2 million years**, about four times longer than our species has existed.
 
-![A logarithmic deep-time scale, today at the right and the distant past at the left. Two bars show how far back nonstop reading would reach: all 173 billion raw documents about 1,2 million years, roughly four times longer than Homo sapiens has existed; the five billion survivors about 35.000 years, as old as the first cave paintings. The founding of Rome, about 2.800 years ago, sits as a thin sliver near today.](fig/part2/web-scale.svg)
-
-Figure 5: How long it would take a person to read the raw web, and the five billion documents that survive filtering. Read each bar by the age it reaches, not by its length.
+![How long it would take a person to read the raw web, and the five billion documents that survive filtering. Read each bar by the age it reaches, not by its length.](fig/part2/web-scale.svg){alt='A logarithmic deep-time scale, today at the right and the distant past at the left. Two bars show how far back nonstop reading would reach: all 173 billion raw documents about 1,2 million years, roughly four times longer than Homo sapiens has existed; the five billion survivors about 35.000 years, as old as the first cave paintings. The founding of Rome, about 2.800 years ago, sits as a thin sliver near today.'}
 
 A web corpus already holds far more text than any model needs, so the binding constraint becomes machine time. From here on the work is rationed by compute, and that budget is spent very unevenly across the steps.
 
@@ -40,12 +46,12 @@ Once a step has a price, ordering it is an optimization. The pipeline runs its *
 
 Scale also turns two more concerns into load-bearing engineering decisions:
 
-- **Lineage and versioning.** Each stage writes its output in the same JSONL format and saves intermediate results, so any version can be compared with the one before it and a fault can be traced to the stage that introduced it. This is the traceability from [Part 1](#part-1).
+- **Lineage and versioning.** Each stage writes its output in the same JSONL format and saves intermediate results, so any version can be compared with the one before it and a fault can be traced to the stage that introduced it. This is the traceability from [the previous section](./03-pipeline.html).
 - **Storage and movement.** Those intermediate results are copied to remote storage to guard against loss, which costs disk; and moving hundreds of terabytes between a processing cluster and a training cluster is slow and expensive enough that keeping the data where the model will train is itself a design choice.
 
 None of this is visible in the final corpus, yet it is what keeps a multi-month pipeline from becoming unrepeatable.
 
-Take the failure from Part 1’s metadata exercise, the corpus that turns out weak in one language ([Part 1](#part-1)). If the pipeline saved its outputs after language detection and after later filtering, the two versions can be compared and the loss traced to the stage that introduced it. If those intermediate snapshots were discarded to save storage, diagnosing the failure turns into rerunning months of work.
+Take the failure from the last sections’s metadata exercise, the corpus that turns out weak in one language. If the pipeline saved its outputs after language detection and after later filtering, the two versions can be compared and the loss traced to the stage that introduced it. If those intermediate snapshots were discarded to save storage, diagnosing the failure turns into rerunning months of work.
 
 **Further reading**
 
@@ -55,31 +61,68 @@ Poolside’s [model factory](https://www.poolside.ai/blog/introducing-the-model-
 
 The clearest example of a logical step that is really a compute decision is deduplication. Of all the CPU time spent processing the web data, deduplication consumed about **80,8%**, with filtering at 16,7% and format conversion at 2,5% ([Brandizzi et al. 2024](#ref-brandizzi2024data)). Put in human terms, the three stages together come to about **273.952 CPU hours**, close to **31 years** of work for a single CPU core. Deduplication is around **25 of those years** on its own. A cluster runs it in months by splitting the work across many cores, but the raw cost is the size of three decades on one machine.
 
-![A proportional bar of total CPU time by stage, scaled to about 31 years on one CPU core: conversion about 0,8 years (6.912 CPU hours), filtering about 5,2 years (45.810 CPU hours), and deduplication about 25,3 years (221.230 CPU hours). Deduplication dominates and runs last.](fig/part2/compute-spread.svg)
-
-Figure 6: How the web pipeline’s compute splits across its three stages.
+![How the web pipeline’s compute splits across its three stages.](fig/part2/compute-spread.svg){alt='A proportional bar of total CPU time by stage, scaled to about 31 years on one CPU core: conversion about 0,8 years (6.912 CPU hours), filtering about 5,2 years (45.810 CPU hours), and deduplication about 25,3 years (221.230 CPU hours). Deduplication dominates and runs last.'}
 
 That single number sets the pipeline order. Because comparing documents for similarity is so costly, you run it **last**, on the small fraction that survived everything else, never on the full raw pile. Order the stages the other way and you would pay the most expensive step on the 97% you were about to discard.[^1]
-
-**Your turn**
-
-Deduplication is the most expensive stage and runs last; filtering removes about 97% of documents and runs earlier. Suppose an engineer, wanting “the cleanest data first,” reorders the pipeline to deduplicate *before* filtering. The output documents are identical either way. So what exactly does the reordering cost, and roughly by how much?
 
 **One way to reason about it**
 
 The factor that drives the cost is the **number of documents** deduplication has to compare: more documents means more comparisons, so the cost rises with the size of the input pile. Since filtering removes about 97% of documents, the “dedup first” order makes the most expensive stage process roughly 30 times as many documents for the same final corpus. Put in the same single-core terms as above: the ~25 core-years deduplication already costs would balloon to **on the order of 750 core-years** to produce an identical output. That is the whole reason the cheap, decisive cuts come first and the costly comparison comes last.
 
+## Toy Example: LSH (Locality Sensitive Hashing)
+
+So we know that it's too expensive to find and compare every pair of documents, so we need some sort of shortcut.
+There's a basic technique we can apply called "Locality Sensitive Hashing" that can help here.
+
+The idea behind LSH is something like this: Instead of reading each and every document and comparing it against all of the other documents, we create a kind of "fingerprint" for each document.
+We use the "fingerprint" to assign each document into groups based on any part of their appearance.
+This means we have many many groups, since the fingerprints are fairly unique, but it also means that if two scrolls share even a part of it, they probably share a lot of text, and we can compare them using a much more expensive method, like the Jaccard Similarity we used in the previous section.
+
+Why is this useful?
+Well, first off, we are limiting the total number of comparisons we need to make in order to find likely duplicates - from many potential millions to a few hundred, likely.
+Secondly, the phase where we create the "fingerprints" can be done for each document individually, without knowing the fingerprint of any other document.
+That means that the most costly part of the process, creating the fingerprint, can be easily distributed.
+If creating a fingerprint for a scroll takes ten minutes and there are ten thousand scrolls, that's a days long task.
+But if there are five hundred workers all creating the fingerprints and aggregating their work at the end, that task will only take a few hours, and then the actual expensive comparisons can be done at the end.
+
+LSH doesn't find us our duplicate documents, but it does vastly decrease the pool of potential duplicates, letting us use a more expensive (compute-wise) and slower process to weed out the ones which are true duplicates.
+
+::: challenge
+
+## Try it out!
+
+We've made a [short demo of Locality Sensitive Hashing](./files/lsh.py). (requires `pip install scikit-learn tqdm`)
+This script will download a dataset of ~2,000 emails, within which there are a handful of near-duplicate entries.
+
+Run the script with the following command: `python lsh.py --pairwise-demo`
+It will start by trying to perform a full pairwise Jaccard Similarity on the corpus, before giving up and using LSH.
+
+- How long would it have taken on your computer to perform the full pairwise comparison?
+- How long did the LSH version take?
+- Preview some of the duplicates. Do you agree?
+- Try altering some of the parameters: `python lsh.py --shingle-size=3 --num_permutations=128`, `python lsh.py --shingle-size=5 --num_permutations=64` (try a couple combinations of shingle-sizes 2, 3, 4, 5 and num_permutations 32, 64, 128, 256. **`Ctrl-C` will kill the process if you feel it will take too long**)
+- Try `python lsh.py --pairwise-demo --full-dataset` if you have time.
+
+::: solution
+
+This is a toy example - even with the full dataset we are only searching 11,000 documents, but already performing a full jaccard similarity like we did in the previous episode can take over a day, as opposed to LSH, which can search the same data and find duplicates in a couple of minutes.
+This script isn't even paralellized (on very small datasets like this it can be more expensive to spin up parallel processes than to just let the main process chug away) - imagine what this time difference can mean when we're looking at 5 billion documents!
+
+:::
+
+:::
+
 ## Compute time versus wall-clock time
 
-Total CPU time measures the work; how long the calendar takes is a separate question. Every stage already spreads across thousands of cores, so they all parallelize equally well. What separates them, and sets the calendar, is **throughput**: how much data each stage clears per day, which depends on how much work a single document costs it.
+Total CPU time measures the work; how long the calendar takes is a separate question. If we were limited to a single CPU running on all of the documents in the corpus, then the **Compute Time** and the **Wall Clock Time** Would be identical. Part of working with massive datasets like these is figuring out methods for running many parallel jobs, so that we can shorten the total time it takes in reality to look at each document by throwing more computers at the problem.
+
+Every stage already spreads across thousands of cores, so they all parallelize equally well. What separates them, and sets the calendar, is **throughput**: how much data each stage clears per day, which depends on how much work a single document costs it.
 
 Deduplication makes the point. It is the largest compute cost of all, four-fifths of the budget from the previous section, yet it moves through the data quickly: the cluster clears about 20 terabytes of raw data a day. The reason is the *kind* of work it does. Deduplication compares documents with a simple whitespace tokenizer and numeric similarity algorithms, cheap operations per document, so even though there are an enormous number of comparisons, each one is fast.
 
 Computing the quality signals is the opposite case. Every document is read in full: content analysis and tokenization, the heavy lifting of the pipeline, run on each one, so the stage clears only about **6 terabytes a day**. Downloading the raw data is slow for a different reason: its speed is set by network bandwidth from the source, not by how many cores you add, and it manages a similar **6 terabytes a day**. These two stages, three to four times slower than the rest, set the pace, because the whole pipeline can finish no faster than its slowest stage.
 
-![A sorted bar chart of pipeline throughput by stage, in terabytes of raw data cleared per day. Upload completion about 25, deduplication about 20, conversion about 20, quality signals about 6,4, and download about 6,2. The two slowest stages, quality signals and download, are highlighted; at about 6 terabytes a day, about 725 terabytes take roughly 116 days.](fig/part2/throughput.svg)
-
-Figure 7: Per-stage throughput, and the two slow stages that stretch the run to months. Bars show raw data cleared per stage per day, from the OpenGPT-X processing run of about 725 TB of raw web text, broader than the 60-dump set used for the final corpus.
+![Per-stage throughput, and the two slow stages that stretch the run to months. Bars show raw data cleared per stage per day, from the OpenGPT-X processing run of about 725 TB of raw web text, broader than the 60-dump set used for the final corpus.](fig/part2/throughput.svg){alt='A sorted bar chart of pipeline throughput by stage, in terabytes of raw data cleared per day. Upload completion about 25, deduplication about 20, conversion about 20, quality signals about 6,4, and download about 6,2. The two slowest stages, quality signals and download, are highlighted; at about 6 terabytes a day, about 725 terabytes take roughly 116 days.'}
 
 This is the gap between *compute* and *time*. Pushing roughly **725 terabytes** of raw web text through the pipeline, held to about 6 terabytes a day at the two slow stages, takes on the order of **116 days**, close to four months, even on a large cluster.
 
